@@ -222,7 +222,7 @@ class _ChatBubbleState extends State<ChatBubble> {
           child: Text(
             widget.time,
             style: TextStyle(
-              color: switchColor(Colors.black54, Colors.white70),
+              color: switchColor(context, Colors.black54, Colors.white70),
               fontSize: 10.0,
             ),
           ),

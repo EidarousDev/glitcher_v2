@@ -149,7 +149,7 @@ class _ChatsState extends State<Chats>
       onWillPop: _onBackPressed,
       child: Scaffold(
         appBar: AppBar(
-          flexibleSpace: gradientAppBar(),
+          flexibleSpace: gradientAppBar(context),
 //        elevation: 4,
           title: TextField(
             cursorColor: MyColors.darkPrimary,

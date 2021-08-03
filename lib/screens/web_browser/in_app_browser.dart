@@ -28,7 +28,7 @@ class _InAppBrowserState extends State<InAppBrowser> {
   //   return Scaffold(
   //     key: _scaffoldKey,
   //     appBar: AppBar(
-  //       flexibleSpace: gradientAppBar(),
+  //       flexibleSpace: gradientAppBar(context),
   //       centerTitle: true,
   //     ),
   //     // We're using a Builder here so we have a context that is below the Scaffold

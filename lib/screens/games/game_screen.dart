@@ -2,20 +2,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:glitcher/services/share_link.dart';
-import 'package:glitcher/widgets/caching_image.dart';
-import 'package:glitcher/widgets/drawer.dart';
-import 'package:glitcher/widgets/gradient_appbar.dart';
 import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/constants/sizes.dart';
+import 'package:glitcher/list_items/post_item.dart';
 import 'package:glitcher/models/game_model.dart';
 import 'package:glitcher/models/post_model.dart';
 import 'package:glitcher/models/user_model.dart' as user;
-import 'package:glitcher/list_items/post_item.dart';
 import 'package:glitcher/services/database_service.dart';
-import 'package:glitcher/services/permissions_service.dart';
+import 'package:glitcher/services/share_link.dart';
 import 'package:glitcher/utils/functions.dart';
+import 'package:glitcher/widgets/caching_image.dart';
+import 'package:glitcher/widgets/drawer.dart';
+import 'package:glitcher/widgets/gradient_appbar.dart';
 import 'package:readmore/readmore.dart';
 import 'package:share/share.dart';
 
@@ -72,7 +71,7 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
               ),
             )
           ],
-          flexibleSpace: gradientAppBar(),
+          flexibleSpace: gradientAppBar(context),
           leading: Builder(
             builder: (context) => Padding(
               padding: const EdgeInsets.all(8.0),
@@ -170,8 +169,8 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                     ),
                     Container(
                       height: 1,
-                      color: switchColor(
-                          MyColors.lightLineBreak, Colors.grey.shade600),
+                      color: switchColor(context, MyColors.lightLineBreak,
+                          Colors.grey.shade600),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -179,8 +178,8 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                     ),
                     Container(
                       height: 1,
-                      color: switchColor(
-                          MyColors.lightLineBreak, Colors.grey.shade600),
+                      color: switchColor(context, MyColors.lightLineBreak,
+                          Colors.grey.shade600),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -188,8 +187,8 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                     ),
                     Container(
                       height: 1,
-                      color: switchColor(
-                          MyColors.lightLineBreak, Colors.grey.shade600),
+                      color: switchColor(context, MyColors.lightLineBreak,
+                          Colors.grey.shade600),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -197,8 +196,8 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                     ),
                     Container(
                       height: 1,
-                      color: switchColor(
-                          MyColors.lightLineBreak, Colors.grey.shade600),
+                      color: switchColor(context, MyColors.lightLineBreak,
+                          Colors.grey.shade600),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -207,8 +206,8 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                     ),
                     Container(
                       height: 1,
-                      color: switchColor(
-                          MyColors.lightLineBreak, Colors.grey.shade600),
+                      color: switchColor(context, MyColors.lightLineBreak,
+                          Colors.grey.shade600),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -216,8 +215,8 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                     ),
                     Container(
                       height: 1,
-                      color: switchColor(
-                          MyColors.lightLineBreak, Colors.grey.shade600),
+                      color: switchColor(context, MyColors.lightLineBreak,
+                          Colors.grey.shade600),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),

@@ -200,7 +200,7 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Change Password'),
-        flexibleSpace: gradientAppBar(),
+        flexibleSpace: gradientAppBar(context),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {

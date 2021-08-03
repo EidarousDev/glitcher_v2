@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:glitcher/constants/constants.dart';
-import 'package:glitcher/constants/my_colors.dart';
-import 'package:glitcher/constants/sizes.dart';
-import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/list_items/user_item.dart';
 import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
-import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/utils/functions.dart';
-import 'package:glitcher/widgets/caching_image.dart';
-import 'package:glitcher/widgets/custom_loader.dart';
 import 'package:glitcher/widgets/gradient_appbar.dart';
 
 class UsersScreen extends StatefulWidget {
@@ -40,7 +34,8 @@ class _UsersScreenState extends State<UsersScreen> {
               title: TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
-                  fillColor: switchColor(Colors.black54, Colors.black12),
+                  fillColor:
+                      switchColor(context, Colors.black54, Colors.black12),
                   prefixIcon: Icon(
                     Icons.search,
                     size: 28.0,
@@ -76,7 +71,7 @@ class _UsersScreenState extends State<UsersScreen> {
                   });
                 },
               ),
-              flexibleSpace: gradientAppBar(),
+              flexibleSpace: gradientAppBar(context),
               leading: Builder(
                 builder: (context) => Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -125,7 +120,7 @@ class _UsersScreenState extends State<UsersScreen> {
           )
         : Scaffold(
             appBar: AppBar(
-              flexibleSpace: gradientAppBar(),
+              flexibleSpace: gradientAppBar(context),
               leading: Builder(
                 builder: (context) => Padding(
                   padding: const EdgeInsets.all(8.0),

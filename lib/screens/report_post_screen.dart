@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:glitcher/widgets/gradient_appbar.dart';
 import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/constants/sizes.dart';
+import 'package:glitcher/widgets/gradient_appbar.dart';
 
 class ReportPostScreen extends StatefulWidget {
   final String postAuthor;
@@ -25,7 +25,7 @@ class _ReportPostScreenState extends State<ReportPostScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          flexibleSpace: gradientAppBar(),
+          flexibleSpace: gradientAppBar(context),
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back),
             onPressed: () {

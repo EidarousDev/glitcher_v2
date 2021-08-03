@@ -22,15 +22,17 @@ class Report {
   });
 
   factory Report.fromDoc(DocumentSnapshot doc) {
+    Map data = doc.data();
+
     return Report(
       id: doc.id,
-      reason: doc['reason'],
-      details: doc['details'],
-      postAuthor: doc['post_author'],
-      postId: doc['post_id'],
-      submitter: doc['submitter'],
-      dealt: doc['dealt'],
-      timestamp: doc['timestamp'],
+      reason: data['reason'],
+      details: data['details'],
+      postAuthor: data['post_author'],
+      postId: data['post_id'],
+      submitter: data['submitter'],
+      dealt: data['dealt'],
+      timestamp: data['timestamp'],
     );
   }
 }

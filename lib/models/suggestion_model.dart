@@ -20,14 +20,16 @@ class Suggestion {
   });
 
   factory Suggestion.fromDoc(DocumentSnapshot doc) {
+    Map data = doc.data();
+
     return Suggestion(
       id: doc.id,
-      title: doc['title'],
-      details: doc['details'],
-      submitter: doc['submitter'],
-      gameId: doc['game_id'],
-      dealt: doc['dealt'],
-      timestamp: doc['timestamp'],
+      title: data['title'],
+      details: data['details'],
+      submitter: data['submitter'],
+      gameId: data['game_id'],
+      dealt: data['dealt'],
+      timestamp: data['timestamp'],
     );
   }
 }

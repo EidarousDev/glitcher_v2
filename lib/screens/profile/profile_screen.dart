@@ -286,7 +286,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ? Icon(FontAwesome.user_plus)
                       : Icon(FontAwesome.user_times),
                   iconSize: 25.0,
-                  color: switchColor(MyColors.lightButtonsBackground,
+                  color: switchColor(context, MyColors.lightButtonsBackground,
                       MyColors.darkPrimaryTappedBtn),
                 ),
               )
@@ -302,7 +302,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   },
                   icon: Icon(Icons.chat),
                   iconSize: 25.0,
-                  color: switchColor(MyColors.lightButtonsBackground,
+                  color: switchColor(context, MyColors.lightButtonsBackground,
                       MyColors.darkPrimaryTappedBtn),
                 ),
               )
@@ -377,6 +377,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 '@' + _usernameText,
                                 style: TextStyle(
                                     color: switchColor(
+                                        context,
                                         MyColors.lightPrimaryTappedBtn,
                                         MyColors.darkPrimaryTappedBtn),
                                     fontSize: 15,
@@ -599,7 +600,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SizedBox(
                   height: 8,
                 ),
-                customDivider(3.0, width: Sizes.fullWidth(context) - 100.0),
+                customDivider(context, 3.0,
+                    width: Sizes.fullWidth(context) - 100.0),
                 _postsReady == true && _posts.length > 0
                     ? ListView.builder(
                         physics: NeverScrollableScrollPhysics(),

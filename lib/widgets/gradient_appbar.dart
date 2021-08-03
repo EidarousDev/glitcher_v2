@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
+import 'package:glitcher/models/app_model.dart';
 import 'package:glitcher/utils/functions.dart';
+import 'package:provider/provider.dart';
 
-Widget gradientAppBar() {
+Widget gradientAppBar(BuildContext context) {
   return Container(
     decoration: BoxDecoration(
       gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: Constants.isDarkTheme == false
-              ? <Color>[MyColors.lightCardBG, MyColors.lightBG]
-              : <Color>[MyColors.darkCardBG, MyColors.darkBG]),
+          colors:
+              Provider.of<AppModel>(context, listen: false).darkTheme == false
+                  ? <Color>[MyColors.lightCardBG, MyColors.lightBG]
+                  : <Color>[MyColors.darkCardBG, MyColors.darkBG]),
       boxShadow: [
         BoxShadow(
-          color: switchColor(MyColors.lightPrimary, MyColors.darkBG),
+          color: switchColor(context, MyColors.lightPrimary, MyColors.darkBG),
           blurRadius: 1.0, // has the effect of softening the shadow
           spreadRadius: 0, // has the effect of extending the shadow
           offset: Offset(

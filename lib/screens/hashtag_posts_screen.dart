@@ -34,7 +34,7 @@ class _HashtagPostsScreenState extends State<HashtagPostsScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        flexibleSpace: gradientAppBar(),
+        flexibleSpace: gradientAppBar(context),
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back),
           onPressed: () {

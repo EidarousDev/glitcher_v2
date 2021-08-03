@@ -25,7 +25,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       onWillPop: _onBackPressed,
       child: Scaffold(
         appBar: AppBar(
-          flexibleSpace: gradientAppBar(),
+          flexibleSpace: gradientAppBar(context),
           leading: Builder(
               builder: (context) => Padding(
                     padding: const EdgeInsets.all(8.0),

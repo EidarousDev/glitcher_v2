@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Home'),
-        flexibleSpace: gradientAppBar(),
+        flexibleSpace: gradientAppBar(context),
         leading: Builder(
           builder: (context) => Padding(
             padding: const EdgeInsets.all(8.0),
@@ -161,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           children: <Widget>[
             Container(
               height: isFiltering ? 252 : 120,
-              color: switchColor(MyColors.lightBG, MyColors.darkBG),
+              color: switchColor(context, MyColors.lightBG, MyColors.darkBG),
               child: Column(
                 children: <Widget>[
                   isFiltering
@@ -269,7 +269,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20)),
                                 border: Border.all(
-                                    color: switchColor(MyColors.lightPrimary,
+                                    color: switchColor(
+                                        context,
+                                        MyColors.lightPrimary,
                                         MyColors.darkPrimary),
                                     width: 1),
                               ),
@@ -301,8 +303,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     width: double.infinity,
                     child: DecoratedBox(
                       decoration: BoxDecoration(
-                          color: switchColor(
-                              MyColors.lightCardBG, MyColors.darkLineBreak)),
+                          color: switchColor(context, MyColors.lightCardBG,
+                              MyColors.darkLineBreak)),
                     ),
                   ),
                   Center(
@@ -316,8 +318,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           icon: FontAwesome.image,
                           text: "Image",
                           color: Theme.of(context).dividerColor,
-                          ccolor:
-                              switchColor(MyColors.lightPrimary, Colors.blue),
+                          ccolor: switchColor(
+                              context, MyColors.lightPrimary, Colors.blue),
                         )),
                         SizedBox(
                           height: 25,
@@ -333,8 +335,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           icon: FontAwesome.file_video_o,
                           text: "Video",
                           color: Theme.of(context).dividerColor,
-                          ccolor: switchColor(
-                              MyColors.lightPrimary, Colors.greenAccent),
+                          ccolor: switchColor(context, MyColors.lightPrimary,
+                              Colors.greenAccent),
                         )),
                         SizedBox(
                           height: 25,
@@ -350,8 +352,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           icon: FontAwesome.youtube,
                           text: "YouTube",
                           color: Theme.of(context).dividerColor,
-                          ccolor:
-                              switchColor(MyColors.lightPrimary, Colors.pink),
+                          ccolor: switchColor(
+                              context, MyColors.lightPrimary, Colors.pink),
                         )),
                       ],
                     ),
@@ -361,66 +363,32 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     width: double.infinity,
                     child: DecoratedBox(
                       decoration: BoxDecoration(
-                          color: switchColor(
-                              MyColors.lightCardBG, MyColors.darkLineBreak)),
+                          color: switchColor(context, MyColors.lightCardBG,
+                              MyColors.darkLineBreak)),
                     ),
                   ),
                 ],
               ),
             ),
-            FutureBuilder(
-              future: _setupFeed(),
-              builder: (context, snapshot) {
-                List<Post> posts = snapshot.data as List<Post>;
-                return snapshot.connectionState == ConnectionState.done
-                    ? ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        scrollDirection: Axis.vertical,
-                        itemCount: posts.length,
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) {
-                          Post post = posts[index];
-                          return FutureBuilder(
-                              future: DatabaseService.getUserWithId(
-                                  post.authorId,
-                                  checkLocal: _feedFilter == 1),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot snapshot) {
-                                if (!snapshot.hasData) {
-                                  return SizedBox.shrink();
-                                }
-                                user.User author = snapshot.data;
-                                return PostItem(post: post, author: author);
-                              });
-                        },
-                      )
-                    : ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        scrollDirection: Axis.vertical,
-                        itemCount: 10,
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) {
-                          Post post = Post(text: '');
-                          return FutureBuilder(
-                              future: DatabaseService.getUserWithId(
-                                  post.authorId,
-                                  checkLocal: _feedFilter == 1),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot snapshot) {
-                                if (!snapshot.hasData) {
-                                  return SizedBox.shrink();
-                                }
-                                user.User author = snapshot.data;
-                                return PostItem(
-                                  post: post,
-                                  author: author,
-                                  isLoading: true,
-                                );
-                              });
-                        },
-                      );
+            ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              itemCount: _posts.length,
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                Post post = _posts[index];
+                return FutureBuilder(
+                    future: DatabaseService.getUserWithId(post.authorId,
+                        checkLocal: _feedFilter == 1),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (!snapshot.hasData) {
+                        return SizedBox.shrink();
+                      }
+                      user.User author = snapshot.data;
+                      return PostItem(post: post, author: author);
+                    });
               },
-            ),
+            )
           ],
         ),
       ),
@@ -447,6 +415,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       if (_posts.length > 0)
         this.lastVisiblePostSnapShot = posts.last.timestamp;
     }
+    setState(() {
+      _posts = posts;
+    });
     return posts;
 
 //    setState(() {
@@ -476,7 +447,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       });
     loadUserData();
     loadUserFavoriteFilter();
-
+    _setupFeed();
     RateApp(context).rateGlitcher();
     _loadAudioByteData();
   }

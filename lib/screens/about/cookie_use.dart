@@ -23,7 +23,7 @@ class CookieUse extends StatelessWidget {
   //     key: _scaffoldKey,
   //     appBar: AppBar(
   //       title: Text(Strings.cookie_use),
-  //       flexibleSpace: gradientAppBar(),
+  //       flexibleSpace: gradientAppBar(context),
   //       centerTitle: true,
   //     ),
   //     // We're using a Builder here so we have a context that is below the Scaffold

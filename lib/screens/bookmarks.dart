@@ -31,7 +31,7 @@ class _BookmarksScreenState extends State<BookmarksScreen>
       onWillPop: _onBackPressed,
       child: Scaffold(
         appBar: AppBar(
-          flexibleSpace: gradientAppBar(),
+          flexibleSpace: gradientAppBar(context),
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back),
             onPressed: () {

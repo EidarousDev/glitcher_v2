@@ -28,18 +28,19 @@ class Post {
   });
 
   factory Post.fromDoc(DocumentSnapshot doc) {
+    Map data = doc.data();
     return Post(
       id: doc.id,
-      game: doc['game'],
-      imageUrl: doc['image'],
-      text: doc['text'],
-      likesCount: doc['likes'],
-      disLikesCount: doc['dislikes'],
-      commentsCount: doc['comments'],
-      authorId: doc['author'],
-      video: doc['video'],
-      youtubeId: doc['youtubeId'],
-      timestamp: doc['timestamp'],
+      game: data['game'],
+      imageUrl: data['image'],
+      text: data['text'],
+      likesCount: data['likes'],
+      disLikesCount: data['dislikes'],
+      commentsCount: data['comments'],
+      authorId: data['author'],
+      video: data['video'],
+      youtubeId: data['youtubeId'],
+      timestamp: data['timestamp'],
     );
   }
 }

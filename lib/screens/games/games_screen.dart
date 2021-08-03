@@ -5,7 +5,6 @@ import 'package:glitcher/list_items/game_item.dart';
 import 'package:glitcher/models/game_model.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/utils/app_util.dart';
-import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/gradient_appbar.dart';
 
 class GamesScreen extends StatefulWidget {
@@ -53,7 +52,7 @@ class _GamesScreenState extends State<GamesScreen> {
                   ),
                 )),
         title: Text("Games"),
-        flexibleSpace: gradientAppBar(),
+        flexibleSpace: gradientAppBar(context),
         centerTitle: true,
       ),
       body: Column(

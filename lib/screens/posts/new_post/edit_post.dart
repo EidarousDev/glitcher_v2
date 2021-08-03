@@ -240,7 +240,7 @@ class _CreatePostReplyPageState extends State<EditPost> {
       child: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-          flexibleSpace: gradientAppBar(),
+          flexibleSpace: gradientAppBar(context),
           title: Text('Edit Post'),
           actions: <Widget>[
             IconButton(
@@ -254,7 +254,8 @@ class _CreatePostReplyPageState extends State<EditPost> {
               icon: Icon(
                 Icons.send,
                 color: canSubmit
-                    ? switchColor(MyColors.lightPrimary, MyColors.darkPrimary)
+                    ? switchColor(
+                        context, MyColors.lightPrimary, MyColors.darkPrimary)
                     : MyColors.darkGrey,
               ),
             )

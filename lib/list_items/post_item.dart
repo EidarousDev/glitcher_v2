@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-import 'package:just_audio/just_audio.dart';
+
 import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +22,7 @@ import 'package:glitcher/widgets/bottom_sheets/post_bottom_sheet.dart';
 import 'package:glitcher/widgets/caching_image.dart';
 import 'package:glitcher/widgets/custom_url_text.dart';
 import 'package:glitcher/widgets/image_overlay.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:share/share.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:video_player/video_player.dart';
@@ -211,7 +212,7 @@ class _PostItemState extends State<PostItem> {
                                         onHashTagPressed: (text) =>
                                             hashtagScreen(),
                                         style: TextStyle(
-                                          color: switchColor(
+                                          color: switchColor(context,
                                               Colors.black, Colors.white),
                                           fontSize: 16,
                                           fontWeight: FontWeight.w400,
@@ -243,7 +244,7 @@ class _PostItemState extends State<PostItem> {
                                         onHashTagPressed: (text) =>
                                             hashtagScreen(),
                                         style: TextStyle(
-                                          color: switchColor(
+                                          color: switchColor(context,
                                               Colors.black, Colors.white),
                                           fontSize: 16,
                                           fontWeight: FontWeight.w400,
@@ -359,7 +360,7 @@ class _PostItemState extends State<PostItem> {
                                   "${Functions.formatTimestamp(post.timestamp)}",
                                   style: TextStyle(
                                       fontSize: 13.0,
-                                      color: switchColor(
+                                      color: switchColor(context,
                                           MyColors.darkGrey, Colors.white70)),
                                 ),
                               ),
@@ -417,8 +418,11 @@ class _PostItemState extends State<PostItem> {
                 ),
                 onTap: () async {
                   if (isLikeEnabled) {
-                    audioPlayer.setAsset(Strings.like_sound,
-                    ).then((value) => audioPlayer.play());
+                    audioPlayer
+                        .setAsset(
+                          Strings.like_sound,
+                        )
+                        .then((value) => audioPlayer.play());
                     await likeBtnHandler(post);
                   }
                 },
@@ -457,8 +461,11 @@ class _PostItemState extends State<PostItem> {
                 ),
                 onTap: () async {
                   if (isDislikedEnabled) {
-                    audioPlayer.setAsset(Strings.dislike_sound,
-                    ).then((value) => audioPlayer.play());
+                    audioPlayer
+                        .setAsset(
+                          Strings.dislike_sound,
+                        )
+                        .then((value) => audioPlayer.play());
                     await dislikeBtnHandler(post);
                   }
                 },

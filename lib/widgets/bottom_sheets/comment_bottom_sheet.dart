@@ -56,8 +56,8 @@ class CommentBottomSheet {
                 Sizes.fullHeight(context) * calculateHeightRatio(isMyComment),
             width: Sizes.fullWidth(context),
             decoration: BoxDecoration(
-              color: switchColor(
-                  MyColors.lightButtonsBackground, MyColors.darkAccent),
+              color: switchColor(context, MyColors.lightButtonsBackground,
+                  MyColors.darkAccent),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20),
                 topRight: Radius.circular(20),
@@ -77,7 +77,7 @@ class CommentBottomSheet {
           width: Sizes.fullWidth(context) * .1,
           height: 5,
           decoration: BoxDecoration(
-            color: switchColor(MyColors.lightPrimary, Colors.white70),
+            color: switchColor(context, MyColors.lightPrimary, Colors.white70),
             borderRadius: BorderRadius.all(
               Radius.circular(10),
             ),

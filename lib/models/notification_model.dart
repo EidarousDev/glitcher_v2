@@ -23,15 +23,17 @@ class Notification {
       this.type});
 
   factory Notification.fromDoc(DocumentSnapshot doc) {
+    Map data = doc.data();
+
     return Notification(
         id: doc.id,
-        title: doc['title'],
-        body: doc['body'],
-        icon: doc['icon'],
-        seen: doc['seen'],
-        timestamp: doc['timestamp'],
-        sender: doc['sender'],
-        objectId: doc['object_id'],
-        type: doc['type']);
+        title: data['title'],
+        body: data['body'],
+        icon: data['icon'],
+        seen: data['seen'],
+        timestamp: data['timestamp'],
+        sender: data['sender'],
+        objectId: data['object_id'],
+        type: data['type']);
   }
 }

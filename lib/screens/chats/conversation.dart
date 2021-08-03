@@ -325,7 +325,7 @@ class _ConversationState extends State<Conversation>
         },
         child: Scaffold(
           appBar: AppBar(
-            flexibleSpace: gradientAppBar(),
+            flexibleSpace: gradientAppBar(context),
             leading: IconButton(
                 icon: Icon(
                   Icons.keyboard_backspace,
@@ -355,7 +355,8 @@ class _ConversationState extends State<Conversation>
                         Text(
                           otherUser.username ?? '',
                           style: TextStyle(
-                            color: switchColor(Colors.black87, Colors.white70),
+                            color: switchColor(
+                                context, Colors.black87, Colors.white70),
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
                           ),
@@ -369,7 +370,8 @@ class _ConversationState extends State<Conversation>
                               : '',
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
-                            color: switchColor(Colors.black87, Colors.white70),
+                            color: switchColor(
+                                context, Colors.black87, Colors.white70),
                             fontSize: 11,
                           ),
                         ),
@@ -422,7 +424,8 @@ class _ConversationState extends State<Conversation>
                       child: Text(
                         seen ? 'seen' : '',
                         style: TextStyle(
-                            color: switchColor(Colors.black87, Colors.white70)),
+                            color: switchColor(
+                                context, Colors.black87, Colors.white70)),
                       ),
                     )),
                 Align(
@@ -430,11 +433,12 @@ class _ConversationState extends State<Conversation>
                   child: Container(
 //                height: 140,
                     decoration: BoxDecoration(
-                      color: switchColor(MyColors.lightBG, MyColors.darkBG),
+                      color: switchColor(
+                          context, MyColors.lightBG, MyColors.darkBG),
                       boxShadow: [
                         BoxShadow(
-                          color:
-                              switchColor(Colors.grey[500], Colors.grey[500]),
+                          color: switchColor(
+                              context, Colors.grey[500], Colors.grey[500]),
                           offset: Offset(0.0, 1.5),
                           blurRadius: 4.0,
                         ),
@@ -451,7 +455,7 @@ class _ConversationState extends State<Conversation>
                             leading: IconButton(
                               icon: Icon(
                                 Icons.add,
-                                color: switchColor(
+                                color: switchColor(context,
                                     MyColors.lightPrimary, Colors.white70),
                               ),
                               onPressed: () async {
@@ -511,7 +515,7 @@ class _ConversationState extends State<Conversation>
                                     },
                                     style: TextStyle(
                                       fontSize: 15.0,
-                                      color: switchColor(
+                                      color: switchColor(context,
                                           Colors.black54, Colors.white70),
                                     ),
                                     decoration: InputDecoration(
@@ -533,7 +537,7 @@ class _ConversationState extends State<Conversation>
                                       hintText: "Write your message...",
                                       hintStyle: TextStyle(
                                         fontSize: 15.0,
-                                        color: switchColor(
+                                        color: switchColor(context,
                                             Colors.black12, Colors.white70),
                                       ),
                                     ),
@@ -550,7 +554,9 @@ class _ConversationState extends State<Conversation>
                                 ? IconButton(
                                     icon: Icon(
                                       Icons.send,
-                                      color: switchColor(MyColors.lightPrimary,
+                                      color: switchColor(
+                                          context,
+                                          MyColors.lightPrimary,
                                           Colors.white70),
                                     ),
                                     onPressed: () async {
@@ -617,6 +623,7 @@ class _ConversationState extends State<Conversation>
                                       icon: Icon(
                                         Icons.mic,
                                         color: switchColor(
+                                            context,
                                             MyColors.lightPrimary,
                                             Colors.white70),
                                       ),

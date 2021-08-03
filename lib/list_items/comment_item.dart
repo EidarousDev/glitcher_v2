@@ -1,9 +1,6 @@
-import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
@@ -112,14 +109,16 @@ class _CommentItemState extends State<CommentItem> {
                           TextSpan(
                               text: ' @${widget.commenter.username}',
                               style: TextStyle(
-                                  color: switchColor(MyColors.lightPrimary,
+                                  color: switchColor(
+                                      context,
+                                      MyColors.lightPrimary,
                                       MyColors.darkPrimary))),
                           TextSpan(
                               text:
                                   ' - ${Functions.formatCommentsTimestamp(widget.comment.timestamp)}',
                               style: TextStyle(
-                                  color: switchColor(
-                                      MyColors.darkGrey, MyColors.darkGrey))),
+                                  color: switchColor(context, MyColors.darkGrey,
+                                      MyColors.darkGrey))),
                         ],
                       ),
                     ),

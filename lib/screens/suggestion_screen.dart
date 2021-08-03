@@ -1,16 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:glitcher/widgets/gradient_appbar.dart';
 import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/constants/sizes.dart';
+import 'package:glitcher/widgets/gradient_appbar.dart';
 
 class SuggestionScreen extends StatefulWidget {
   final String initialTitle;
   final String initialDetails;
   final String gameId;
 
-  const SuggestionScreen({Key key, this.initialTitle, this.initialDetails, this.gameId,}) : super(key: key);
+  const SuggestionScreen({
+    Key key,
+    this.initialTitle,
+    this.initialDetails,
+    this.gameId,
+  }) : super(key: key);
 
   @override
   _SuggestionScreenState createState() => _SuggestionScreenState();
@@ -36,7 +41,7 @@ class _SuggestionScreenState extends State<SuggestionScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          flexibleSpace: gradientAppBar(),
+          flexibleSpace: gradientAppBar(context),
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back),
             onPressed: () {
@@ -82,7 +87,6 @@ class _SuggestionScreenState extends State<SuggestionScreen> {
                   color: MyColors.darkPrimary,
                   child: Text('Send suggestion'),
                   onPressed: () async {
-
                     await suggestionsRef.add({
                       'title': _titleTextEditingController.text,
                       'details': _detailsTextEditingController.text,
@@ -106,11 +110,10 @@ class _SuggestionScreenState extends State<SuggestionScreen> {
   _onBackPressed() {
     Navigator.of(context).pop();
   }
+
   @override
   void didChangeDependencies() {
     FocusScope.of(context).requestFocus(focusNode);
     super.didChangeDependencies();
   }
 }
-
-

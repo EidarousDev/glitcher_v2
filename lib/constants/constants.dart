@@ -44,7 +44,6 @@ class Constants {
   static user.User currentUser;
   //static List<String> games = [];
   static const genres = ['Action', 'Sports', 'Racing', 'Fighting'];
-  static var isDarkTheme = true;
   static int favouriteFilter;
 
   static List<String> followingIds = [];

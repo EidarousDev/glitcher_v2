@@ -53,7 +53,7 @@ class _SearchScreenState extends State<SearchScreen> {
             cursorColor: MyColors.darkPrimary,
             controller: _searchController,
             decoration: InputDecoration(
-              fillColor: switchColor(Colors.black54, Colors.black12),
+              fillColor: switchColor(context, Colors.black54, Colors.black12),
               prefixIcon: Icon(
                 Icons.search,
                 size: 28.0,
@@ -85,7 +85,7 @@ class _SearchScreenState extends State<SearchScreen> {
               }
             },
           ),
-          flexibleSpace: gradientAppBar(),
+          flexibleSpace: gradientAppBar(context),
           leading: Builder(
               builder: (context) => Padding(
                     padding: const EdgeInsets.all(8.0),

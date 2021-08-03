@@ -276,7 +276,7 @@ class _CreatePostReplyPageState extends State<CreatePost> {
       child: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-          flexibleSpace: gradientAppBar(),
+          flexibleSpace: gradientAppBar(context),
           title: Text('New Post'),
           actions: <Widget>[
             IconButton(
@@ -290,7 +290,8 @@ class _CreatePostReplyPageState extends State<CreatePost> {
               icon: Icon(
                 Icons.send,
                 color: canSubmit
-                    ? switchColor(MyColors.lightPrimary, MyColors.darkPrimary)
+                    ? switchColor(
+                        context, MyColors.lightPrimary, MyColors.darkPrimary)
                     : MyColors.darkGrey,
               ),
             )

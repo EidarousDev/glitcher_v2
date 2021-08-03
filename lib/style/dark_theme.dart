@@ -11,12 +11,12 @@ ThemeData buildDarkTheme(String language, [String fontFamily]) {
       bodyColor: kLightBG,
     ),
     primaryTextTheme:
-    buildTextTheme(base.primaryTextTheme, language, fontFamily).apply(
+        buildTextTheme(base.primaryTextTheme, language, fontFamily).apply(
       displayColor: kLightBG,
       bodyColor: kLightBG,
     ),
     accentTextTheme:
-    buildTextTheme(base.accentTextTheme, language, fontFamily).apply(
+        buildTextTheme(base.accentTextTheme, language, fontFamily).apply(
       displayColor: kLightBG,
       bodyColor: kLightBG,
     ),

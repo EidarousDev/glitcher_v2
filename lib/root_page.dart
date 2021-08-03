@@ -38,7 +38,7 @@ class _RootPageState extends State<RootPage> {
   Widget buildWaitingScreen() {
     return Scaffold(
       body: Container(
-        color: switchColor(Colors.white, MyColors.darkAccent),
+        color: switchColor(context, Colors.white, MyColors.darkAccent),
         alignment: Alignment.center,
         child: Center(
             child: Image.asset(

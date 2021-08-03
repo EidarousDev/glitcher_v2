@@ -1,11 +1,7 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/list_items/game_item.dart';
 import 'package:glitcher/models/game_model.dart';
 import 'package:glitcher/services/database_service.dart';
-import 'package:glitcher/utils/app_util.dart';
-import 'package:glitcher/widgets/custom_loader.dart';
 import 'package:glitcher/widgets/gradient_appbar.dart';
 
 class FollowedGames extends StatefulWidget {
@@ -41,7 +37,7 @@ class _FollowedGamesState extends State<FollowedGames> {
                           child: Icon(Icons.arrow_back),
                         ),
                       )),
-              flexibleSpace: gradientAppBar(),
+              flexibleSpace: gradientAppBar(context),
               centerTitle: true,
               title: TextField(
                 decoration: InputDecoration(
@@ -121,7 +117,7 @@ class _FollowedGamesState extends State<FollowedGames> {
                           child: Icon(Icons.arrow_back),
                         ),
                       )),
-              flexibleSpace: gradientAppBar(),
+              flexibleSpace: gradientAppBar(context),
               centerTitle: true,
             ),
             body: Center(

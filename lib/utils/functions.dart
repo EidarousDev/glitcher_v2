@@ -5,12 +5,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:glitcher/models/app_model.dart';
 import 'package:glitcher/models/hashtag_model.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/constants.dart';
@@ -90,9 +92,11 @@ pickImage(ImageSource source) async {
       .path); // Assign it later to File imageFile variable usign setState((){});.
 }
 
-Color switchColor(Color lightColor, Color darkColor) {
+Color switchColor(BuildContext context, Color lightColor, Color darkColor) {
   //print('current theme: ${Constants.currentTheme}');
-  return Constants.isDarkTheme ? darkColor : lightColor;
+  return Provider.of<AppModel>(context, listen: false).darkTheme
+      ? darkColor
+      : lightColor;
 }
 
 // Crop Image

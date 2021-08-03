@@ -274,7 +274,7 @@ class _PostPreviewState extends State<PostPreview>
             },
           ),
           title: Text('Post Preview'),
-          flexibleSpace: gradientAppBar(),
+          flexibleSpace: gradientAppBar(context),
         ),
         body: InkWell(
           // to dismiss the keyboard when the user tabs out of the TextField

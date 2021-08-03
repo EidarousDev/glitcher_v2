@@ -73,7 +73,7 @@ class _MyAppState extends State<MyApp> {
 
   /// Build the App Theme
   ThemeData getTheme(context) {
-    var appModel = Provider.of<AppModel>(context);
+    var appModel = Provider.of<AppModel>(context, listen: false);
     var isDarkTheme = appModel.darkTheme ?? true;
 
     var fontFamily = 'Roboto';

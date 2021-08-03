@@ -1,12 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/constants/sizes.dart';
-import 'package:glitcher/models/post_model.dart';
-import 'package:glitcher/models/user_model.dart';
-import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/custom_widgets.dart';
 import 'package:image_picker/image_picker.dart';
@@ -40,8 +35,8 @@ class ImageEditBottomSheet {
             height: Sizes.fullHeight(context) * (.22),
             width: Sizes.fullWidth(context),
             decoration: BoxDecoration(
-              color: switchColor(
-                  MyColors.lightButtonsBackground, MyColors.darkAccent),
+              color: switchColor(context, MyColors.lightButtonsBackground,
+                  MyColors.darkAccent),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20),
                 topRight: Radius.circular(20),
@@ -52,33 +47,28 @@ class ImageEditBottomSheet {
     );
   }
 
-  Widget _postOptions(
-      BuildContext context) {
+  Widget _postOptions(BuildContext context) {
     return Column(
       children: <Widget>[
         Container(
           width: Sizes.fullWidth(context) * .1,
           height: 5,
           decoration: BoxDecoration(
-            color: switchColor(MyColors.lightPrimary, Colors.white70),
+            color: switchColor(context, MyColors.lightPrimary, Colors.white70),
             borderRadius: BorderRadius.all(
               Radius.circular(10),
             ),
           ),
         ),
-        _widgetBottomSheetRow(
-          context,
-          Icon(Icons.camera_enhance),
-          text: 'Camera',
-          onPressed: (){
-            choice = ImageSource.camera;
-            Navigator.of(context).pop();
-          }
-        ),
+        _widgetBottomSheetRow(context, Icon(Icons.camera_enhance),
+            text: 'Camera', onPressed: () {
+          choice = ImageSource.camera;
+          Navigator.of(context).pop();
+        }),
         _widgetBottomSheetRow(context, Icon(Icons.image), text: 'Gallery',
             onPressed: () async {
-              choice = ImageSource.gallery;
-              Navigator.of(context).pop();
+          choice = ImageSource.gallery;
+          Navigator.of(context).pop();
         }),
       ],
     );

@@ -23,7 +23,7 @@ class PrivacyPolicy extends StatelessWidget {
   //     key: _scaffoldKey,
   //     appBar: AppBar(
   //       title: Text(Strings.privacy_policy),
-  //       flexibleSpace: gradientAppBar(),
+  //       flexibleSpace: gradientAppBar(context),
   //       centerTitle: true,
   //     ),
   //     // We're using a Builder here so we have a context that is below the Scaffold

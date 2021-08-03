@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:glitcher/widgets/gradient_appbar.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/constants/strings.dart';
+import 'package:glitcher/widgets/gradient_appbar.dart';
 
 class AboutUs extends StatefulWidget {
   @override
@@ -33,7 +33,7 @@ class _AboutUsState extends State<AboutUs> {
     return Scaffold(
       appBar: AppBar(
         title: Text(Strings.about_us),
-        flexibleSpace: gradientAppBar(),
+        flexibleSpace: gradientAppBar(context),
         centerTitle: true,
       ),
       body: Column(

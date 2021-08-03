@@ -12,6 +12,8 @@ class Hashtag {
   });
 
   factory Hashtag.fromDoc(DocumentSnapshot doc) {
+    Map data = doc.data();
+
     return Hashtag(
       id: doc.id,
       text: doc['text'],

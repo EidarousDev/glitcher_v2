@@ -43,23 +43,25 @@ class User {
       this.isFriend});
 
   factory User.fromDoc(DocumentSnapshot doc) {
+    Map data = doc.data();
+
     return User(
         id: doc.id,
-        name: doc['name'],
-        username: doc['username'],
-        profileImageUrl: doc['profile_url'],
-        coverImageUrl: doc['cover_url'],
-        email: doc['email'],
-        description: doc['description'] ?? '',
-        online: doc['online'],
-        violations: doc['violations'],
-        following: doc['following'],
-        followers: doc['followers'],
-        friends: doc['friends'],
-        followedGames: doc['followed_games'],
-        isAccountPrivate: doc['is_account_private'],
-        notificationsNumber: doc['notificationsNumber'],
-        search: doc['search']);
+        name: data['name'],
+        username: data['username'],
+        profileImageUrl: data['profile_url'],
+        coverImageUrl: data['cover_url'],
+        email: data['email'],
+        description: data['description'] ?? '',
+        online: data['online'],
+        violations: data['violations'],
+        following: data['following'],
+        followers: data['followers'],
+        friends: data['friends'],
+        followedGames: data['followed_games'],
+        isAccountPrivate: data['is_account_private'],
+        notificationsNumber: data['notificationsNumber'],
+        search: data['search']);
   }
 
   Map<String, dynamic> toMap() {

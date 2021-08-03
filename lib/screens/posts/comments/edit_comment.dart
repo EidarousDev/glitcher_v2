@@ -14,7 +14,6 @@ import 'package:glitcher/screens/posts/new_post/widget/create_bottom_icon.dart';
 import 'package:glitcher/screens/posts/new_post/widget/create_post_image.dart';
 import 'package:glitcher/screens/posts/new_post/widget/widget_view.dart';
 import 'package:glitcher/services/database_service.dart';
-import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/caching_image.dart';
@@ -147,7 +146,7 @@ class _AddCommentPageState extends State<EditComment> {
       child: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-          flexibleSpace: gradientAppBar(),
+          flexibleSpace: gradientAppBar(context),
           title: Text('Edit Comment'),
           actions: <Widget>[
             IconButton(
@@ -161,7 +160,8 @@ class _AddCommentPageState extends State<EditComment> {
               icon: Icon(
                 Icons.send,
                 color: canSubmit
-                    ? switchColor(MyColors.lightPrimary, MyColors.darkPrimary)
+                    ? switchColor(
+                        context, MyColors.lightPrimary, MyColors.darkPrimary)
                     : MyColors.darkGrey,
               ),
             )
@@ -265,7 +265,7 @@ class _ComposeTweet extends WidgetView<EditComment, _AddCommentPageState> {
                         text: widget.post.text ?? '',
                         style: TextStyle(
                           color: switchColor(
-                              MyColors.darkGrey, MyColors.lightCardBG),
+                              context, MyColors.darkGrey, MyColors.lightCardBG),
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
                         ),
@@ -330,8 +330,8 @@ class _ComposeTweet extends WidgetView<EditComment, _AddCommentPageState> {
                   },
                   child: customText('@${widget.user.username}',
                       style: TextStyle(
-                          color: switchColor(
-                              MyColors.lightPrimary, MyColors.darkPrimary))),
+                          color: switchColor(context, MyColors.lightPrimary,
+                              MyColors.darkPrimary))),
                 ),
                 SizedBox(width: 5),
                 Padding(
@@ -339,7 +339,8 @@ class _ComposeTweet extends WidgetView<EditComment, _AddCommentPageState> {
                   child: customText(
                       '- ${Functions.formatTimestamp(widget.post.timestamp)}',
                       style: TextStyle(
-                          color: switchColor(MyColors.darkGrey, Colors.white70),
+                          color: switchColor(
+                              context, MyColors.darkGrey, Colors.white70),
                           fontSize: 12)),
                 )
               ],

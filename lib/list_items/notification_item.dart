@@ -41,8 +41,8 @@ class _NotificationItemState extends State<NotificationItem> {
   _buildItem(notification_model.Notification notification) {
     return Container(
       color: notification.seen
-          ? switchColor(MyColors.lightBG, MyColors.darkBG)
-          : switchColor(MyColors.lightCardBG, MyColors.darkCardBG),
+          ? switchColor(context, MyColors.lightBG, MyColors.darkBG)
+          : switchColor(context, MyColors.lightCardBG, MyColors.darkCardBG),
       child: Container(
         padding: EdgeInsets.all(7),
         child: ListTile(
@@ -79,8 +79,8 @@ class _NotificationItemState extends State<NotificationItem> {
                   : Container(
                       padding: EdgeInsets.all(1),
                       decoration: BoxDecoration(
-                        color: switchColor(
-                            MyColors.lightPrimary, MyColors.darkPrimary),
+                        color: switchColor(context, MyColors.lightPrimary,
+                            MyColors.darkPrimary),
                         borderRadius: BorderRadius.circular(6),
                       ),
                       constraints: BoxConstraints(
@@ -92,7 +92,8 @@ class _NotificationItemState extends State<NotificationItem> {
                         child: Text(
                           "${widget.counter}",
                           style: TextStyle(
-                            color: switchColor(Colors.black87, Colors.white),
+                            color: switchColor(
+                                context, Colors.black87, Colors.white),
                             fontSize: 10,
                           ),
                           textAlign: TextAlign.center,

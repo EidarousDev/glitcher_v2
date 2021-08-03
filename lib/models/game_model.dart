@@ -40,24 +40,26 @@ class Game {
   });
 
   factory Game.fromDoc(DocumentSnapshot doc) {
+    Map data = doc.data();
+
     return Game(
       id: doc.id,
-      fullName: doc['fullName'],
-      shortName: doc['shortName'],
-      description: doc['description'],
-      image: doc['image'],
-      releaseDate: doc['release_date'],
-      esrbRating: doc['esrb_rating'],
-      website: doc['website'],
-      metacritic: doc['metacritic'],
-      tba: doc['tba'],
-      genres: doc['genres'],
-      platforms: doc['platforms'],
-      stores: doc['stores'],
-      developers: doc['developers'],
-      search: doc['search'],
-      frequency: doc['frequency'],
-      timestamp: doc['timestamp'],
+      fullName: data['fullName'],
+      shortName: data['shortName'],
+      description: data['description'],
+      image: data['image'],
+      releaseDate: data['release_date'],
+      esrbRating: data['esrb_rating'],
+      website: data['website'],
+      metacritic: data['metacritic'],
+      tba: data['tba'],
+      genres: data['genres'],
+      platforms: data['platforms'],
+      stores: data['stores'],
+      developers: data['developers'],
+      search: data['search'],
+      frequency: data['frequency'],
+      timestamp: data['timestamp'],
     );
   }
 }

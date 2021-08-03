@@ -147,7 +147,7 @@ class _AddReplyPageState extends State<EditReply> {
       child: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-          flexibleSpace: gradientAppBar(),
+          flexibleSpace: gradientAppBar(context),
           title: Text('Edit Reply'),
           actions: <Widget>[
             IconButton(
@@ -161,7 +161,8 @@ class _AddReplyPageState extends State<EditReply> {
               icon: Icon(
                 Icons.send,
                 color: canSubmit
-                    ? switchColor(MyColors.lightPrimary, MyColors.darkPrimary)
+                    ? switchColor(
+                        context, MyColors.lightPrimary, MyColors.darkPrimary)
                     : MyColors.darkGrey,
               ),
             )
@@ -281,7 +282,7 @@ class _ComposeTweet extends WidgetView<EditReply, _AddReplyPageState> {
                         text: widget.comment.text ?? '',
                         style: TextStyle(
                           color: switchColor(
-                              MyColors.darkGrey, MyColors.lightCardBG),
+                              context, MyColors.darkGrey, MyColors.lightCardBG),
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
                         ),
@@ -346,8 +347,8 @@ class _ComposeTweet extends WidgetView<EditReply, _AddReplyPageState> {
                   },
                   child: customText('@${widget.user.username}',
                       style: TextStyle(
-                          color: switchColor(
-                              MyColors.lightPrimary, MyColors.darkPrimary))),
+                          color: switchColor(context, MyColors.lightPrimary,
+                              MyColors.darkPrimary))),
                 ),
                 SizedBox(width: 5),
                 Padding(
@@ -355,7 +356,8 @@ class _ComposeTweet extends WidgetView<EditReply, _AddReplyPageState> {
                   child: customText(
                       '- ${Functions.formatTimestamp(widget.comment.timestamp)}',
                       style: TextStyle(
-                          color: switchColor(MyColors.darkGrey, Colors.white70),
+                          color: switchColor(
+                              context, MyColors.darkGrey, Colors.white70),
                           fontSize: 12)),
                 )
               ],

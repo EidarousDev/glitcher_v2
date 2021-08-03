@@ -16,7 +16,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  int darkOrLight = 0;
   int filter = 0;
 
   bool _isSubscribedToNewsletter = false;
@@ -51,7 +50,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(Strings.settings),
-        flexibleSpace: gradientAppBar(),
+        flexibleSpace: gradientAppBar(context),
         centerTitle: true,
       ),
       body: Align(
@@ -61,45 +60,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    'Theme: ',
-                    style: titleTextStyle(),
-                  ),
-                  Radio(
-                      activeColor: MyColors.darkPrimary,
-                      value: 0,
-                      groupValue: darkOrLight,
-                      onChanged: (value) {
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                child: Row(
+                  children: [
+                    Text('Dark theme'),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Switch(
+                      value: Provider.of<AppModel>(context, listen: false)
+                          .darkTheme,
+                      onChanged: (bool value) {
                         Provider.of<AppModel>(context, listen: false)
-                            .updateTheme(true);
-                        setState(() {
-                          darkOrLight = value;
-                        });
-                      }),
-                  Text(
-                    'Dark',
-                  ),
-                  Radio(
-                      activeColor: MyColors.darkPrimary,
-                      value: 1,
-                      groupValue: darkOrLight,
-                      onChanged: (value) {
-                        Provider.of<AppModel>(context, listen: true)
-                            .updateTheme(true);
-                        setState(() {
-                          darkOrLight = value;
-                        });
-                      }),
-                  Text(
-                    'Light',
-                  ),
-                ],
-              ),
-            ),
+                            .updateTheme(value);
+                      },
+                    ),
+                  ],
+                )),
             Divider(
               height: 2,
             ),
@@ -214,7 +192,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 8, left: 16),
               child: MaterialButton(
-                color: switchColor(MyColors.lightPrimary, MyColors.darkPrimary),
+                color: switchColor(
+                    context, MyColors.lightPrimary, MyColors.darkPrimary),
                 child: Text('Change Password'),
                 onPressed: () {
                   Navigator.of(context).pushNamed('/password-change');
@@ -271,16 +250,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   void initState() {
-    if (Constants.isDarkTheme) {
-      setState(() {
-        darkOrLight = 0;
-      });
-    } else {
-      setState(() {
-        darkOrLight = 1;
-      });
-    }
-
     setState(() {
       filter = Constants.favouriteFilter;
     });

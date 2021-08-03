@@ -529,13 +529,15 @@ getImage(BuildContext context, ImageSource source, Function onImageSelected) {
   });
 }
 
-Widget customDivider(double height, {double width = double.infinity}) {
+Widget customDivider(BuildContext context, double height,
+    {double width = double.infinity}) {
   return SizedBox(
     height: height,
     width: width,
     child: DecoratedBox(
       decoration: BoxDecoration(
-          color: switchColor(MyColors.lightLineBreak, MyColors.darkLineBreak)),
+          color: switchColor(
+              context, MyColors.lightLineBreak, MyColors.darkLineBreak)),
     ),
   );
 }

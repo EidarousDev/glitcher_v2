@@ -143,7 +143,7 @@ class _GroupDetailsState extends State<GroupDetails>
     super.build(context);
     return Scaffold(
         appBar: AppBar(
-          flexibleSpace: gradientAppBar(),
+          flexibleSpace: gradientAppBar(context),
           title: Text(_group.name),
         ),
         body: SingleChildScrollView(

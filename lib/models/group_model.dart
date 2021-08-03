@@ -14,11 +14,13 @@ class Group {
   });
 
   factory Group.fromDoc(DocumentSnapshot doc) {
+    Map data = doc.data();
+
     return Group(
       id: doc.id,
-      name: doc['name'],
-      image: doc['image'],
-      timestamp: doc['timestamp'],
+      name: data['name'],
+      image: data['image'],
+      timestamp: data['timestamp'],
     );
   }
 }

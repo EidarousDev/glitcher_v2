@@ -89,7 +89,7 @@ class _NewGroupState extends State<NewGroup>
         },
       ),
       appBar: AppBar(
-          flexibleSpace: gradientAppBar(),
+          flexibleSpace: gradientAppBar(context),
 //        elevation: 4,
           leading: IconButton(
             icon: Icon(

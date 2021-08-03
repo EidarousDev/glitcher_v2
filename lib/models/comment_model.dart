@@ -20,14 +20,16 @@ class Comment {
   });
 
   factory Comment.fromDoc(DocumentSnapshot doc) {
+    Map data = doc.data();
+
     return Comment(
       id: doc.id,
-      commenterID: doc['commenter'],
-      text: doc['text'],
-      likesCount: doc['likes'],
-      disLikesCount: doc['dislikes'],
-      repliesCount: doc['replies'],
-      timestamp: doc['timestamp'],
+      commenterID: data['commenter'],
+      text: data['text'],
+      likesCount: data['likes'],
+      disLikesCount: data['dislikes'],
+      repliesCount: data['replies'],
+      timestamp: data['timestamp'],
     );
   }
 }
