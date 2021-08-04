@@ -37,7 +37,6 @@ import 'package:glitcher/screens/welcome/password_change.dart';
 import 'package:glitcher/screens/welcome/password_reset.dart';
 import 'package:glitcher/screens/welcome/set_username.dart';
 import 'package:glitcher/screens/welcome/signup_page.dart';
-import 'package:glitcher/widgets/custom_loader.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -81,11 +80,15 @@ class RouteGenerator {
       case '/post':
         Constants.routesStack.push(settings.name);
         // Validation of correct data type
-        return PageTransition(
-            child: PostPreview(
-              post: args['post'],
-            ),
-            type: PageTransitionType.scale);
+        return MaterialPageRoute(
+          builder: (_) => PostPreview(
+            post: args['post'],
+          ),
+          // child: PostPreview(
+          //   post: args['post'],
+          // ),
+          // type: PageTransitionType.scale
+        );
         // If args is not of the correct type, return an error page.
         // You can also throw an exception while in development.
         return _errorRoute();

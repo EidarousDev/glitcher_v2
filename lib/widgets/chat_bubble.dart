@@ -53,7 +53,7 @@ class _ChatBubbleState extends State<ChatBubble> {
 
   @override
   Widget build(BuildContext context) {
-    final bg = widget.isMe ? Theme.of(context).accentColor : Colors.grey[200];
+    final bg = widget.isMe ? Theme.of(context).primaryColor : Colors.grey[200];
     final align =
         widget.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start;
     final radius = widget.isMe

@@ -71,7 +71,7 @@ IconThemeData customIconTheme(IconThemeData original) {
 }
 
 const ColorScheme kColorScheme = ColorScheme(
-  primary: kTeal100,
+  primary: kPrimary,
   primaryVariant: kGrey900,
   secondary: kTeal50,
   secondaryVariant: kGrey900,

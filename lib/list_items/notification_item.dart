@@ -61,7 +61,13 @@ class _NotificationItemState extends State<NotificationItem> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          subtitle: Text("${widget.notification.body}"),
+          subtitle: Container(
+            child: Text(
+              "${widget.notification.body}",
+              overflow: TextOverflow.ellipsis,
+            ),
+            height: 15,
+          ),
           trailing: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
