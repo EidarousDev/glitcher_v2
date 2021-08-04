@@ -21,8 +21,12 @@ const kLightAccent = Color(0xFF546E7A);
 const kDarkAccent = Color(0xffF4F5F5);
 
 const kLightBG = Color(0xffF1F2F3);
-const kDarkBG = Color(0xff1B1D26);
+const kDarkBG = Color(0xff222e3f);
+const kPrimary = Color(0xffc74f57);
 const kDarkBgLight = Color(0xff282D39);
+const kDarkDivider = Color(0xff212832);
+const kDarkCard = Color(0xff222e3f);
+const kDarkTextLight = Color(0xffF1F2F3);
 
 /// This color is define for the Product variant Color
 /// Please add more color to match with your Product Color name

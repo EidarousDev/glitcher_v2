@@ -222,7 +222,7 @@ class _ChatsState extends State<Chats>
               _searchController.clear();
             },
             controller: _tabController,
-            indicatorColor: Theme.of(context).accentColor,
+            indicatorColor: Theme.of(context).primaryColor,
             labelColor: MyColors.darkGrey,
             unselectedLabelColor: Theme.of(context).textTheme.caption.color,
             isScrollable: false,

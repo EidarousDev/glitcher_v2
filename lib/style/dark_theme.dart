@@ -6,6 +6,7 @@ import 'light_theme.dart';
 ThemeData buildDarkTheme(String language, [String fontFamily]) {
   final base = ThemeData.dark();
   return base.copyWith(
+    primaryIconTheme: IconThemeData(color: kPrimary),
     textTheme: buildTextTheme(base.textTheme, language, fontFamily).apply(
       displayColor: kLightBG,
       bodyColor: kLightBG,
@@ -20,19 +21,21 @@ ThemeData buildDarkTheme(String language, [String fontFamily]) {
       displayColor: kLightBG,
       bodyColor: kLightBG,
     ),
+    dividerColor: kDarkDivider,
     canvasColor: kDarkBG,
-    cardColor: kDarkBgLight,
+    cardColor: kDarkCard,
     brightness: Brightness.dark,
     backgroundColor: kDarkBG,
-    primaryColor: kDarkBG,
-    primaryColorLight: kDarkBgLight,
+    primaryColor: kPrimary,
+    primaryColorLight: kPrimary,
     accentColor: kDarkAccent,
     scaffoldBackgroundColor: kDarkBG,
     appBarTheme: const AppBarTheme(
+      backgroundColor: kDarkCard,
       elevation: 0,
       textTheme: TextTheme(
         headline6: TextStyle(
-          color: kDarkBG,
+          color: kDarkTextLight,
           fontSize: 18.0,
           fontWeight: FontWeight.w800,
         ),

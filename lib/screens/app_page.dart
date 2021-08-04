@@ -18,6 +18,7 @@ import 'package:glitcher/screens/profile/profile_screen.dart';
 import 'package:glitcher/screens/users/search_screen.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
+import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:package_info/package_info.dart';
@@ -70,9 +71,10 @@ class _AppPageState extends State<AppPage> {
       ),
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
-            // sets the active color of the `BottomNavigationBar` if `Brightness` is light
-            accentColor: Theme.of(context).primaryColor),
+          primaryColor: kPrimary,
+        ),
         child: BottomNavigationBar(
+          selectedItemColor: kPrimary,
           type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(

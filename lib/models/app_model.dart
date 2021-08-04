@@ -8,6 +8,15 @@ class AppModel with ChangeNotifier {
 
   set darkTheme(bool value) =>
       themeMode = value ? ThemeMode.dark : ThemeMode.light;
+
+  Future getThemeFromPrefs() async {
+    var prefs = await SharedPreferences.getInstance();
+    bool isDark = prefs.get(
+      'darkTheme',
+    );
+    this.darkTheme = isDark;
+  }
+
   Future<void> updateTheme(bool theme) async {
     try {
       var prefs = await SharedPreferences.getInstance();

@@ -6,6 +6,7 @@ import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/models/app_model.dart';
 import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/auth_provider.dart';
+import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/style/dark_theme.dart';
 import 'package:glitcher/style/light_theme.dart';
 import 'package:provider/provider.dart';
@@ -13,11 +14,13 @@ import 'package:provider/provider.dart';
 import 'services/route_generator.dart';
 
 void main() async {
-  /*RenderErrorBox.backgroundColor = Colors.transparent;
-  RenderErrorBox.textStyle = ui.TextStyle(color: Colors.transparent);*/
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  AppModel _app = AppModel();
+  await _app.getThemeFromPrefs();
+  runApp(MyApp(
+    appModel: _app,
+  ));
 }
 
 Future<void> retrieveDynamicLink(BuildContext context) async {
@@ -32,18 +35,19 @@ Future<void> retrieveDynamicLink(BuildContext context) async {
 }
 
 class MyApp extends StatefulWidget {
+  final AppModel appModel;
+
+  const MyApp({Key key, this.appModel}) : super(key: key);
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  AppModel _app;
-
   @override
   Widget build(BuildContext context) {
     retrieveDynamicLink(context);
     return ChangeNotifierProvider<AppModel>(
-      create: (context) => _app,
+      create: (context) => widget.appModel,
       child: Consumer<AppModel>(
         builder: (context, value, child) {
           return AuthProvider(
@@ -63,7 +67,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    _app = AppModel();
     Firebase.initializeApp().whenComplete(() {
       print("Firebase Initialized!");
       setState(() {});
@@ -73,14 +76,11 @@ class _MyAppState extends State<MyApp> {
 
   /// Build the App Theme
   ThemeData getTheme(context) {
-    var appModel = Provider.of<AppModel>(context, listen: false);
-    var isDarkTheme = appModel.darkTheme ?? true;
-
+    var isDarkTheme = widget.appModel.darkTheme ?? true;
     var fontFamily = 'Roboto';
-
     if (isDarkTheme) {
       return buildDarkTheme('en', fontFamily).copyWith(
-        primaryColor: MyColors.darkPrimary,
+        primaryColor: kPrimary,
       );
     }
     return buildLightTheme('en', fontFamily).copyWith(
