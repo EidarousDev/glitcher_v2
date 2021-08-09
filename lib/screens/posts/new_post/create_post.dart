@@ -105,8 +105,7 @@ class _CreatePostReplyPageState extends State<CreatePost> {
   void _onImageIconSelected(File file) {
     print('File size: ${file.lengthSync()}');
     if (file.lengthSync() / (1024 * 1024) == 3) {
-      AppUtil.showSnackBar(
-          context, _scaffoldKey, 'Image exceeded 3 Megabytes limit.');
+      AppUtil.showSnackBar(context, 'Image exceeded 3 Megabytes limit.');
     } else {
       setState(() {
         _image = file;
@@ -153,17 +152,17 @@ class _CreatePostReplyPageState extends State<CreatePost> {
   /// Submit tweet to save in firebase database
   void _submitButton() async {
     if (!AppUtil.englishOnly(_textEditingController.text)) {
-      AppUtil.showSnackBar(context, _scaffoldKey, 'Only English is allowed.');
+      AppUtil.showSnackBar(context, 'Only English is allowed.');
       return;
     }
 
     if (widget.selectedGame.isEmpty) {
-      AppUtil().customSnackBar(_scaffoldKey, 'You must choose a game category');
+      AppUtil().customSnackBar(context, 'You must choose a game category');
       return;
     }
 
     if (_textEditingController.text.isEmpty) {
-      AppUtil().customSnackBar(_scaffoldKey, 'Post can\'t be empty');
+      AppUtil().customSnackBar(context, 'Post can\'t be empty');
       return;
     }
 
@@ -242,8 +241,8 @@ class _CreatePostReplyPageState extends State<CreatePost> {
         DateTime.now().millisecondsSinceEpoch -
                 lastPost.timestamp.millisecondsSinceEpoch <
             coolDownMinutes * 60000) {
-      AppUtil.showSnackBar(context, _scaffoldKey,
-          'Must wait $coolDownMinutes minutes to upload another post');
+      AppUtil.showSnackBar(
+          context, 'Must wait $coolDownMinutes minutes to upload another post');
       Navigator.of(context).pop();
       return;
     }
@@ -469,9 +468,7 @@ class _ComposeTweet extends WidgetView<CreatePost, _CreatePostReplyPageState> {
                                 if (viewState._textEditingController.text
                                     .contains('@$friendUsername')) {
                                   AppUtil.showSnackBar(
-                                      context,
-                                      viewState._scaffoldKey,
-                                      'User already mentioned!');
+                                      context, 'User already mentioned!');
                                   return;
                                 }
                                 viewState.setState(() {
@@ -524,9 +521,7 @@ class _ComposeTweet extends WidgetView<CreatePost, _CreatePostReplyPageState> {
 
                                 if (viewState._textEditingController.text
                                     .contains('#$hashtag')) {
-                                  AppUtil.showSnackBar(
-                                      context,
-                                      viewState._scaffoldKey,
+                                  AppUtil.showSnackBar(context,
                                       'Post already contains this hashtag!');
                                   return;
                                 }

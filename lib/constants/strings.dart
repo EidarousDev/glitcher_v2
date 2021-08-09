@@ -56,6 +56,9 @@ class Strings {
 
   static const String SAVE_IMAGE = 'Save Image';
 
+  static const String loader = 'assets/images/glitcher_loader.gif';
+  static const String logo_with_text = 'assets/images/icon-480.png';
+
   static String activationLinkSent(String email) =>
       'We have sent an activation link to $email';
   static const String errorSendingEmail = 'Error sending email';

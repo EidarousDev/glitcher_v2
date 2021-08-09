@@ -17,7 +17,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   AppModel _app = AppModel();
-  await _app.getThemeFromPrefs();
+  await _app
+      .getThemeFromPrefs(); //TODO: should check when first time running the app
   runApp(MyApp(
     appModel: _app,
   ));

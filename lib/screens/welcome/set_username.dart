@@ -159,15 +159,14 @@ class _SetUsernameScreenState extends State<SetUsernameScreen> {
 
         Navigator.of(context).pushReplacementNamed('/');
       } else if (validUsername != null) {
-        AppUtil.showSnackBar(context, _scaffoldKey, 'Invalid username!');
+        AppUtil.showSnackBar(context, 'Invalid username!');
       } else {
-        AppUtil.showSnackBar(
-            context, _scaffoldKey, 'Please, enter a valid username.');
+        AppUtil.showSnackBar(context, 'Please, enter a valid username.');
       }
     } catch (e) {
       // Email or Password Incorrect
       Navigator.of(context).pop();
-      AppUtil.showSnackBar(context, _scaffoldKey, 'Unknown Error occurred!');
+      AppUtil.showSnackBar(context, 'Unknown Error occurred!');
     }
     Navigator.of(context).pop();
   }

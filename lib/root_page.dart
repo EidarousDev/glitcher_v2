@@ -8,6 +8,7 @@ import 'package:glitcher/screens/welcome/login_page.dart';
 import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/utils/functions.dart';
+import 'package:glitcher/widgets/glitcher_loader.dart';
 
 class RootPage extends StatefulWidget {
   @override
@@ -40,12 +41,7 @@ class _RootPageState extends State<RootPage> {
       body: Container(
         color: switchColor(context, Colors.white, MyColors.darkAccent),
         alignment: Alignment.center,
-        child: Center(
-            child: Image.asset(
-          'assets/images/glitcher_loader.gif',
-          height: 250,
-          width: 250,
-        )),
+        child: GlitcherLoader(),
       ),
     );
   }

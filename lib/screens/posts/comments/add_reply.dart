@@ -94,7 +94,7 @@ class _AddReplyPageState extends State<AddReply> {
   /// Submit Comment to save in firebase database
   void _submitButton() async {
     if (!AppUtil.englishOnly(_textEditingController.text)) {
-      AppUtil.showSnackBar(context, _scaffoldKey, 'Only English is allowed.');
+      AppUtil.showSnackBar(context, 'Only English is allowed.');
       return;
     }
 
@@ -446,9 +446,7 @@ class _ComposeTweet extends WidgetView<AddReply, _AddReplyPageState> {
                                 if (viewState._textEditingController.text
                                     .contains('@$friendUsername')) {
                                   AppUtil.showSnackBar(
-                                      context,
-                                      viewState._scaffoldKey,
-                                      'User already mentioned!');
+                                      context, 'User already mentioned!');
                                   return;
                                 }
                                 viewState.setState(() {

@@ -157,12 +157,12 @@ class _CreatePostReplyPageState extends State<EditPost> {
   /// Submit tweet to save in firebase database
   void _submitButton() async {
     if (selectedGame.isEmpty) {
-      AppUtil().customSnackBar(_scaffoldKey, 'You must choose a game category');
+      AppUtil().customSnackBar(context, 'You must choose a game category');
       return;
     }
 
     if (_textEditingController.text.isEmpty) {
-      AppUtil().customSnackBar(_scaffoldKey, 'Post can\'t be empty');
+      AppUtil().customSnackBar(context, 'Post can\'t be empty');
       return;
     }
 
@@ -477,9 +477,7 @@ class _ComposeTweet extends WidgetView<EditPost, _CreatePostReplyPageState> {
                                 if (viewState._textEditingController.text
                                     .contains('@$friendUsername')) {
                                   AppUtil.showSnackBar(
-                                      context,
-                                      viewState._scaffoldKey,
-                                      'User already mentioned!');
+                                      context, 'User already mentioned!');
                                   return;
                                 }
                                 viewState.setState(() {

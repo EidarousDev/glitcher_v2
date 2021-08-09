@@ -505,8 +505,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     'userId': widget.userId
                                   });
                             } else {
-                              AppUtil.showSnackBar(context, _scaffoldKey,
-                                  'User set account to private');
+                              AppUtil.showSnackBar(
+                                  context, 'User set account to private');
                             }
                           },
                           child: Column(
@@ -529,8 +529,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     'userId': widget.userId
                                   });
                             } else {
-                              AppUtil.showSnackBar(context, _scaffoldKey,
-                                  'User set account to private');
+                              AppUtil.showSnackBar(
+                                  context, 'User set account to private');
                             }
                           },
                           child: Column(
@@ -554,8 +554,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     'userId': widget.userId
                                   });
                             } else {
-                              AppUtil.showSnackBar(context, _scaffoldKey,
-                                  'User set account to private');
+                              AppUtil.showSnackBar(
+                                  context, 'User set account to private');
                             }
                           },
                           child: Column(
@@ -581,8 +581,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Navigator.of(context).pushNamed('/followed-games',
                               arguments: {'userId': widget.userId});
                         } else {
-                          AppUtil.showSnackBar(context, _scaffoldKey,
-                              'User set account to private');
+                          AppUtil.showSnackBar(
+                              context, 'User set account to private');
                         }
                       },
                       child: Column(
@@ -714,7 +714,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     if (!valid) {
       // username exists
-      AppUtil.showSnackBar(context, _scaffoldKey,
+      AppUtil.showSnackBar(context,
           '${_usernameEditingController.text} is already in use. Please choose a different username.');
     } else {
       if (validUsername == null) {
@@ -726,7 +726,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           _usernameText = _usernameEditingController.text;
         });
       } else {
-        AppUtil.showSnackBar(context, _scaffoldKey, 'Invalid Username!');
+        AppUtil.showSnackBar(context, 'Invalid Username!');
       }
     }
     Navigator.of(context).pop();

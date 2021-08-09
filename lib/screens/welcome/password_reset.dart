@@ -1,10 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/utils/app_util.dart';
-import 'package:glitcher/widgets/custom_loader.dart';
+import 'package:glitcher/widgets/logo_widgets.dart';
 
 import 'widgets/bezier_container.dart';
 
@@ -39,7 +40,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        _icon(),
+                        LogoWithText(),
                         SizedBox(height: 50),
                         _entryField('E-Mail'),
                         SizedBox(height: 20),
@@ -68,6 +69,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                 onChanged: (value) {
                   _email = value;
                 },
+                keyboardType: TextInputType.emailAddress,
                 style: TextStyle(color: MyColors.darkCardBG),
                 decoration: InputDecoration(
                     prefixIcon: Container(
@@ -88,31 +90,38 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
     );
   }
 
-  Widget _icon() {
-    return Image.asset(
-      'assets/images/icon-480.png',
-      height: 260.0,
-    );
-  }
-
   Widget _submitButton() {
     return InkWell(
       onTap: () async {
-        Navigator.of(context).push(CustomScreenLoader());
+        AppUtil.showGlitcherLoader(context);
         User user = await DatabaseService.getUserWithEmail(_email);
         if (user.id == null) {
-          print('Email is not registered!');
-          AppUtil.showSnackBar(
-              context, _scaffoldKey, 'Email is not registered!');
+          //print('Email is not registered!');
+          Navigator.pop(context); // Dismiss the loader dialog
+          AppUtil.showSnackBar(context, 'Email is not registered!');
         } else {
-          await firebaseAuth.sendPasswordResetEmail(email: _email);
-          print('Password reset e-mail sent');
-          AppUtil.showSnackBar(
-              context, _scaffoldKey, 'Password reset e-mail sent');
-          Navigator.of(context).pop();
+          try {
+            await firebaseAuth.sendPasswordResetEmail(email: _email);
+            //print('Password reset e-mail sent');
+            Navigator.pop(context); // Dismiss the loader dialog
+            AppUtil.alertDialog(
+                context: context,
+                heading: 'Success',
+                message: 'Password reset e-mail sent',
+                okBtn: 'Done',
+                onSuccess: () =>
+                    Navigator.pop(context)); // Go back to login_page
+          } catch (e) {
+            Navigator.pop(context); // Dismiss the loader dialog
+            AppUtil.alertDialog(
+                context: context,
+                heading: 'Failure',
+                message: e.toString(),
+                okBtn: 'Ok',
+                onSuccess: () =>
+                    Navigator.pop(context)); // Go back to login_page
+          }
         }
-
-        Navigator.of(context).pop();
       },
       child: Container(
         width: MediaQuery.of(context).size.width,

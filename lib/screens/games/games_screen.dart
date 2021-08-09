@@ -39,7 +39,7 @@ class _GamesScreenState extends State<GamesScreen> {
             'initial_details':
                 'I (${Constants.currentUser.username}) suggest adding the following game: '
           });
-          AppUtil.showSnackBar(context, _scaffoldKey, "Suggestion sent ");
+          AppUtil.showSnackBar(context, "Suggestion sent ");
         },
       ),
       appBar: AppBar(

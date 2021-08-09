@@ -12,6 +12,7 @@ import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/widgets/fluttertoast.dart';
+import 'package:glitcher/widgets/logo_widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:random_string/random_string.dart';
@@ -65,7 +66,7 @@ class AppUtil {
 
   static randomIndices(List list, {int requiredRandoms = 10}) {
     Random r = Random();
-    List randoms = List();
+    List randoms = [];
 
     for (int i = 0; i < requiredRandoms; i++) {
       int random = r.nextInt(list.length);
@@ -88,11 +89,11 @@ class AppUtil {
         textcolor: '#ffffff');
   }
 
-  static void showSnackBar(BuildContext context,
-      GlobalKey<ScaffoldState> _scaffoldKey, String value) {
+  static void showSnackBar(BuildContext context, String value) {
+    final scaffold = ScaffoldMessenger.of(context);
     FocusScope.of(context).requestFocus(new FocusNode());
-    _scaffoldKey.currentState?.removeCurrentSnackBar();
-    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+    scaffold.removeCurrentSnackBar();
+    scaffold.showSnackBar(new SnackBar(
       content: new Text(
         value,
         textAlign: TextAlign.center,
@@ -106,11 +107,11 @@ class AppUtil {
     ));
   }
 
-  static void showFixedSnackBar(BuildContext context,
-      GlobalKey<ScaffoldState> _scaffoldKey, String value) {
+  static void showFixedSnackBar(BuildContext context, String value) {
+    final scaffold = ScaffoldMessenger.of(context);
     FocusScope.of(context).requestFocus(new FocusNode());
-    _scaffoldKey.currentState?.removeCurrentSnackBar();
-    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+    scaffold.removeCurrentSnackBar();
+    scaffold.showSnackBar(new SnackBar(
       content: new Text(
         value,
         textAlign: TextAlign.center,
@@ -167,12 +168,10 @@ class AppUtil {
     return url;
   }
 
-  void customSnackBar(GlobalKey<ScaffoldState> _scaffoldKey, String msg,
+  void customSnackBar(BuildContext context, String msg,
       {double height = 30, Color backgroundColor = Colors.black}) {
-    if (_scaffoldKey == null || _scaffoldKey.currentState == null) {
-      return;
-    }
-    _scaffoldKey.currentState.hideCurrentSnackBar();
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.hideCurrentSnackBar();
     final snackBar = SnackBar(
       backgroundColor: backgroundColor,
       content: Text(
@@ -182,7 +181,7 @@ class AppUtil {
         ),
       ),
     );
-    _scaffoldKey.currentState.showSnackBar(snackBar);
+    scaffold.showSnackBar(snackBar);
   }
 
   String getSocialLinks(String url) {
@@ -260,22 +259,36 @@ class AppUtil {
   }
 
   static void alertDialog(
-      BuildContext context, String heading, String message, String okBtn) {
+      {BuildContext context,
+      String heading,
+      String message,
+      String okBtn,
+      Function onSuccess}) {
     showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) {
           return AlertDialog(
+            key: Key('AlertDialog'),
             title: Text(heading),
             content: Text(message),
             actions: <Widget>[
-              MaterialButton(
+              TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.pop(context); // Dismiss the dialog
+                  onSuccess(); // Execute what happens after dismissing the alertDialog
                 },
                 child: Text(okBtn),
-              )
+              ),
             ],
           );
         });
+  }
+
+  static void showGlitcherLoader(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) => GlitcherLoader());
   }
 }

@@ -152,8 +152,7 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
         if (_newPassword.isNotEmpty && _confirmPassword.isNotEmpty) {
           await _changePassword();
         } else {
-          AppUtil.showSnackBar(
-              context, _scaffoldKey, 'Please fill fields above!');
+          AppUtil.showSnackBar(context, 'Please fill fields above!');
         }
       },
       child: Container(
@@ -171,13 +170,6 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),
       ),
-    );
-  }
-
-  Widget _icon() {
-    return Image.asset(
-      'assets/images/icon-480.png',
-      height: 200.0,
     );
   }
 
@@ -278,8 +270,7 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
       print('authResult: ${ex.toString()}');
 
       if (ex.code == 'ERROR_WRONG_PASSWORD') {
-        AppUtil.showSnackBar(
-            context, _scaffoldKey, 'Current Password is not correct!');
+        AppUtil.showSnackBar(context, 'Current Password is not correct!');
         Navigator.of(context).pop();
         return;
       }
@@ -291,19 +282,18 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
       String errorCode = await baseAuth.changePassword(_newPassword);
       print('change pass error: $errorCode');
       if (errorCode == null) {
-        AppUtil.showSnackBar(
-            context, _scaffoldKey, 'Password changed successfully');
+        AppUtil.showSnackBar(context, 'Password changed successfully');
         firebaseAuth.signOut();
         Navigator.of(context).pushReplacementNamed('/login',
             arguments: {'on_sign_up_callback': false});
       } else {
         if (errorCode == 'ERROR_WEAK_PASSWORD') {
-          AppUtil.showSnackBar(context, _scaffoldKey, 'Weak password!');
+          AppUtil.showSnackBar(context, 'Weak password!');
         }
       }
     } else {
       if (_newPassword != _confirmPassword) {
-        AppUtil.showSnackBar(context, _scaffoldKey, "Passwords don't match");
+        AppUtil.showSnackBar(context, "Passwords don't match");
         myFocusNodeNewPassword.requestFocus();
       } else {}
     }

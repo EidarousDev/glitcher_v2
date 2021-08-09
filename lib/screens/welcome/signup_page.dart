@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/screens/web_browser/webview_modal.dart';
 import 'package:glitcher/services/auth.dart';
@@ -91,8 +90,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         .requestFocus(myFocusNodeConfirmPassword);
                   } else if (isConfirmPassword) {
                     if (!_isTermsOfTermsAgreed) {
-                      AppUtil.showSnackBar(context, _scaffoldKey,
-                          'Please agree to terms of use.');
+                      AppUtil.showSnackBar(
+                          context, 'Please agree to terms of use.');
                       return;
                     }
                     await _submit();
@@ -180,8 +179,7 @@ class _SignUpPageState extends State<SignUpPage> {
         splashColor: Colors.yellow,
         onTap: () async {
           if (!_isTermsOfTermsAgreed) {
-            AppUtil.showSnackBar(
-                context, _scaffoldKey, 'Please agree to terms of use.');
+            AppUtil.showSnackBar(context, 'Please agree to terms of use.');
             return;
           }
           await _submit();
@@ -396,7 +394,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
     if (!valid) {
       // username exists
-      AppUtil.showSnackBar(context, _scaffoldKey,
+      AppUtil.showSnackBar(context,
           '$_username is already in use. Please choose a different username.');
       _setFocusNode(myFocusNodeName);
       return;
@@ -407,19 +405,19 @@ class _SignUpPageState extends State<SignUpPage> {
         // Validation Passed
         userId = await auth.signUp(_username, _email, _password);
         if (userId == 'Email is already in use') {
-          AppUtil.showSnackBar(context, _scaffoldKey, userId);
+          AppUtil.showSnackBar(context, userId);
           _setFocusNode(myFocusNodeEmail);
           return;
         } else if (userId == 'Weak Password') {
-          AppUtil.showSnackBar(context, _scaffoldKey, 'Weak Password!');
+          AppUtil.showSnackBar(context, 'Weak Password!');
           _setFocusNode(myFocusNodePassword);
           return;
         } else if (userId == 'Invalid Email') {
-          AppUtil.showSnackBar(context, _scaffoldKey, 'Invalid Email!');
+          AppUtil.showSnackBar(context, 'Invalid Email!');
           _setFocusNode(myFocusNodeEmail);
           return;
         } else if (userId == 'sign_up_error') {
-          AppUtil.showSnackBar(context, _scaffoldKey, 'Sign up error!');
+          AppUtil.showSnackBar(context, 'Sign up error!');
           _setFocusNode(myFocusNodeName);
           return;
         }
@@ -442,21 +440,21 @@ class _SignUpPageState extends State<SignUpPage> {
             arguments: {'on_sign_up_callback': true});
       } else {
         if (_password != _confirmPassword) {
-          AppUtil.showSnackBar(context, _scaffoldKey, "Passwords don't match");
+          AppUtil.showSnackBar(context, "Passwords don't match");
           _setFocusNode(myFocusNodePassword);
           return;
         } else {
           if (_errorMsgUsername != null) {
-            AppUtil.showSnackBar(context, _scaffoldKey, _errorMsgUsername);
+            AppUtil.showSnackBar(context, _errorMsgUsername);
             _setFocusNode(myFocusNodeName);
             return;
           } else if (_errorMsgEmail != null) {
-            AppUtil.showSnackBar(context, _scaffoldKey, _errorMsgEmail);
+            AppUtil.showSnackBar(context, _errorMsgEmail);
             _setFocusNode(myFocusNodeEmail);
             return;
           } else {
             print('$_errorMsgUsername\n$_errorMsgEmail');
-            AppUtil.showSnackBar(context, _scaffoldKey, "An Error Occurred");
+            AppUtil.showSnackBar(context, "An Error Occurred");
             _setFocusNode(myFocusNodeEmail);
             return;
           }
@@ -472,7 +470,7 @@ class _SignUpPageState extends State<SignUpPage> {
         _confirmPassword.isNotEmpty) {
       await _signUp();
     } else {
-      AppUtil.showSnackBar(context, _scaffoldKey, 'Please fill fields above');
+      AppUtil.showSnackBar(context, 'Please fill fields above');
     }
   }
 

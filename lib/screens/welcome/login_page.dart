@@ -361,7 +361,7 @@ class _LoginPageState extends State<LoginPage> {
       // Email or Password Incorrect
       Navigator.of(context).pop();
       AppUtil.showSnackBar(
-          context, _scaffoldKey, 'The email address or password is incorrect.');
+          context, 'The email address or password is incorrect.');
     }
     //print('Should be true: $_loading');
   }
@@ -429,8 +429,7 @@ class _LoginPageState extends State<LoginPage> {
     if (_email.isNotEmpty && _password.isNotEmpty) {
       await _login();
     } else {
-      AppUtil.showSnackBar(
-          context, _scaffoldKey, 'Please enter your login details');
+      AppUtil.showSnackBar(context, 'Please enter your login details');
     }
   }
 
@@ -460,8 +459,8 @@ class _LoginPageState extends State<LoginPage> {
     final GoogleSignInAccount googleSignInAccount =
         await googleSignIn.signIn().catchError((onError) {
       print('google sign in error code: ${onError.code}');
-      AppUtil.showSnackBar(context, _scaffoldKey,
-          'Unknown error, please try another sign in method!');
+      AppUtil.showSnackBar(
+          context, 'Unknown error, please try another sign in method!');
     });
     final GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount.authentication;

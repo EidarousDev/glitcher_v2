@@ -127,13 +127,13 @@ void twoButtonsDialog(BuildContext context, confirmFunction,
         title: new Text(headerText),
         content: new Text(bodyText),
         actions: <Widget>[
-          new FlatButton(
+          new TextButton(
             child: new Text(cancelBtn),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
-          new FlatButton(
+          new TextButton(
             child: new Text(yestBtn),
             onPressed: () async {
               confirmFunction();
@@ -158,7 +158,6 @@ void moveUserTo(
 
 class Functions {
   static User currentUser;
-  static final _auth = FirebaseAuth.instance;
 
   static void getUserCountryInfo() async {
     String url = 'http://ip-api.com/json';
@@ -167,7 +166,7 @@ class Functions {
       String body = response.body;
       Constants.country = jsonDecode(body)['country'];
       //TODO: updateUserCountry is called in the app initstate needs to be replaced!
-      DatabaseService.updateUserCountry();
+      //DatabaseService.updateUserCountry();
       print('Country: ${Constants.country}');
     } catch (e) {
       print('fetching country error $e');

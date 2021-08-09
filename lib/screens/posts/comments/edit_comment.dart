@@ -440,9 +440,7 @@ class _ComposeTweet extends WidgetView<EditComment, _AddCommentPageState> {
                                 if (viewState._textEditingController.text
                                     .contains('@$friendUsername')) {
                                   AppUtil.showSnackBar(
-                                      context,
-                                      viewState._scaffoldKey,
-                                      'User already mentioned!');
+                                      context, 'User already mentioned!');
                                   return;
                                 }
                                 viewState.setState(() {

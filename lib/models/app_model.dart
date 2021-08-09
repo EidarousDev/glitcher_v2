@@ -14,7 +14,7 @@ class AppModel with ChangeNotifier {
     bool isDark = prefs.get(
       'darkTheme',
     );
-    this.darkTheme = isDark;
+    this.darkTheme = isDark ?? true;
   }
 
   Future<void> updateTheme(bool theme) async {

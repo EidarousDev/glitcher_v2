@@ -579,10 +579,11 @@ class _ConversationState extends State<Conversation>
                                                     context,
                                                     onPermissionDenied: () {
                                           AppUtil.alertDialog(
-                                              context,
-                                              'info',
-                                              'You must grant this microphone access to be able to use this feature.',
-                                              'OK');
+                                              context: context,
+                                              heading: 'info',
+                                              message:
+                                                  'You must grant this microphone access to be able to use this feature.',
+                                              okBtn: 'OK');
                                           print('Permission has been denied');
                                         });
                                         setState(() {

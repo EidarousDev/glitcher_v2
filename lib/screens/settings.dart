@@ -219,8 +219,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       setState(() {
         _isSubscribedToNewsletter = false;
       });
-      AppUtil.showSnackBar(
-          context, _scaffoldKey, 'Unsubscribed from newsletter');
+      AppUtil.showSnackBar(context, 'Unsubscribed from newsletter');
     } else {
       await DatabaseService.addUserEmailToNewsletter(Constants.currentUserID,
           Constants.currentUser.email, Constants.currentUser.username);
@@ -229,7 +228,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       });
       Navigator.of(context).pop();
 
-      AppUtil.showSnackBar(context, _scaffoldKey, 'Subscribed to newsletter');
+      AppUtil.showSnackBar(context, 'Subscribed to newsletter');
     }
   }
 
@@ -245,7 +244,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _isAccountPrivate = !isPrivate;
     });
     Navigator.of(context).pop();
-    AppUtil.showSnackBar(context, _scaffoldKey, 'Privacy changed!');
+    AppUtil.showSnackBar(context, 'Privacy changed!');
   }
 
   @override

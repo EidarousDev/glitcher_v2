@@ -155,8 +155,7 @@ class _AppPageState extends State<AppPage> {
       // Got a new connectivity status!
       if (result == ConnectivityResult.none) {
         print('No internet');
-        AppUtil.showFixedSnackBar(
-            context, _scaffoldKey, 'No internet connection.');
+        AppUtil.showFixedSnackBar(context, 'No internet connection.');
       } else {
         _scaffoldKey.currentState.hideCurrentSnackBar();
         //Scaffold.of(context).hideCurrentSnackBar();
