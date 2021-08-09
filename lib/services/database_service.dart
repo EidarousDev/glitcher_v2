@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:glitcher/constants/constants.dart';
@@ -12,6 +14,7 @@ import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
+import 'package:http/http.dart' as http;
 
 import 'sqlite_service.dart';
 
@@ -903,10 +906,11 @@ class DatabaseService {
 
   static getGames() async {
     QuerySnapshot gameSnapshot = await gamesRef
-//        .orderBy(
-//          'frequency',
-//          descending: true,
-//        )
+        .where('frequency', isGreaterThan: 0)
+        .orderBy(
+          'frequency',
+          descending: true,
+        )
         .limit(20)
         .get();
     List<Game> games =
@@ -928,6 +932,7 @@ class DatabaseService {
 
   static Future<List<Game>> getNextGames(String lastVisibleGameSnapShot) async {
     QuerySnapshot gameSnapshot = await gamesRef
+        .where('frequency', isGreaterThan: 0)
         .orderBy(
           'frequency',
           descending: true,
@@ -948,6 +953,22 @@ class DatabaseService {
         .get();
     List<Game> games =
         gameSnapshot.docs.map((doc) => Game.fromDoc(doc)).toList();
+    if (games.length == 0) {
+      String url =
+          'https://api.rawg.io/api/games?search=$text&search_precise=1&key=$rawgAPIkey';
+      try {
+        var response = await http.get(
+          Uri.parse(url),
+        );
+        var body = jsonDecode(response.body);
+        (body['results'] as List).forEach((gameData) {
+          games.add(Game.fromMap(gameData));
+        });
+      } catch (e) {
+        print('fetching games error $e');
+      }
+    }
+
     return games;
   }
 

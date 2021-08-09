@@ -39,7 +39,7 @@ class _CreatePostReplyPageState extends State<CreatePost> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool isScrollingDown = false;
   ScrollController scrollController;
-
+  Game _selectedGame;
   File _image;
   File _video;
   var _uploadedFileURL;
@@ -217,7 +217,11 @@ class _CreatePostReplyPageState extends State<CreatePost> {
     } else {}
 
     print(_youtubeId);
+    DocumentSnapshot gameInDB = await gamesRef.doc(_selectedGame.id).get();
 
+    if (!gameInDB.exists) {
+      await _selectedGame.addGamesToFirestore();
+    }
     var postData = {
       'author': Constants.currentUserID,
       'text': _textEditingController.text,
@@ -586,7 +590,7 @@ class _ComposeTweet extends WidgetView<CreatePost, _CreatePostReplyPageState> {
               },
               itemBuilder: (context, suggestion) {
                 Game game = suggestion as Game;
-
+                viewState._selectedGame = game;
                 return ListTile(
                   title: Text(game.fullName),
                 );

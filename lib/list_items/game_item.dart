@@ -117,6 +117,8 @@ class _GameItemState extends State<GameItem> {
         .doc(widget.game.id)
         .get();
 
+    DocumentSnapshot gameInDB = await gamesRef.doc(widget.game.id).get();
+
     if (game.exists) {
       await DatabaseService.unFollowGame(widget.game.id);
       setState(() {
@@ -125,6 +127,9 @@ class _GameItemState extends State<GameItem> {
       Constants.followedGamesNames.remove(widget.game.fullName);
       //AppUtil.showSnackBar(context, _scaffoldKey, 'Game unfollowed');
     } else {
+      if (!gameInDB.exists) {
+        await widget.game.addGamesToFirestore();
+      }
       await DatabaseService.followGame(widget.game.id);
       setState(() {
         followBtnText = 'Unfollow';
@@ -137,6 +142,14 @@ class _GameItemState extends State<GameItem> {
   }
 
   checkStates() async {
+    if (widget.game.id.isEmpty) {
+      if (mounted) {
+        setState(() {
+          followBtnText = 'Follow';
+        });
+      }
+      return;
+    }
     DocumentSnapshot game = await usersRef
         .doc(Constants.currentUserID)
         .collection('followedGames')

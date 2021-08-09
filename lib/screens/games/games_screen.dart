@@ -4,6 +4,7 @@ import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/list_items/game_item.dart';
 import 'package:glitcher/models/game_model.dart';
 import 'package:glitcher/services/database_service.dart';
+import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/widgets/gradient_appbar.dart';
 
@@ -30,9 +31,11 @@ class _GamesScreenState extends State<GamesScreen> {
     return Scaffold(
       key: _scaffoldKey,
       floatingActionButton: FloatingActionButton(
+        backgroundColor: kPrimary,
         child: Icon(
-            //Icons.lightbulb_outline,
-            MaterialCommunityIcons.lightbulb_on),
+          //Icons.lightbulb_outline,
+          MaterialCommunityIcons.lightbulb_on, color: Colors.white,
+        ),
         onPressed: () async {
           Navigator.of(context).pushNamed('/suggestion', arguments: {
             'initial_title': 'New game suggestion',
@@ -132,7 +135,7 @@ class _GamesScreenState extends State<GamesScreen> {
                           (BuildContext context, AsyncSnapshot snapshot) {
                         return Column(
                           children: <Widget>[
-                            GameItem(key: ValueKey(game.id), game: game),
+                            GameItem(key: ValueKey(game?.id), game: game),
                             Divider(height: .5, color: Colors.grey)
                           ],
                         );
@@ -156,9 +159,10 @@ class _GamesScreenState extends State<GamesScreen> {
 
   _searchGames(String text) async {
     List<Game> games = await DatabaseService.searchGames(text.toLowerCase());
+
     setState(() {
       _filteredGames = games;
-      this.lastVisibleGameSnapShot = games.last.fullName;
+      this.lastVisibleGameSnapShot = games?.last?.fullName;
     });
   }
 
@@ -172,7 +176,7 @@ class _GamesScreenState extends State<GamesScreen> {
               _scrollController.position.maxScrollExtent &&
           !_scrollController.position.outOfRange) {
         print('reached the bottom');
-        !_searching ? nextGames() : nextSearchGames(_typeAheadController.text);
+        nextGames();
       } else if (_scrollController.offset <=
               _scrollController.position.minScrollExtent &&
           !_scrollController.position.outOfRange) {
@@ -193,14 +197,14 @@ class _GamesScreenState extends State<GamesScreen> {
     }
   }
 
-  nextSearchGames(String text) async {
-    var games =
-        await DatabaseService.nextSearchGames(lastVisibleGameSnapShot, text);
-    if (games.length > 0) {
-      setState(() {
-        games.forEach((element) => _filteredGames.add(element));
-        this.lastVisibleGameSnapShot = games.last.fullName;
-      });
-    }
-  }
+  // nextSearchGames(String text) async {
+  //   var games =
+  //       await DatabaseService.nextSearchGames(lastVisibleGameSnapShot, text);
+  //   if (games.length > 0) {
+  //     setState(() {
+  //       games.forEach((element) => _filteredGames.add(element));
+  //       this.lastVisibleGameSnapShot = games.last.fullName;
+  //     });
+  //   }
+  // }
 }

@@ -1,22 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
-class User {
-  final String id;
-  final String name;
-  final String username;
-  final String profileImageUrl;
-  final String coverImageUrl;
-  final String email;
-  final String description;
-  final dynamic online;
-  final int violations;
-  final int following;
-  final int followers;
-  final int friends;
-  final int followedGames;
-  final bool isAccountPrivate;
-  final int notificationsNumber;
-  final List search;
+class User with ChangeNotifier {
+  String id;
+  String name;
+  String username;
+  String profileImageUrl;
+  String coverImageUrl;
+  String email;
+  String description;
+  dynamic online;
+  int violations;
+  int following;
+  int followers;
+  int friends;
+  int followedGames;
+  bool isAccountPrivate;
+  int notificationsNumber;
+  List search;
   int isFollower;
   int isFollowing;
   int isFriend;
@@ -99,5 +100,28 @@ class User {
       isFollowing: map['is_following'],
       isFriend: map['is_friend'],
     );
+  }
+
+  void setData(User user) {
+    id = user.id;
+    name = user.name;
+    username = user.username;
+    profileImageUrl = user.profileImageUrl;
+    coverImageUrl = user.coverImageUrl;
+    email = user.email;
+    description = user.description;
+    online = user.online;
+    violations = user.violations;
+    following = user.following;
+    followers = user.followers;
+    friends = user.friends;
+    followedGames = user.followedGames;
+    isAccountPrivate = user.isAccountPrivate;
+    notificationsNumber = user.notificationsNumber;
+    search = user.search;
+    isFollower = user.isFollower;
+    isFollowing = user.isFollowing;
+    isFriend = user.isFriend;
+    notifyListeners();
   }
 }

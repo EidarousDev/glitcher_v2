@@ -9,6 +9,7 @@ import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/glitcher_loader.dart';
+import 'package:provider/provider.dart';
 
 class RootPage extends StatefulWidget {
   @override
@@ -73,6 +74,7 @@ class _RootPageState extends State<RootPage> {
           checkLocal: false);
       setState(() {
         Constants.currentUser = loggedInUser;
+        Provider.of<user.User>(context, listen: false).setData(loggedInUser);
         Constants.currentFirebaseUser = firebaseUser;
         Constants.currentUserID = firebaseUser?.uid;
         authStatus = AuthStatus.LOGGED_IN;

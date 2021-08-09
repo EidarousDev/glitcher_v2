@@ -23,6 +23,7 @@ final hashtagsRef = firestore.collection('hashtags');
 final chatGroupsRef = firestore.collection('chat_groups');
 final newsletterEmailsRef = firestore.collection('newsletter_emails');
 final appName = 'glitcher';
+final rawgAPIkey = '36dc737518c546498e79fa986a4ff53d';
 String appTempDirectoryPath;
 
 /// User Authentication Constants

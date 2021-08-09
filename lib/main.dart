@@ -4,23 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/models/app_model.dart';
+import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/auth_provider.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/style/dark_theme.dart';
 import 'package:glitcher/style/light_theme.dart';
 import 'package:provider/provider.dart';
 
-import 'services/route_generator.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   AppModel _app = AppModel();
+  User _userModel = User();
   await _app
       .getThemeFromPrefs(); //TODO: should check when first time running the app
   runApp(MyApp(
     appModel: _app,
+    userModel: _userModel,
   ));
 }
 
@@ -37,8 +39,9 @@ Future<void> retrieveDynamicLink(BuildContext context) async {
 
 class MyApp extends StatefulWidget {
   final AppModel appModel;
+  final User userModel;
 
-  const MyApp({Key key, this.appModel}) : super(key: key);
+  const MyApp({Key key, this.appModel, this.userModel}) : super(key: key);
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -47,10 +50,19 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     retrieveDynamicLink(context);
-    return ChangeNotifierProvider<AppModel>(
-      create: (context) => widget.appModel,
-      child: Consumer<AppModel>(
-        builder: (context, value, child) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AppModel>(
+          create: (context) => widget.appModel,
+        ),
+        ChangeNotifierProvider<User>(
+          create: (context) => widget.userModel,
+        )
+      ],
+      child: Builder(
+        builder: (
+          context,
+        ) {
           return AuthProvider(
             auth: Auth(),
             child: MaterialApp(

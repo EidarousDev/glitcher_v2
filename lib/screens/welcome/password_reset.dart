@@ -1,21 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/models/user_model.dart';
+import 'package:glitcher/screens/welcome/widgets/bezier_container.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/widgets/logo_widgets.dart';
 
-import 'widgets/bezier_container.dart';
-
-class PasswordResetScreen extends StatefulWidget {
-  @override
-  _PasswordResetScreenState createState() => _PasswordResetScreenState();
-}
-
-class _PasswordResetScreenState extends State<PasswordResetScreen> {
-  String _email = '';
+class PasswordResetScreen extends StatelessWidget {
+  final TextEditingController _emailController = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -44,14 +37,14 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                         SizedBox(height: 50),
                         _entryField('E-Mail'),
                         SizedBox(height: 20),
-                        _submitButton(),
+                        _submitButton(context),
                         SizedBox(height: 100.0),
                       ],
                     ),
                   ),
                 ),
               ),
-              Positioned(top: 40, left: 0, child: _backButton())
+              Positioned(top: 40, left: 0, child: _backButton(context))
             ],
           ),
         ));
@@ -66,9 +59,10 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
         children: <Widget>[
           Expanded(
             child: TextFormField(
-                onChanged: (value) {
-                  _email = value;
-                },
+                controller: _emailController,
+                // onChanged: (value) {
+                //   _email = value;
+                // },
                 keyboardType: TextInputType.emailAddress,
                 style: TextStyle(color: MyColors.darkCardBG),
                 decoration: InputDecoration(
@@ -90,18 +84,20 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
     );
   }
 
-  Widget _submitButton() {
+  Widget _submitButton(BuildContext context) {
     return InkWell(
       onTap: () async {
         AppUtil.showGlitcherLoader(context);
-        User user = await DatabaseService.getUserWithEmail(_email);
+        User user =
+            await DatabaseService.getUserWithEmail(_emailController.text);
         if (user.id == null) {
           //print('Email is not registered!');
           Navigator.pop(context); // Dismiss the loader dialog
           AppUtil.showSnackBar(context, 'Email is not registered!');
         } else {
           try {
-            await firebaseAuth.sendPasswordResetEmail(email: _email);
+            await firebaseAuth.sendPasswordResetEmail(
+                email: _emailController.text);
             //print('Password reset e-mail sent');
             Navigator.pop(context); // Dismiss the loader dialog
             AppUtil.alertDialog(
@@ -141,7 +137,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
     );
   }
 
-  Widget _backButton() {
+  Widget _backButton(BuildContext context) {
     return InkWell(
       onTap: () {
         Navigator.pop(context);

@@ -187,14 +187,3 @@ const kColorRatingStar = Color(0xfff39c12);
 const kColorInStock = Color(0xff1abc9c);
 const kColorOutOfStock = Color(0xFFe74c3c);
 const kColorBackOrder = Color(0xFFEAA601);
-
-///My Colors
-const primaryColor = Color(0xFF7063bd);
-const accentColor = Color(0xffC6BCFC);
-const lightIconColor = Colors.white;
-const darkIconColor = Colors.black;
-const lightTextColor = Colors.white;
-const darkTextColor = Colors.black;
-const inactiveTextColor = Colors.grey;
-const inactiveIconColor = Colors.grey;
-var productCardBGColor = Colors.white;
