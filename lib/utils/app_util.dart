@@ -125,11 +125,12 @@ class AppUtil {
     ));
   }
 
-  static Future chooseImage({ImageSource source = ImageSource.gallery}) async {
+  static Future<File> chooseImage(
+      {ImageSource source = ImageSource.gallery}) async {
     PickedFile image =
         await ImagePicker.platform.pickImage(source: source, imageQuality: 80);
     print('File size: ${File(image.path).lengthSync()}');
-    return image;
+    return File(image.path);
   }
 
   static chooseVideo() async {
