@@ -590,7 +590,7 @@ class _ComposeTweet extends WidgetView<CreatePost, _CreatePostReplyPageState> {
               },
               itemBuilder: (context, suggestion) {
                 Game game = suggestion as Game;
-                viewState._selectedGame = game;
+
                 return ListTile(
                   title: Text(game.fullName),
                 );
@@ -598,6 +598,8 @@ class _ComposeTweet extends WidgetView<CreatePost, _CreatePostReplyPageState> {
               onSuggestionSelected: (suggestion) {
                 viewState._typeAheadController.text =
                     (suggestion as Game).fullName;
+                Game game = suggestion as Game;
+                viewState._selectedGame = game;
                 viewState.setState(() {
                   viewState.widget.selectedGame =
                       viewState._typeAheadController.text;
