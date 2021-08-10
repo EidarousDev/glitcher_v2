@@ -69,6 +69,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       width: 10,
                     ),
                     Switch(
+                      key: Key('theme'),
                       value: Provider.of<AppModel>(context, listen: false)
                           .darkTheme,
                       onChanged: (bool value) {
@@ -181,6 +182,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               subtitle: Text(
                   'Other users  won\'t be able to see  your following, followers, friends, and followed games'),
               trailing: Switch(
+                  key: Key('privacy'),
                   value: _isAccountPrivate,
                   onChanged: (value) async {
                     await alternateAccountPrivate();

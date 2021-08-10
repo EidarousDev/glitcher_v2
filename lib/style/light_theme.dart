@@ -118,6 +118,9 @@ ThemeData buildLightTheme(String language, [String fontFamily = 'Roboto']) {
     backgroundColor: Colors.white,
     primaryColor: kLightPrimary,
     accentColor: kLightAccent,
+    floatingActionButtonTheme:
+        FloatingActionButtonThemeData(backgroundColor: kPrimary),
+
     scaffoldBackgroundColor: kLightBG,
     appBarTheme: const AppBarTheme(
       elevation: 0,

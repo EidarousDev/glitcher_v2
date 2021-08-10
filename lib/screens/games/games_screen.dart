@@ -4,7 +4,6 @@ import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/list_items/game_item.dart';
 import 'package:glitcher/models/game_model.dart';
 import 'package:glitcher/services/database_service.dart';
-import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/widgets/gradient_appbar.dart';
 
@@ -31,10 +30,10 @@ class _GamesScreenState extends State<GamesScreen> {
     return Scaffold(
       key: _scaffoldKey,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: kPrimary,
         child: Icon(
           //Icons.lightbulb_outline,
-          MaterialCommunityIcons.lightbulb_on, color: Colors.white,
+          MaterialCommunityIcons.lightbulb_on,
+          color: Theme.of(context).iconTheme.color,
         ),
         onPressed: () async {
           Navigator.of(context).pushNamed('/suggestion', arguments: {

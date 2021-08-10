@@ -11,6 +11,9 @@ ThemeData buildDarkTheme(String language, [String fontFamily]) {
       displayColor: kLightBG,
       bodyColor: kLightBG,
     ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: kPrimary,
+    ),
     primaryTextTheme:
         buildTextTheme(base.primaryTextTheme, language, fontFamily).apply(
       displayColor: kLightBG,
@@ -21,6 +24,7 @@ ThemeData buildDarkTheme(String language, [String fontFamily]) {
       displayColor: kLightBG,
       bodyColor: kLightBG,
     ),
+    iconTheme: IconThemeData(color: Colors.white),
     dividerColor: kDarkDivider,
     canvasColor: kDarkBG,
     cardColor: kDarkCard,
