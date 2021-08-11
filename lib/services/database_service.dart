@@ -725,6 +725,12 @@ class DatabaseService {
       'timestamp': FieldValue.serverTimestamp(),
       'type': type
     });
+    NotificationHandler.sendNotification(
+        otherUserId,
+        '${Constants.currentUser.username} sent a message',
+        message,
+        Constants.currentUserID,
+        'message');
   }
 
   // This function is used to get the recent messages (unfiltered)

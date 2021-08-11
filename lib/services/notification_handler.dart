@@ -9,7 +9,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:glitcher/constants/constants.dart';
-import 'package:glitcher/services/database_service.dart';
+
+import 'database_service.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -19,7 +20,10 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 class NotificationHandler {
+  // Create a [AndroidNotificationChannel] for heads up notifications
   static AndroidNotificationChannel _channel;
+
+  /// Initialize the [FlutterLocalNotificationsPlugin] package.
   static FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
 
   static receiveNotification(
@@ -138,7 +142,7 @@ class NotificationHandler {
   static sendNotification(String receiverId, String title, String body,
       String objectId, String type) async {
     if (receiverId == Constants.currentUserID) return;
-    usersRef.doc(receiverId).collection('notifications').add({
+    await usersRef.doc(receiverId).collection('notifications').add({
       'title': title,
       'body': body,
       'seen': false,
@@ -162,9 +166,6 @@ class NotificationHandler {
     print('noti removed');
   }
 
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-
   void configLocalNotification() async {
     var initializationSettingsAndroid =
         new AndroidInitializationSettings('ic_notification');
@@ -182,7 +183,7 @@ class NotificationHandler {
     await configLocalNotification();
 
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-        Platform.isAndroid ? 'com.devyat.glitcher' : 'com.devyat.glitcher',
+        Platform.isAndroid ? 'com.devyat.alhani' : 'com.devyat.alhani',
         'Alhany',
         'your channel description',
         enableVibration: true,

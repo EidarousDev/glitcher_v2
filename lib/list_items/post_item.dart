@@ -569,8 +569,8 @@ class _PostItemState extends State<PostItem> {
   @override
   void dispose() {
     //Constants.youtubeControllers[widget.post.id].dispose();
-    videoPlayerController.dispose();
-    chewieController.dispose();
+    videoPlayerController?.dispose();
+    chewieController?.dispose();
     super.dispose();
   }
 
