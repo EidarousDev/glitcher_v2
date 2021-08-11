@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:glitcher/constants/sizes.dart';
-import 'package:glitcher/screens/chats/audio_message_player.dart';
 import 'package:glitcher/utils/functions.dart';
+import 'package:glitcher/widgets/audio_message_player.dart';
 import 'package:random_string/random_string.dart';
 
 import 'image_overlay.dart';
@@ -203,7 +203,7 @@ class _ChatBubbleState extends State<ChatBubble> {
                             ),
                           )
                         : widget.type == 'audio'
-                            ? MyAudioPlayer(urlList: [widget.message])
+                            ? AudioMessagePlayer(url: widget.message)
                             : Container(),
               ),
             ],
