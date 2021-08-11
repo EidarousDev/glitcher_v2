@@ -91,8 +91,6 @@ class MyAudioPlayer with ChangeNotifier {
   Future stop() async {
     await advancedPlayer.pause();
     await advancedPlayer.seek(Duration.zero);
-    // position = null;
-    // duration = null;
     notifyListeners();
   }
 

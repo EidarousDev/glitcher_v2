@@ -25,8 +25,6 @@ class _AudioMessagePlayerState extends State<AudioMessagePlayer> {
 
   get isPlaying => _myAudioPlayer.isPlaying;
 
-  bool isMuted = false;
-
   @override
   void initState() {
     super.initState();

@@ -123,7 +123,9 @@ class _ConversationState extends State<Conversation>
           if (_messages != null) {
             List<Message> sameMessages = _messages
                 .where((element) =>
-                    element.timestamp == Message.fromDoc(change.doc).timestamp)
+                    element.timestamp ==
+                        Message.fromDoc(change.doc).timestamp &&
+                    element.timestamp != null)
                 .toList();
             if (sameMessages.length > 0) return;
             if (this.mounted) {
@@ -406,6 +408,7 @@ class _ConversationState extends State<Conversation>
                           itemBuilder: (BuildContext context, int index) {
                             Message msg = _messages[index];
                             return ChatBubble(
+                              key: Key(msg.id),
                               message: msg.message,
                               username: otherUser.username,
                               time: msg.timestamp != null
@@ -612,17 +615,23 @@ class _ConversationState extends State<Conversation>
                                           _currentStatus =
                                               RecordingStatus.Stopped;
                                         });
-                                        String result =
-                                            await recorder.stopRecording();
+                                        String result;
+                                        Future.delayed(
+                                            Duration(milliseconds: 500),
+                                            () async {
+                                          result =
+                                              await recorder.stopRecording();
+                                          _url = await AppUtil.uploadFile(
+                                              File(result),
+                                              context,
+                                              'voice_messages/${Constants.currentUserID}/${widget.otherUid}/${randomAlphaNumeric(20)}');
+
+                                          await DatabaseService.sendMessage(
+                                              widget.otherUid, 'audio', _url);
+                                        });
 
                                         //Storage path is voice_messages/sender_id/receiver_id/file
-                                        _url = await AppUtil.uploadFile(
-                                            File(result),
-                                            context,
-                                            'voice_messages/${Constants.currentUserID}/${widget.otherUid}/${randomAlphaNumeric(20)}');
 
-                                        await DatabaseService.sendMessage(
-                                            widget.otherUid, 'audio', _url);
                                       }
                                     },
                                     child: IconButton(

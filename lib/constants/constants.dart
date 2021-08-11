@@ -65,5 +65,5 @@ class Constants {
   //screens
   static Chats chats = Chats();
 
-  static int endPositionOffsetInMilliSeconds = 600;
+  static int endPositionOffsetInMilliSeconds = 10;
 }
