@@ -19,6 +19,7 @@ void main() async {
   User _userModel = User();
   await _app.getThemeFromPrefs();
   await _app.getPackageInfo();
+  await _app.checkForUpdates(int.parse(_app.packageInfo.buildNumber));
   runApp(MyApp(
     appModel: _app,
     userModel: _userModel,

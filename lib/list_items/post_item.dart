@@ -34,11 +34,14 @@ class PostItem extends StatefulWidget {
   final User author;
   final bool isLoading;
   final Widget youtubePlayer;
+
+  final bool isClickable;
   PostItem(
       {Key key,
       @required this.post,
       @required this.author,
       this.youtubePlayer,
+      this.isClickable = true,
       this.isLoading = false})
       : super(key: key);
   @override
@@ -171,7 +174,10 @@ class _PostItemState extends State<PostItem> {
               trailing: ValueListenableBuilder<int>(
                 valueListenable: number,
                 builder: (context, value, child) {
-                  return PostBottomSheet().postOptionIcon(context, post);
+                  return PostBottomSheet().postOptionIcon(
+                    context,
+                    post,
+                  );
                 },
               ),
             ),
@@ -222,14 +228,7 @@ class _PostItemState extends State<PostItem> {
                                       onLongPress: () async {
                                         _onLongPressedPost(context);
                                       },
-                                      onTap: () {
-                                        if (Constants.routesStack.top() ==
-                                            '/post') return;
-                                        Navigator.of(context)
-                                            .pushNamed('/post', arguments: {
-                                          'post': post,
-                                        });
-                                      },
+                                      onTap: () => _goToPostPreview(post),
                                       child: UrlText(
                                         context: context,
                                         text: flag
@@ -324,8 +323,8 @@ class _PostItemState extends State<PostItem> {
                                         child: playerWidget),
                               ),
                               post.youtubeId != null && post.imageUrl == null
-                                  ? Constants.routesStack.top() == '/post'
-                                      ? widget.youtubePlayer ?? Container()
+                                  ? widget.youtubePlayer != null
+                                      ? widget.youtubePlayer
                                       : InkWell(
                                           onTap: () => _goToPostPreview(post),
                                           child: Stack(
@@ -927,7 +926,7 @@ class _PostItemState extends State<PostItem> {
   }
 
   _goToPostPreview(Post post) {
-    if (Constants.routesStack.top() == '/post') return;
+    if (!widget.isClickable) return;
     Navigator.of(context).pushNamed('/post', arguments: {
       'post': post,
     });

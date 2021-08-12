@@ -9,9 +9,12 @@ import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/constants/sizes.dart';
 import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/list_items/post_item.dart';
+import 'package:glitcher/models/app_model.dart';
 import 'package:glitcher/models/post_model.dart';
 import 'package:glitcher/models/user_model.dart' as user;
 import 'package:glitcher/services/database_service.dart';
+import 'package:glitcher/style/colors.dart';
+import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/caching_image.dart';
 import 'package:glitcher/widgets/drawer.dart';
@@ -19,6 +22,7 @@ import 'package:glitcher/widgets/gradient_appbar.dart';
 import 'package:glitcher/widgets/rate_app.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
 //import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -128,27 +132,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           IconButton(
             icon: Icon(
               Icons.tune,
+              color: [1, 2].contains(_feedFilter) ? kPrimary : null,
             ),
             onPressed: () async {
-              //Navigator.of(context).push(CustomScreenLoader());
-
-              if (Constants.followedGamesNames.length == 0) {
-                await DatabaseService.getAllFollowedGames(
-                    Constants.currentUserID);
-              }
-              if (Constants.followingIds.length == 0) {
-                await DatabaseService.getAllMyFollowing();
-              }
-
-              //Navigator.of(context).pop();
-
               setState(() {
                 isFiltering = !isFiltering;
               });
-//              PermissionsService().requestContactsPermission(
-//                  onPermissionDenied: () {
-//                print('Permission has been denied');
-//              });
             },
           ),
         ],
@@ -402,6 +391,19 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Future<List<Post>> _setupFeed() async {
     List<Post> posts;
 
+    if (isFiltering) {
+      AppUtil.showGlitcherLoader(context);
+
+      if (Constants.followedGamesNames.length == 0) {
+        await DatabaseService.getAllFollowedGames(Constants.currentUserID);
+      }
+      if (Constants.followingIds.length == 0) {
+        await DatabaseService.getAllMyFollowing();
+      }
+
+      Navigator.pop(context); // Dismiss the loader dialog
+    }
+
     print('Home Filter: $_feedFilter');
 
     if (_feedFilter == 0) {
@@ -431,8 +433,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addObserver(this);
-    Constants.routesStack.push('/home');
 
     ///Set up listener here
     _scrollController
@@ -457,6 +459,17 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   didChangeDependencies() {
     super.didChangeDependencies();
+    if (mounted) {
+      if (Provider.of<AppModel>(context, listen: false).newUpdateExists) {
+        print('new update');
+        //TODO show update dialog
+        // AppUtil.alertDialog(
+        //     message: 'New update',
+        //     context: context,
+        //     okBtn: 'Update',
+        //     onSuccess: () => print('new update'));
+      }
+    }
     RateApp(context).rateGlitcher();
   }
 

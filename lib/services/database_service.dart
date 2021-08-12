@@ -1256,6 +1256,15 @@ class DatabaseService {
         .delete();
   }
 
+  static Future<bool> isPostInBookmarks(String postId) async {
+    DocumentSnapshot snapshot = await usersRef
+        .doc(Constants.currentUserID)
+        .collection('bookmarks')
+        .doc(postId)
+        .get();
+    return snapshot.exists;
+  }
+
   static unfollowUser(String userId) async {
     await usersRef
         .doc(Constants.currentUserID)

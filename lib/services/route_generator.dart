@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/root_page.dart';
 import 'package:glitcher/screens/about/about_us.dart';
 import 'package:glitcher/screens/about/cookie_use.dart';
@@ -55,7 +54,6 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => RootPage());
 
       case '/home':
-        Constants.routesStack.push(settings.name);
         return PageTransition(
             child: AppPage(), type: PageTransitionType.leftToRightWithFade);
 
@@ -69,7 +67,6 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => EditPost(post: args['post']));
 
       case '/user-profile':
-        Constants.routesStack.push(settings.name);
         return MaterialPageRoute(
           builder: (_) => ProfileScreen(
             args['userId'],
@@ -77,7 +74,6 @@ class RouteGenerator {
         );
 
       case '/post':
-        Constants.routesStack.push(settings.name);
         // Validation of correct data type
         return MaterialPageRoute(
           builder: (_) => PostPreview(
@@ -112,7 +108,6 @@ class RouteGenerator {
         );
 
       case '/game-screen':
-        Constants.routesStack.push(settings.name);
         return MaterialPageRoute(
           builder: (_) => GameScreen(
             game: args['game'],
@@ -195,7 +190,6 @@ class RouteGenerator {
         );
 
       case '/bookmarks':
-        Constants.routesStack.push(settings.name);
         return MaterialPageRoute(builder: (_) => BookmarksScreen());
 
       case '/users':

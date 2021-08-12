@@ -16,6 +16,8 @@ import 'package:glitcher/widgets/custom_widgets.dart';
 import 'package:provider/provider.dart';
 
 class PostBottomSheet {
+  bool showRemoveFromBookmarks = false;
+
   Widget postOptionIcon(BuildContext context, Post post) {
     return customInkWell(
         radius: BorderRadius.circular(20),
@@ -34,24 +36,15 @@ class PostBottomSheet {
   }
 
   double calculateHeightRatio(bool isMyPost) {
-    double ratio = 1.0;
-    if (!isMyPost && Constants.routesStack.top() != '/post') {
-      ratio = 0.375;
-    } else if (!isMyPost && Constants.routesStack.top() == '/post') {
-      ratio = 0.3;
-    } else if (isMyPost && Constants.routesStack.top() != '/post') {
-      ratio = 0.375;
-    } else if (isMyPost && Constants.routesStack.top() == '/post') {
-      ratio = 0.31;
-    }
+    double ratio = 0.3;
     return ratio;
   }
 
   void _openBottomSheet(BuildContext context, Post post) async {
-    print('route: ${Constants.routesStack.top()}');
     User user =
         await DatabaseService.getUserWithId(post.authorId, checkLocal: false);
     bool isMyPost = Constants.currentUserID == post.authorId;
+    showRemoveFromBookmarks = await DatabaseService.isPostInBookmarks(post.id);
     await showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
@@ -87,18 +80,6 @@ class PostBottomSheet {
             ),
           ),
         ),
-        Constants.routesStack.top() != '/post'
-            ? _widgetBottomSheetRow(context, Icon(Icons.remove_red_eye),
-                text: 'Preview Post', onPressed: () async {
-                if (Constants.routesStack.top() == '/post')
-                  return;
-                else {
-                  Navigator.of(context).pushNamed('/post', arguments: {
-                    'post': post,
-                  });
-                }
-              })
-            : Container(),
         InkWell(
           onTap: () async {
             var postLink = await DynamicLinks(
@@ -120,15 +101,14 @@ class PostBottomSheet {
             text: 'Copy link to post',
           ),
         ),
-        Constants.routesStack.top() == '/bookmarks'
+        showRemoveFromBookmarks
             ? _widgetBottomSheetRow(
                 context,
                 Icon(Icons.close),
                 text: 'Remove post from bookmarks',
                 onPressed: () async {
                   await DatabaseService.removePostFromBookmarks(post.id);
-                  Constants.routesStack.pop();
-                  Navigator.of(context).pushReplacementNamed('/bookmarks');
+                  Navigator.of(context).pop();
                 },
               )
 //            Container()
@@ -279,7 +259,6 @@ class PostBottomSheet {
       ),
     );
     Navigator.of(context).pop();
-    Constants.routesStack.pop();
     Navigator.of(context).pushReplacementNamed('/home');
     print('deleting post!');
   }

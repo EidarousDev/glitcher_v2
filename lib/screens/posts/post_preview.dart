@@ -243,6 +243,7 @@ class _PostPreviewState extends State<PostPreview>
                 post: _currentPost,
                 author: _author,
                 youtubePlayer: player,
+                isClickable: false,
               ),
               _comments.length > 0
                   ? getList()
@@ -358,7 +359,6 @@ class _PostPreviewState extends State<PostPreview>
   }
 
   Future<bool> _onBackPressed() {
-    Constants.routesStack.pop();
     Navigator.of(context).pop();
   }
 }

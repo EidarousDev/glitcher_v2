@@ -111,12 +111,10 @@ class _BookmarksScreenState extends State<BookmarksScreen>
   }
 
   Future<bool> _onBackPressed() {
-    Constants.routesStack.pop();
     Navigator.of(context).pop();
   }
 
   _setupFeed() async {
-    //print('what\'s happening?');
     List<Post> posts = await DatabaseService.getBookmarksPosts();
     setState(() {
       _posts = posts;
