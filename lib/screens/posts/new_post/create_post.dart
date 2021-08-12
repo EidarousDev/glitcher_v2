@@ -174,13 +174,14 @@ class _CreatePostReplyPageState extends State<CreatePost> {
     }
 
     if (_youtubeId == null) {
-      words = _textEditingController.text.split(' ');
+      words = _textEditingController.text.split(RegExp(r'[\n\r\s]+'));
       for (String word in words) {
         String trimmed = word.trim().split(RegExp(r'[\n\r\s]+')).last;
         _youtubeId = (word.contains('www.youtube.com') ||
                 word.contains('https://youtu.be'))
             ? YoutubePlayer.convertUrlToId(trimmed)
             : null;
+        if (_youtubeId != null) break;
       }
     }
 

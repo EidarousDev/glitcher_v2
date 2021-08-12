@@ -75,6 +75,7 @@ dependencies:
   record: ^3.0.0
   just_audio: ^0.7.1
   stack: ^0.2.1
+  #video_thumbnail: ^0.4.3
 
 dev_dependencies:
   flutter_test:

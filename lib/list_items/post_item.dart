@@ -333,11 +333,12 @@ class _PostItemState extends State<PostItem> {
                                     post.youtubeId != null &&
                                             post.imageUrl == null
                                         ? YoutubePlayerBuilder(
-                                            onExitFullScreen: () {
-                                              SystemChrome
-                                                  .setPreferredOrientations(
-                                                      DeviceOrientation.values);
-                                            },
+                                            // onExitFullScreen: () {
+                                            //   SystemChrome
+                                            //       .setPreferredOrientations([
+                                            //     DeviceOrientation.portraitUp
+                                            //   ]);
+                                            // },
                                             player: YoutubePlayer(
                                               controller:
                                                   Constants.youtubeControllers[
