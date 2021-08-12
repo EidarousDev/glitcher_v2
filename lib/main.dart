@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:glitcher/constants/my_colors.dart';
-import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/models/app_model.dart';
 import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/auth.dart';
@@ -18,8 +17,8 @@ void main() async {
   await Firebase.initializeApp();
   AppModel _app = AppModel();
   User _userModel = User();
-  await _app
-      .getThemeFromPrefs(); //TODO: should check when first time running the app
+  await _app.getThemeFromPrefs();
+  await _app.getPackageInfo();
   runApp(MyApp(
     appModel: _app,
     userModel: _userModel,
@@ -66,7 +65,7 @@ class _MyAppState extends State<MyApp> {
           return AuthProvider(
             auth: Auth(),
             child: MaterialApp(
-              title: Strings.appName,
+              title: widget.appModel.packageInfo.appName,
               debugShowCheckedModeBanner: false,
               theme: getTheme(context),
               initialRoute: '/',

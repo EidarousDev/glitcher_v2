@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:glitcher/constants/strings.dart';
 
 class DynamicLinks {
+  final String packageName;
   static String _urlPrefix = 'https://m.gl1tch3r.com/';
 
-  static Future<Uri> createPostDynamicLink(Map<String, String> args) async {
+  DynamicLinks(this.packageName);
+
+  Future<Uri> createPostDynamicLink(Map<String, String> args) async {
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       // This should match firebase but without the username query param
       uriPrefix: _urlPrefix,
@@ -20,7 +22,7 @@ class DynamicLinks {
         imageUrl: Uri.parse('${args["imageUrl"]}'),
       ),
       androidParameters: AndroidParameters(
-        packageName: Strings.packageName,
+        packageName: packageName,
       ),
     );
     final link = await parameters.buildUrl();
@@ -33,7 +35,7 @@ class DynamicLinks {
     return shortenedLink.shortUrl;
   }
 
-  static Future<Uri> createProfileDynamicLink(Map<String, String> args) async {
+  Future<Uri> createProfileDynamicLink(Map<String, String> args) async {
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       // This should match firebase but without the username query param
       uriPrefix: _urlPrefix,
@@ -47,7 +49,7 @@ class DynamicLinks {
         imageUrl: Uri.parse('${args["imageUrl"]}'),
       ),
       androidParameters: AndroidParameters(
-        packageName: Strings.packageName,
+        packageName: packageName,
       ),
     );
     final link = await parameters.buildUrl();
@@ -60,7 +62,7 @@ class DynamicLinks {
     return shortenedLink.shortUrl;
   }
 
-  static Future<Uri> createGameDynamicLink(Map<String, String> args) async {
+  Future<Uri> createGameDynamicLink(Map<String, String> args) async {
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       // This should match firebase but without the username query param
       uriPrefix: _urlPrefix,
@@ -74,7 +76,7 @@ class DynamicLinks {
         imageUrl: Uri.parse('${args["imageUrl"]}'),
       ),
       androidParameters: AndroidParameters(
-        packageName: Strings.packageName,
+        packageName: packageName,
       ),
     );
     final link = await parameters.buildUrl();

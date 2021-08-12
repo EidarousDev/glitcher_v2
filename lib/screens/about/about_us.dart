@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/constants/strings.dart';
+import 'package:glitcher/models/app_model.dart';
 import 'package:glitcher/widgets/gradient_appbar.dart';
+import 'package:provider/provider.dart';
 
 class AboutUs extends StatefulWidget {
   @override
@@ -40,7 +42,8 @@ class _AboutUsState extends State<AboutUs> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text('Version ${Strings.appVersion}'),
+            child: Text(
+                'Version ${Provider.of<AppModel>(context, listen: false).packageInfo.version}'),
           ),
           Divider(
             height: 1.0,

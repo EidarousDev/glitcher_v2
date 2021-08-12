@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppModel with ChangeNotifier {
@@ -8,6 +9,14 @@ class AppModel with ChangeNotifier {
 
   set darkTheme(bool value) =>
       themeMode = value ? ThemeMode.dark : ThemeMode.light;
+
+  PackageInfo _packageInfo;
+
+  PackageInfo get packageInfo => _packageInfo;
+
+  Future<void> getPackageInfo() async {
+    _packageInfo = await PackageInfo.fromPlatform();
+  }
 
   Future getThemeFromPrefs() async {
     var prefs = await SharedPreferences.getInstance();

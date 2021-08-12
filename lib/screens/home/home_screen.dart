@@ -156,218 +156,221 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       body: SingleChildScrollView(
         controller: _scrollController,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-              height: isFiltering ? 252 : 120,
-              color: switchColor(context, MyColors.lightBG, MyColors.darkBG),
-              child: Column(
-                children: <Widget>[
-                  isFiltering
-                      ? Padding(
-                          padding: const EdgeInsets.only(
-                              left: 10, top: 2, right: 10),
-                          child: Container(
-                            child: Column(
-                              children: <Widget>[
-                                Text(
-                                  'Filter by:',
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                Row(
-                                  children: <Widget>[
-                                    Radio(
-                                        activeColor: MyColors.darkPrimary,
-                                        value: 0,
-                                        groupValue: _feedFilter,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            //arePostsFilteredByFollowedGames = false;
-                                            _feedFilter = value;
-                                          });
-                                        }),
-                                    Text(
-                                      'Recent Posts',
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: <Widget>[
-                                    Radio(
-                                        activeColor: MyColors.darkPrimary,
-                                        value: 1,
-                                        groupValue: _feedFilter,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            //arePostsFilteredByFollowedGames = false;
-                                            _feedFilter = value;
-                                          });
-                                        }),
-                                    Text(
-                                      'Followed Gamers',
-                                    ),
-                                    Radio(
-                                        activeColor: MyColors.darkPrimary,
-                                        value: 2,
-                                        groupValue: _feedFilter,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            //arePostsFilteredByFollowedGames = true;
-                                            _feedFilter = value;
-                                          });
-                                        }),
-                                    Text(
-                                      'Followed Games',
-                                    ),
-                                  ],
-                                ),
-                                Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: MaterialButton(
-                                    color: MyColors.darkPrimary,
-                                    child: Text('Filter'),
-                                    onPressed: () async {
-                                      await _setupFeed();
-                                      setState(() {
-                                        isFiltering = false;
-                                      });
-                                    },
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: Divider(
-                                    height: 1,
-                                    color: Colors.white,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      : Container(),
-                  Row(
-                    children: <Widget>[
-                      Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: CacheThisImage(
-                            imageUrl: loggedInProfileImageURL,
-                            imageShape: BoxShape.circle,
-                            width: Sizes.sm_profile_image_w,
-                            height: Sizes.sm_profile_image_h,
-                            defaultAssetImage: Strings.default_profile_image,
-                          )),
-                      Expanded(
-                        child: InkWell(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+            Flexible(
+              fit: FlexFit.loose,
+              child: Container(
+                color: switchColor(context, MyColors.lightBG, MyColors.darkBG),
+                child: Column(
+                  children: <Widget>[
+                    isFiltering
+                        ? Padding(
+                            padding: const EdgeInsets.only(
+                                left: 10, top: 2, right: 10),
                             child: Container(
-                              height: 40,
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20)),
-                                border: Border.all(
-                                    color: switchColor(
-                                        context,
-                                        MyColors.lightPrimary,
-                                        MyColors.darkPrimary),
-                                    width: 1),
+                              child: Column(
+                                children: <Widget>[
+                                  Text(
+                                    'Filter by:',
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Radio(
+                                          activeColor: MyColors.darkPrimary,
+                                          value: 0,
+                                          groupValue: _feedFilter,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              //arePostsFilteredByFollowedGames = false;
+                                              _feedFilter = value;
+                                            });
+                                          }),
+                                      Text(
+                                        'Recent Posts',
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Radio(
+                                          activeColor: MyColors.darkPrimary,
+                                          value: 1,
+                                          groupValue: _feedFilter,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              //arePostsFilteredByFollowedGames = false;
+                                              _feedFilter = value;
+                                            });
+                                          }),
+                                      Text(
+                                        'Followed Gamers',
+                                      ),
+                                      Radio(
+                                          activeColor: MyColors.darkPrimary,
+                                          value: 2,
+                                          groupValue: _feedFilter,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              //arePostsFilteredByFollowedGames = true;
+                                              _feedFilter = value;
+                                            });
+                                          }),
+                                      Text(
+                                        'Followed Games',
+                                      ),
+                                    ],
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: MaterialButton(
+                                      color: MyColors.darkPrimary,
+                                      child: Text('Filter'),
+                                      onPressed: () async {
+                                        await _setupFeed();
+                                        setState(() {
+                                          isFiltering = false;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
+                                    child: Divider(
+                                      height: 1,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                ],
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 22.0),
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: "Any thoughts?",
-                                      enabled: false,
-                                      hintStyle: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          color:
-                                              Theme.of(context).primaryColor)),
+                            ),
+                          )
+                        : Container(),
+                    Row(
+                      children: <Widget>[
+                        Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CacheThisImage(
+                              imageUrl: loggedInProfileImageURL,
+                              imageShape: BoxShape.circle,
+                              width: Sizes.sm_profile_image_w,
+                              height: Sizes.sm_profile_image_h,
+                              defaultAssetImage: Strings.default_profile_image,
+                            )),
+                        Expanded(
+                          child: InkWell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20)),
+                                  border: Border.all(
+                                      color: switchColor(
+                                          context,
+                                          MyColors.lightPrimary,
+                                          MyColors.darkPrimary),
+                                      width: 1),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 22.0),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: "Any thoughts?",
+                                        enabled: false,
+                                        hintStyle: TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            color: Theme.of(context)
+                                                .primaryColor)),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          onTap: () {
-                            Navigator.of(context).pushNamed('/new-post',
-                                arguments: {'selectedGame': ''});
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 1,
-                    width: double.infinity,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                          color: switchColor(context, MyColors.lightCardBG,
-                              MyColors.darkLineBreak)),
-                    ),
-                  ),
-                  Center(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(
-                            child: CardIconText(
-                          tStyle: TextStyle(fontWeight: FontWeight.bold),
-                          icon: FontAwesome.image,
-                          text: "Image",
-                          color: Theme.of(context).dividerColor,
-                          ccolor: switchColor(
-                              context, MyColors.lightPrimary, Colors.blue),
-                        )),
-                        SizedBox(
-                          height: 25,
-                          width: 1.0,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).dividerColor),
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/new-post',
+                                  arguments: {'selectedGame': ''});
+                            },
                           ),
                         ),
-                        Expanded(
-                            child: CardIconText(
-                          tStyle: TextStyle(fontWeight: FontWeight.bold),
-                          icon: FontAwesome.file_video_o,
-                          text: "Video",
-                          color: Theme.of(context).dividerColor,
-                          ccolor: switchColor(context, MyColors.lightPrimary,
-                              Colors.greenAccent),
-                        )),
-                        SizedBox(
-                          height: 25,
-                          width: 1.0,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).dividerColor),
-                          ),
-                        ),
-                        Expanded(
-                            child: CardIconText(
-                          tStyle: TextStyle(fontWeight: FontWeight.bold),
-                          icon: FontAwesome.youtube,
-                          text: "YouTube",
-                          color: Theme.of(context).dividerColor,
-                          ccolor: switchColor(
-                              context, MyColors.lightPrimary, Colors.pink),
-                        )),
                       ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 1,
-                    width: double.infinity,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                          color: switchColor(context, MyColors.lightCardBG,
-                              MyColors.darkLineBreak)),
+                    SizedBox(
+                      height: 1,
+                      width: double.infinity,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                            color: switchColor(context, MyColors.lightCardBG,
+                                MyColors.darkLineBreak)),
+                      ),
                     ),
-                  ),
-                ],
+                    Center(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Expanded(
+                              child: CardIconText(
+                            tStyle: TextStyle(fontWeight: FontWeight.bold),
+                            icon: FontAwesome.image,
+                            text: "Image",
+                            color: Theme.of(context).dividerColor,
+                            ccolor: switchColor(
+                                context, MyColors.lightPrimary, Colors.blue),
+                          )),
+                          SizedBox(
+                            height: 25,
+                            width: 1.0,
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).dividerColor),
+                            ),
+                          ),
+                          Expanded(
+                              child: CardIconText(
+                            tStyle: TextStyle(fontWeight: FontWeight.bold),
+                            icon: FontAwesome.file_video_o,
+                            text: "Video",
+                            color: Theme.of(context).dividerColor,
+                            ccolor: switchColor(context, MyColors.lightPrimary,
+                                Colors.greenAccent),
+                          )),
+                          SizedBox(
+                            height: 25,
+                            width: 1.0,
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).dividerColor),
+                            ),
+                          ),
+                          Expanded(
+                              child: CardIconText(
+                            tStyle: TextStyle(fontWeight: FontWeight.bold),
+                            icon: FontAwesome.youtube,
+                            text: "YouTube",
+                            color: Theme.of(context).dividerColor,
+                            ccolor: switchColor(
+                                context, MyColors.lightPrimary, Colors.pink),
+                          )),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 1,
+                      width: double.infinity,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                            color: switchColor(context, MyColors.lightCardBG,
+                                MyColors.darkLineBreak)),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             ListView.builder(
@@ -448,8 +451,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     loadUserData();
     loadUserFavoriteFilter();
     _setupFeed();
-    RateApp(context).rateGlitcher();
     _loadAudioByteData();
+  }
+
+  @override
+  didChangeDependencies() {
+    super.didChangeDependencies();
+    RateApp(context).rateGlitcher();
   }
 
   loadUserFavoriteFilter() async {

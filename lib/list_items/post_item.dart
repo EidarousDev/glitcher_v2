@@ -9,6 +9,7 @@ import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/constants/sizes.dart';
 import 'package:glitcher/constants/strings.dart';
+import 'package:glitcher/models/app_model.dart';
 import 'package:glitcher/models/game_model.dart';
 import 'package:glitcher/models/hashtag_model.dart';
 import 'package:glitcher/models/post_model.dart';
@@ -23,6 +24,7 @@ import 'package:glitcher/widgets/caching_image.dart';
 import 'package:glitcher/widgets/custom_url_text.dart';
 import 'package:glitcher/widgets/image_overlay.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:video_player/video_player.dart';
@@ -538,8 +540,12 @@ class _PostItemState extends State<PostItem> {
 
   // Sharing a post with a shortened url
   sharePost(String postId, String postText, String imageUrl) async {
-    var postLink = await DynamicLinks.createPostDynamicLink(
-        {'postId': postId, 'text': postText, 'imageUrl': imageUrl});
+    var postLink = await DynamicLinks(
+            Provider.of<AppModel>(context, listen: false)
+                .packageInfo
+                .packageName)
+        .createPostDynamicLink(
+            {'postId': postId, 'text': postText, 'imageUrl': imageUrl});
     Share.share('Check out: $postText : $postLink');
     print('Check out: $postText : $postLink');
   }
@@ -906,7 +912,11 @@ class _PostItemState extends State<PostItem> {
   }
 
   _onLongPressedPost(BuildContext context) async {
-    var postLink = await DynamicLinks.createPostDynamicLink({
+    var postLink = await DynamicLinks(
+            Provider.of<AppModel>(context, listen: false)
+                .packageInfo
+                .packageName)
+        .createPostDynamicLink({
       'postId': widget.post.id,
       'text': widget.post.text,
       'imageUrl': widget.post.imageUrl

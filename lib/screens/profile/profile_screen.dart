@@ -9,6 +9,7 @@ import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/constants/sizes.dart';
 import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/list_items/post_item.dart';
+import 'package:glitcher/models/app_model.dart';
 import 'package:glitcher/models/post_model.dart';
 import 'package:glitcher/models/user_model.dart' as user_model;
 import 'package:glitcher/services/auth.dart';
@@ -25,6 +26,7 @@ import 'package:glitcher/widgets/custom_loader.dart';
 import 'package:glitcher/widgets/custom_widgets.dart';
 import 'package:glitcher/widgets/drawer.dart';
 import 'package:glitcher/widgets/image_overlay.dart';
+import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 import 'package:share/share.dart';
 
@@ -701,8 +703,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   shareProfile(String userId, String username, String profileImageUrl) async {
     print('profileImageUrl: $profileImageUrl');
-    var userLink = await DynamicLinks.createProfileDynamicLink(
-        {'userId': userId, 'text': username, 'imageUrl': profileImageUrl});
+    var userLink = await DynamicLinks(
+            Provider.of<AppModel>(context, listen: false)
+                .packageInfo
+                .packageName)
+        .createProfileDynamicLink(
+            {'userId': userId, 'text': username, 'imageUrl': profileImageUrl});
     Share.share('Check out @$username profile: $userLink');
     print('Check out @$username profile: $userLink');
   }

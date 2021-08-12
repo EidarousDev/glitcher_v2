@@ -6,6 +6,7 @@ import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/constants/sizes.dart';
 import 'package:glitcher/list_items/post_item.dart';
+import 'package:glitcher/models/app_model.dart';
 import 'package:glitcher/models/game_model.dart';
 import 'package:glitcher/models/post_model.dart';
 import 'package:glitcher/models/user_model.dart' as user;
@@ -15,6 +16,7 @@ import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/caching_image.dart';
 import 'package:glitcher/widgets/drawer.dart';
 import 'package:glitcher/widgets/gradient_appbar.dart';
+import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:share/share.dart';
 
@@ -266,8 +268,12 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
   }
 
   shareGame(String gameId, String gameName, String imageUrl) async {
-    var gameLink = await DynamicLinks.createGameDynamicLink(
-        {'gameId': gameId, 'text': gameName, 'imageUrl': imageUrl});
+    var gameLink = await DynamicLinks(
+            Provider.of<AppModel>(context, listen: false)
+                .packageInfo
+                .packageName)
+        .createGameDynamicLink(
+            {'gameId': gameId, 'text': gameName, 'imageUrl': imageUrl});
     Share.share('Check out ($gameName) : $gameLink');
     print('Check out this game ($gameName): $gameLink');
   }

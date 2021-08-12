@@ -123,7 +123,7 @@ class _BuildDrawerState extends State<BuildDrawer> {
             ),
             ListTile(
               onTap: () {
-                RateApp(context).rateApp();
+                RateApp(context).rateGlitcher(shouldOpenDialog: true);
               },
               title: Text(
                 'Rate us',

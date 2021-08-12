@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/constants/sizes.dart';
+import 'package:glitcher/models/app_model.dart';
 import 'package:glitcher/models/post_model.dart';
 import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
@@ -12,6 +13,7 @@ import 'package:glitcher/services/share_link.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/custom_loader.dart';
 import 'package:glitcher/widgets/custom_widgets.dart';
+import 'package:provider/provider.dart';
 
 class PostBottomSheet {
   Widget postOptionIcon(BuildContext context, Post post) {
@@ -99,7 +101,11 @@ class PostBottomSheet {
             : Container(),
         InkWell(
           onTap: () async {
-            var postLink = await DynamicLinks.createPostDynamicLink({
+            var postLink = await DynamicLinks(
+                    Provider.of<AppModel>(context, listen: false)
+                        .packageInfo
+                        .packageName)
+                .createPostDynamicLink({
               'postId': post.id,
               'text': post.text,
               'imageUrl': post.imageUrl

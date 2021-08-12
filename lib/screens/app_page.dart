@@ -7,7 +7,6 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:glitcher/constants/constants.dart';
-import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/models/game_model.dart';
 import 'package:glitcher/models/hashtag_model.dart';
 import 'package:glitcher/models/post_model.dart';
@@ -133,7 +132,7 @@ class _AppPageState extends State<AppPage> {
   void initState() {
     super.initState();
     initDynamicLinks();
-    setPackageInfo();
+    //setPackageInfo();
     print('Constants.loggedInUser: ${Constants.currentUser}');
     _pageController = PageController(initialPage: 0);
     //_retrieveDynamicLink();
@@ -275,31 +274,11 @@ class _AppPageState extends State<AppPage> {
     print('token = $token');
   }
 
-  Future<void> setPackageInfo() async {
-    await initPackageInfo();
-    // App Strings
-    setState(() {
-      Strings.packageName = packageInfo.packageName;
-      Strings.appVersion = packageInfo.version;
-      Strings.appName = packageInfo.appName;
-      Strings.buildNumber = packageInfo.buildNumber;
-    });
-  }
-
   Future<void> setHashtags() async {
     List<Hashtag> hashtags = await getHashtags();
     // User Friends
     setState(() {
       Constants.hashtags = hashtags;
     });
-  }
-
-  Future<void> initPackageInfo() async {
-    final PackageInfo info = await PackageInfo.fromPlatform();
-    setState(() {
-      packageInfo = info;
-    });
-    print(
-        'packageName ${packageInfo.packageName}, buildNumber ${packageInfo.buildNumber}, appName: ${packageInfo.appName} , packageVersion ${packageInfo.version}');
   }
 }

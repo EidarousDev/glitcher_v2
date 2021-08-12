@@ -1,26 +1,34 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:glitcher/constants/strings.dart';
+import 'package:glitcher/models/app_model.dart';
 import 'package:glitcher/utils/app_util.dart';
+import 'package:provider/provider.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 
 class RateApp {
-  RateMyApp rateMyApp = RateMyApp(
-    preferencesPrefix: 'rateMyApp_',
-    minDays: 7,
-    minLaunches: 10,
-    remindDays: 7,
-    remindLaunches: 10,
-    googlePlayIdentifier: Strings.packageName,
-    appStoreIdentifier: '1491556149',
-  );
-
+  RateMyApp rateMyApp;
   BuildContext context;
 
-  RateApp(this.context);
+  RateApp(BuildContext context) {
+    this.context = context;
+    rateMyApp = RateMyApp(
+      preferencesPrefix: 'rateMyApp_',
+      minDays: 7,
+      minLaunches: 10,
+      remindDays: 7,
+      remindLaunches: 10,
+      googlePlayIdentifier:
+          Provider.of<AppModel>(context, listen: false).packageInfo.packageName,
+      appStoreIdentifier: '1491556149',
+    );
+  }
 
-  void rateGlitcher() {
+  void rateGlitcher({bool shouldOpenDialog}) {
     rateMyApp.init().then((_) {
-      if (rateMyApp.shouldOpenDialog) {
+      if (shouldOpenDialog == null)
+        shouldOpenDialog = rateMyApp.shouldOpenDialog;
+      if (shouldOpenDialog) {
         rateApp();
       }
     });
@@ -95,8 +103,8 @@ class RateApp {
           ),
         ];
       },
-      ignoreNativeDialog:
-          false, // Set to false if you want to show the native Apple app rating dialog on iOS.
+      ignoreNativeDialog: Platform
+          .isAndroid, // Set to false if you want to show the native Apple app rating dialog on iOS.
       dialogStyle: DialogStyle(
         // Custom dialog styles.
         titleAlign: TextAlign.center,
