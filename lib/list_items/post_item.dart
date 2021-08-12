@@ -32,10 +32,12 @@ class PostItem extends StatefulWidget {
   final Post post;
   final User author;
   final bool isLoading;
+  final Widget youtubePlayer;
   PostItem(
       {Key key,
       @required this.post,
       @required this.author,
+      this.youtubePlayer,
       this.isLoading = false})
       : super(key: key);
   @override
@@ -196,14 +198,7 @@ class _PostItemState extends State<PostItem> {
                                       onLongPress: () async {
                                         _onLongPressedPost(context);
                                       },
-                                      onTap: () {
-                                        if (Constants.routesStack.top() ==
-                                            '/post') return;
-                                        Navigator.of(context)
-                                            .pushNamed('/post', arguments: {
-                                          'post': post,
-                                        });
-                                      },
+                                      onTap: () => _goToPostPreview(post),
                                       child: UrlText(
                                         context: context,
                                         text: post.text,
@@ -327,34 +322,35 @@ class _PostItemState extends State<PostItem> {
                                             .value.aspectRatio,
                                         child: playerWidget),
                               ),
-                              Container(
-                                child:
-                                    //TODO: Fix YouTube Player
-                                    post.youtubeId != null &&
-                                            post.imageUrl == null
-                                        ? YoutubePlayerBuilder(
-                                            // onExitFullScreen: () {
-                                            //   SystemChrome
-                                            //       .setPreferredOrientations([
-                                            //     DeviceOrientation.portraitUp
-                                            //   ]);
-                                            // },
-                                            player: YoutubePlayer(
-                                              controller:
-                                                  Constants.youtubeControllers[
-                                                      widget.post.id],
-                                              showVideoProgressIndicator: true,
-                                              bottomActions: [
-                                                CurrentPosition(),
-                                                ProgressBar(isExpanded: true),
-                                                RemainingDuration(),
-                                                //FullScreenButton()
-                                              ],
-                                            ),
-                                            builder: (context, player) =>
-                                                player)
-                                        : null,
-                              ),
+                              post.youtubeId != null && post.imageUrl == null
+                                  ? Constants.routesStack.top() == '/post'
+                                      ? widget.youtubePlayer ?? Container()
+                                      : InkWell(
+                                          onTap: () => _goToPostPreview(post),
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                  child: CacheThisImage(
+                                                imageUrl:
+                                                    'https://img.youtube.com/vi/${post.youtubeId}/0.jpg',
+                                                defaultAssetImage:
+                                                    Strings.default_post_image,
+                                                height: 200,
+                                                imageShape: BoxShape.rectangle,
+                                              )),
+                                              Positioned.fill(
+                                                child: Align(
+                                                  child: Icon(
+                                                    Icons.play_arrow,
+                                                    size: 70,
+                                                  ),
+                                                  alignment: Alignment.center,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                  : Container(),
                               Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: Text(
@@ -919,5 +915,12 @@ class _PostItemState extends State<PostItem> {
     var text = ClipboardData(text: '$postLink');
     Clipboard.setData(text);
     //AppUtil().showToast('Post copied to clipboard');
+  }
+
+  _goToPostPreview(Post post) {
+    if (Constants.routesStack.top() == '/post') return;
+    Navigator.of(context).pushNamed('/post', arguments: {
+      'post': post,
+    });
   }
 }

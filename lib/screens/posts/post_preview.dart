@@ -16,6 +16,7 @@ import 'package:glitcher/widgets/gradient_appbar.dart';
 import 'package:just_audio/just_audio.dart';
 //import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:video_player/video_player.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PostPreview extends StatefulWidget {
   final Post post;
@@ -79,7 +80,7 @@ class _PostPreviewState extends State<PostPreview>
   @override
   void initState() {
     super.initState();
-
+    _currentPost = widget.post;
     loadPostData();
 
     ///Set up listener here
@@ -233,14 +234,18 @@ class _PostPreviewState extends State<PostPreview>
     //_refreshController.loadComplete();
   }
 
-  Widget _buildWidget() {
+  Widget _buildWidget({Widget player}) {
     return _currentPost != null
         ? Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              PostItem(post: _currentPost, author: _author),
+              PostItem(
+                post: _currentPost,
+                author: _author,
+                youtubePlayer: player,
+              ),
               _comments.length > 0
                   ? getList()
                   : Center(
@@ -262,6 +267,28 @@ class _PostPreviewState extends State<PostPreview>
 
   @override
   Widget build(BuildContext context) {
+    return _currentPost.youtubeId != null
+        ? YoutubePlayerBuilder(
+            // onExitFullScreen: () {
+            //   SystemChrome.setPreferredOrientations(
+            //       [DeviceOrientation.portraitUp]);
+            // },
+            player: YoutubePlayer(
+              controller: YoutubePlayerController(
+                  initialVideoId: _currentPost.youtubeId),
+              showVideoProgressIndicator: true,
+              bottomActions: [
+                CurrentPosition(),
+                ProgressBar(isExpanded: true),
+                RemainingDuration(),
+                FullScreenButton()
+              ],
+            ),
+            builder: (context, player) => _build(context, player: player))
+        : _build(context);
+  }
+
+  _build(BuildContext context, {Widget player}) {
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
@@ -293,7 +320,7 @@ class _PostPreviewState extends State<PostPreview>
                     height: 250,
                     width: 250,
                   )))
-                : _buildWidget(),
+                : _buildWidget(player: player),
           ),
         ),
       ),
