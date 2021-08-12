@@ -54,8 +54,6 @@ class _PostPreviewState extends State<PostPreview>
   var _scrollController = ScrollController();
   VideoPlayerController videoPlayerController;
   ChewieController chewieController;
-  //TODO: Fix YouTube Player
-  //YoutubePlayerController _youtubeController = YoutubePlayerController();
 
   /// Value Checkers
   bool _loading = false;

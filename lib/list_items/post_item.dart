@@ -26,7 +26,6 @@ import 'package:just_audio/just_audio.dart';
 import 'package:share/share.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:video_player/video_player.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PostItem extends StatefulWidget {
   final Post post;
@@ -579,18 +578,18 @@ class _PostItemState extends State<PostItem> {
     checkIfContainsHashtag();
     checkIfContainsMention();
 
-    if (Constants.youtubeControllers.containsKey(widget.post.id)) {
-      Constants.youtubeControllers.remove(widget.post.id);
-    }
-    Constants.youtubeControllers.putIfAbsent(
-        widget.post.id,
-        () => YoutubePlayerController(
-              initialVideoId: widget.post.youtubeId ?? '',
-              flags: YoutubePlayerFlags(
-                autoPlay: false,
-                mute: false,
-              ),
-            ));
+    // if (Constants.youtubeControllers.containsKey(widget.post.id)) {
+    //   Constants.youtubeControllers.remove(widget.post.id);
+    // }
+    // Constants.youtubeControllers.putIfAbsent(
+    //     widget.post.id,
+    //     () => YoutubePlayerController(
+    //           initialVideoId: widget.post.youtubeId ?? '',
+    //           flags: YoutubePlayerFlags(
+    //             autoPlay: false,
+    //             mute: false,
+    //           ),
+    //         ));
 
     setCurrentGame();
     if (widget.post.text.length > Sizes.postExcerpt) {

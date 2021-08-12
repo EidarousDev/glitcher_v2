@@ -7,7 +7,6 @@ import 'package:glitcher/models/notification_model.dart';
 import 'package:glitcher/models/user_model.dart' as user;
 import 'package:glitcher/screens/chats/chats.dart';
 import 'package:stack/stack.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 /// Firebase Constants
 final firebaseAuth = FirebaseAuth.instance;
@@ -60,7 +59,7 @@ class Constants {
   static Stack<String> routesStack = Stack();
 
   //YoutubeControllers
-  static Map<String, YoutubePlayerController> youtubeControllers = {};
+  //static Map<String, YoutubePlayerController> youtubeControllers = {};
 
   //screens
   static Chats chats = Chats();
