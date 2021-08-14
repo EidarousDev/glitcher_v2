@@ -20,6 +20,9 @@ class _StateWebViewScreen extends State<WebViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.url),
+      ),
       body: WebView(
         javascriptMode: JavascriptMode.unrestricted,
         onWebViewCreated: (WebViewController controller) async {

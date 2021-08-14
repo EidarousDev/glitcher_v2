@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glitcher/screens/web_browser/in_app_browser.dart';
 
 class HelpCenter extends StatefulWidget {
   @override
@@ -8,8 +9,7 @@ class HelpCenter extends StatefulWidget {
 class _HelpCenterState extends State<HelpCenter> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return WebViewScreen(url: 'https://www.gl1tch3r.com/category/help-center');
   }
   // final flutterWebViewPlugin = FlutterWebviewPlugin();
   // String selectedUrl = 'https://www.gl1tch3r.com/category/help-center';
