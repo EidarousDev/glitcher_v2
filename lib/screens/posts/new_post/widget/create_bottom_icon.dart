@@ -38,21 +38,23 @@ class _CreateBottomIconState extends State<CreateBottomIcon> {
   }
 
   void updateUI() {
-    setState(() {
-      tweet = widget.textEditingController.text;
-      if (widget.textEditingController.text != null &&
-          widget.textEditingController.text.isNotEmpty) {
-        if (widget.textEditingController.text.length > 259 &&
-            widget.textEditingController.text.length < Sizes.maxPostChars) {
-          wordCountColor = Colors.orange;
-        } else if (widget.textEditingController.text.length >=
-            Sizes.maxPostChars) {
-          wordCountColor = Theme.of(context).errorColor;
-        } else {
-          wordCountColor = Colors.blue;
+    if (mounted) {
+      setState(() {
+        tweet = widget.textEditingController.text;
+        if (widget.textEditingController.text != null &&
+            widget.textEditingController.text.isNotEmpty) {
+          if (widget.textEditingController.text.length > 259 &&
+              widget.textEditingController.text.length < Sizes.maxPostChars) {
+            wordCountColor = Colors.orange;
+          } else if (widget.textEditingController.text.length >=
+              Sizes.maxPostChars) {
+            wordCountColor = Theme.of(context).errorColor;
+          } else {
+            wordCountColor = Colors.blue;
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   Widget _bottomIconWidget() {
@@ -84,14 +86,16 @@ class _CreateBottomIconState extends State<CreateBottomIcon> {
                     color: MyColors.darkPrimary,
                   ))
               : Container(),
-          IconButton(
-              onPressed: () {
-                setVideo();
-              },
-              icon: Icon(
-                Icons.videocam,
-                color: MyColors.darkPrimary,
-              )),
+          !widget.isComment
+              ? IconButton(
+                  onPressed: () {
+                    setVideo();
+                  },
+                  icon: Icon(
+                    Icons.videocam,
+                    color: MyColors.darkPrimary,
+                  ))
+              : Container(),
           Expanded(
               child: Align(
             alignment: Alignment.centerRight,
@@ -130,7 +134,7 @@ class _CreateBottomIconState extends State<CreateBottomIcon> {
 
   void setImage(ImageSource source) {
     ImagePicker.platform
-        .pickImage(source: source, imageQuality: 20)
+        .pickImage(source: source, imageQuality: 85)
         .then((PickedFile file) {
       setState(() {
         // _image = file;

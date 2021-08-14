@@ -160,7 +160,13 @@ class RouteGenerator {
       case '/privacy-policy':
         return MaterialPageRoute(builder: (_) => PrivacyPolicy());
       case '/browser':
-        return MaterialPageRoute(builder: (_) => InAppBrowser(args['url']));
+        return MaterialPageRoute(
+            builder: (_) => WebViewScreen(
+                  url: args['url'],
+                  title: args['title'],
+                  headers: args['headers'],
+                  javaScript: args['javaScript'],
+                ));
       case '/hashtag-posts':
         return MaterialPageRoute(
             builder: (_) => HashtagPostsScreen(args['hashtag']));

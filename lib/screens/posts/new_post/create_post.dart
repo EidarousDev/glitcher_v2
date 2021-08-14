@@ -103,8 +103,8 @@ class _CreatePostReplyPageState extends State<CreatePost> {
   }
 
   void _onImageIconSelected(File file) {
-    print('File size: ${file.lengthSync()}');
-    if (file.lengthSync() / (1024 * 1024) == 3) {
+    double sizeInMegaBytes = file.lengthSync() / (1024 * 1024);
+    if (sizeInMegaBytes >= kMaxImageSizedInMegaBytes) {
       AppUtil.showSnackBar(context, 'Image exceeded 3 Megabytes limit.');
     } else {
       setState(() {
@@ -115,7 +115,7 @@ class _CreatePostReplyPageState extends State<CreatePost> {
 
   void _onVideoIconSelected(File file) async {
     print('File size: ${file.lengthSync()}');
-    if (file.lengthSync() / (1024 * 1024) == 10) {
+    if (file.lengthSync() / (1024 * 1024) >= kMaxVideoSizedInMegaBytes) {
       customSnackBar(_scaffoldKey, 'Video exceeded 10 Megabytes limit.');
     } else {
       setState(() {

@@ -31,7 +31,6 @@ dependencies:
   flutter_icons: ^1.1.0
   youtube_player_flutter: ^8.0.0
   toast: ^0.1.5
-  #audiofileplayer: ^2.0.1
   modal_progress_hud: ^0.1.3
   soundpool: ^2.1.0
   dropdownfield: ^1.0.3
@@ -44,7 +43,6 @@ dependencies:
   permission_handler: ^8.1.2
   random_string: ^2.3.1
   flutter_image_compress: ^1.0.0
-  #image_cropper: ^1.4.1 #causing an error
   flutter_local_notifications: ^6.0.0
   intl: ^0.17.0
   flutter_typeahead: ^3.2.0
@@ -55,7 +53,6 @@ dependencies:
   chewie_audio: ^1.2.0
   package_info: ^2.0.2
   connectivity: ^3.0.6
-  #pull_to_refresh: ^2.0.0
   readmore: ^2.1.0
   rate_my_app: ^1.1.0+1
   page_transition: ^2.0.2
@@ -77,6 +74,7 @@ dependencies:
   stack: ^0.2.1
   #video_thumbnail: ^0.4.3
   firebase_remote_config: ^0.10.0+3
+  webview_flutter: 2.0.4
 
 dev_dependencies:
   flutter_test:

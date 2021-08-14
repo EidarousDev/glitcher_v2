@@ -23,6 +23,8 @@ final newsletterEmailsRef = firestore.collection('newsletter_emails');
 final appName = 'glitcher';
 final rawgAPIkey = '36dc737518c546498e79fa986a4ff53d';
 String appTempDirectoryPath;
+const int kMaxImageSizedInMegaBytes = 3;
+const int kMaxVideoSizedInMegaBytes = 10;
 
 /// User Authentication Constants
 enum AuthStatus {
@@ -34,7 +36,6 @@ AuthStatus authStatus = AuthStatus.NOT_DETERMINED;
 
 /// Logged In User Constants
 String loggedInProfileImageURL; // TODO: Assign Default image url
-
 /// App Theme Constants
 
 class Constants {
