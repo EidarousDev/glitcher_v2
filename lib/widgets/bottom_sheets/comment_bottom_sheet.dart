@@ -7,6 +7,7 @@ import 'package:glitcher/models/post_model.dart';
 import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/custom_widgets.dart';
 
@@ -90,19 +91,20 @@ class CommentBottomSheet {
                 text: 'Edit Comment',
                 onPressed: () {
                   if (parentComment == null) {
-                    Navigator.of(context).pushNamed('/edit-comment',
+                    Navigator.of(context).pushNamed(RouteList.editComment,
                         arguments: {
                           'post': post,
                           'user': user,
                           'comment': comment
                         });
                   } else {
-                    Navigator.of(context).pushNamed('/edit-reply', arguments: {
-                      'post': post,
-                      'comment': parentComment,
-                      'reply': comment,
-                      'user': user
-                    });
+                    Navigator.of(context).pushNamed(RouteList.editReply,
+                        arguments: {
+                          'post': post,
+                          'comment': parentComment,
+                          'reply': comment,
+                          'user': user
+                        });
                   }
                 },
                 isEnable: false,
@@ -195,7 +197,7 @@ class CommentBottomSheet {
       ),
     );
     Navigator.of(context).pop();
-    Navigator.of(context).pushReplacementNamed('/home');
+    Navigator.of(context).pushReplacementNamed(RouteList.home);
     print('deleting post!');
   }
 
@@ -266,9 +268,10 @@ class CommentBottomSheet {
                     'comment');
 
                 Navigator.of(context).pop();
-                Navigator.of(context).pushReplacementNamed('/post', arguments: {
-                  'post': await DatabaseService.getPostWithId(postId)
-                });
+                Navigator.of(context).pushReplacementNamed(RouteList.post,
+                    arguments: {
+                      'post': await DatabaseService.getPostWithId(postId)
+                    });
               },
               child: Padding(
                 padding: const EdgeInsets.all(16.0),

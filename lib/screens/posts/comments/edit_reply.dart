@@ -15,6 +15,7 @@ import 'package:glitcher/screens/posts/new_post/widget/create_post_image.dart';
 import 'package:glitcher/screens/posts/new_post/widget/widget_view.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/caching_image.dart';
@@ -137,7 +138,7 @@ class _AddReplyPageState extends State<EditReply> {
     Navigator.of(context).pop();
 
     /// Navigate back to home page
-    Navigator.of(context).pushNamed('/post', arguments: {'post': widget.post});
+    Navigator.of(context).pushNamed(RouteList.post, arguments: {'post': widget.post});
   }
 
   @override
@@ -341,7 +342,7 @@ class _ComposeTweet extends WidgetView<EditReply, _AddReplyPageState> {
                 InkWell(
                   onTap: () {
                     Navigator.of(context)
-                        .pushNamed('/user-profile', arguments: {
+                        .pushNamed(RouteList.profile, arguments: {
                       'userId': widget.user.id,
                     });
                   },

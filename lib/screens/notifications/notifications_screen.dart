@@ -5,6 +5,7 @@ import 'package:glitcher/list_items/notification_item.dart';
 import 'package:glitcher/models/notification_model.dart' as notification_model;
 import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/widgets/drawer.dart';
 import 'package:glitcher/widgets/gradient_appbar.dart';
 
@@ -126,6 +127,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   Future<bool> _onBackPressed() {
     /// Navigate back to home page
-    Navigator.of(context).pushReplacementNamed('/home');
+    Navigator.of(context).pushReplacementNamed(RouteList.home);
   }
 }

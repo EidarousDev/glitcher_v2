@@ -29,11 +29,6 @@ class _PostPreviewState extends State<PostPreview>
     with SingleTickerProviderStateMixin {
   /// Post Data
   Post _currentPost;
-
-  /// author Data
-  /// @param authorAvatar for profileImageURL;
-  /// @param authorUsername;
-  /// @param author for User object;
   User _author; // The owner of the post
   //var profileImage;
   String username;
@@ -323,18 +318,6 @@ class _PostPreviewState extends State<PostPreview>
           ),
         ),
       ),
-//      floatingActionButton: FloatingActionButton(
-//        child: Icon(
-//          Icons.comment,
-//          color: Colors.white70,
-//        ),
-//        onPressed: () {
-//          Navigator.of(context).pushNamed('/add-comment', arguments: {
-//            'post': _currentPost,
-//            'user': _author,
-//          });
-//        },
-//      ),
     );
   }
 

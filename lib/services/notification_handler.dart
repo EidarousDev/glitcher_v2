@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:glitcher/constants/constants.dart';
+import 'package:glitcher/services/route_generator.dart';
 
 import 'database_service.dart';
 
@@ -118,22 +119,22 @@ class NotificationHandler {
       BuildContext context, String type, String objectId) async {
     switch (type) {
       case 'message':
-        Navigator.of(context)
-            .pushNamed('/conversation', arguments: {'otherUid': objectId});
+        Navigator.of(context).pushNamed(RouteList.conversation,
+            arguments: {'otherUid': objectId});
         break;
 
       case 'follow':
         Navigator.of(context)
-            .pushNamed('/user-profile', arguments: {'userId': objectId});
+            .pushNamed(RouteList.profile, arguments: {'userId': objectId});
         break;
 
       case 'new_group':
-        Navigator.of(context)
-            .pushNamed('/group-conversation', arguments: {'groupId': objectId});
+        Navigator.of(context).pushNamed(RouteList.groupConversation,
+            arguments: {'groupId': objectId});
         break;
 
       default:
-        Navigator.of(context).pushNamed('/post',
+        Navigator.of(context).pushNamed(RouteList.post,
             arguments: {'post': await DatabaseService.getPostWithId(objectId)});
         break;
     }

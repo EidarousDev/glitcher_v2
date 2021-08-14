@@ -4,6 +4,8 @@ import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/models/app_model.dart';
 import 'package:glitcher/services/database_service.dart';
+import 'package:glitcher/services/route_generator.dart';
+import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/custom_loader.dart';
@@ -69,6 +71,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       width: 10,
                     ),
                     Switch(
+                      activeColor: kPrimary,
                       key: Key('theme'),
                       value: Provider.of<AppModel>(context, listen: false)
                           .darkTheme,
@@ -183,6 +186,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   'Other users  won\'t be able to see  your following, followers, friends, and followed games'),
               trailing: Switch(
                   key: Key('privacy'),
+                  activeColor: kPrimary,
                   value: _isAccountPrivate,
                   onChanged: (value) async {
                     await alternateAccountPrivate();
@@ -196,9 +200,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: MaterialButton(
                 color: switchColor(
                     context, MyColors.lightPrimary, MyColors.darkPrimary),
-                child: Text('Change Password'),
+                child: Text(
+                  'Change Password',
+                ),
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/password-change');
+                  Navigator.of(context).pushNamed(RouteList.passwordChange);
                 },
               ),
             )

@@ -7,6 +7,7 @@ import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/widgets/caching_image.dart';
 
 class GroupMembers extends StatefulWidget {
@@ -81,7 +82,7 @@ class _GroupMembersState extends State<GroupMembers>
             ),
             onPressed: () {
               Navigator.of(context).pushReplacementNamed(
-                  '/add-members-to-group',
+                  RouteList.addMembersToGroup,
                   arguments: {'groupId': groupId});
             },
           )

@@ -13,6 +13,7 @@ import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/audio_recorder.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/permissions_service.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/bottom_sheets/profile_image_edit_bottom_sheet.dart';
@@ -244,7 +245,7 @@ class _GroupConversationState extends State<GroupConversation>
                 Icons.keyboard_backspace,
               ),
               onPressed: () =>
-                  Navigator.of(context).pushReplacementNamed('/chats'),
+                  Navigator.of(context).pushReplacementNamed(RouteList.chats),
             ),
             titleSpacing: 0,
             title: InkWell(
@@ -554,12 +555,12 @@ class _GroupConversationState extends State<GroupConversation>
   void _select(String value) {
     switch (value) {
       case 'Members':
-        Navigator.of(context).pushNamed('/group-members',
+        Navigator.of(context).pushNamed(RouteList.groupMembers,
             arguments: {'groupId': widget.groupId});
         break;
 
       case 'Group Details':
-        Navigator.of(context).pushNamed('/group-details',
+        Navigator.of(context).pushNamed(RouteList.groupDetails,
             arguments: {'groupId': widget.groupId});
     }
   }

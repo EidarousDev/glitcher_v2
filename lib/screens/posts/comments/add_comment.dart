@@ -14,6 +14,7 @@ import 'package:glitcher/screens/posts/new_post/widget/create_post_image.dart';
 import 'package:glitcher/screens/posts/new_post/widget/widget_view.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/caching_image.dart';
@@ -133,7 +134,7 @@ class _AddCommentPageState extends State<AddComment> {
 
     //Navigator.of(context).pop();
     Navigator.of(context)
-        .pushReplacementNamed('/post', arguments: {'post': widget.post});
+        .pushReplacementNamed(RouteList.post, arguments: {'post': widget.post});
   }
 
   @override
@@ -321,7 +322,7 @@ class _ComposeComment extends WidgetView<AddComment, _AddCommentPageState> {
                 InkWell(
                   onTap: () {
                     Navigator.of(context)
-                        .pushNamed('/user-profile', arguments: {
+                        .pushNamed(RouteList.profile, arguments: {
                       'userId': widget.user.id,
                     });
                   },

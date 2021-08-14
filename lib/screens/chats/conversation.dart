@@ -14,6 +14,7 @@ import 'package:glitcher/services/audio_recorder.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/services/permissions_service.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/bottom_sheets/profile_image_edit_bottom_sheet.dart';
@@ -388,7 +389,7 @@ class _ConversationState extends State<Conversation>
                 ],
               ),
               onTap: () {
-                Navigator.of(context).pushNamed('/user-profile',
+                Navigator.of(context).pushNamed(RouteList.profile,
                     arguments: {'userId': widget.otherUid});
               },
             ),

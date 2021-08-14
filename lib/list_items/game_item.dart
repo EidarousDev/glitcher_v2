@@ -4,6 +4,7 @@ import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/models/game_model.dart';
 import 'package:glitcher/services/database_service.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/widgets/caching_image.dart';
 import 'package:glitcher/widgets/custom_loader.dart';
 
@@ -100,7 +101,7 @@ class _GameItemState extends State<GameItem> {
           ],
         ),
         onTap: () {
-          Navigator.of(context).pushNamed('/game-screen', arguments: {
+          Navigator.of(context).pushNamed(RouteList.game, arguments: {
             'game': widget.game,
           });
         },

@@ -13,6 +13,7 @@ import 'package:glitcher/models/app_model.dart';
 import 'package:glitcher/models/post_model.dart';
 import 'package:glitcher/models/user_model.dart' as user;
 import 'package:glitcher/services/database_service.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
@@ -282,7 +283,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                               ),
                             ),
                             onTap: () {
-                              Navigator.of(context).pushNamed('/new-post',
+                              Navigator.of(context).pushNamed(RouteList.newPost,
                                   arguments: {'selectedGame': ''});
                             },
                           ),

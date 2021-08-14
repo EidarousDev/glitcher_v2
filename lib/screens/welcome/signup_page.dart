@@ -6,6 +6,7 @@ import 'package:glitcher/screens/web_browser/webview_modal.dart';
 import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/auth_provider.dart';
 import 'package:glitcher/services/database_service.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/custom_loader.dart';
@@ -203,7 +204,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _loginAccountLabel() {
     return InkWell(
       onTap: () {
-        Navigator.pushReplacementNamed(context, '/login',
+        Navigator.pushReplacementNamed(context, RouteList.login,
             arguments: {'on_sign_up_callback': false});
       },
       child: Container(
@@ -436,7 +437,7 @@ class _SignUpPageState extends State<SignUpPage> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('username', _username);
         Navigator.of(context).pop();
-        Navigator.of(context).pushReplacementNamed('/login',
+        Navigator.of(context).pushReplacementNamed(RouteList.login,
             arguments: {'on_sign_up_callback': true});
       } else {
         if (_password != _confirmPassword) {

@@ -9,6 +9,7 @@ import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/services/permissions_service.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/widgets/bottom_sheets/profile_image_edit_bottom_sheet.dart';
 import 'package:glitcher/widgets/caching_image.dart';
@@ -85,7 +86,7 @@ class _NewGroupState extends State<NewGroup>
               _imageFile, context, 'group_chat_images/$_groupId');
           await addGroup();
           await addGroupToUsers();
-          Navigator.of(context).pushNamed('/chats');
+          Navigator.of(context).pushNamed(RouteList.chats);
         },
       ),
       appBar: AppBar(
@@ -96,7 +97,7 @@ class _NewGroupState extends State<NewGroup>
               Icons.keyboard_backspace,
             ),
             onPressed: () {
-              Navigator.of(context).pushReplacementNamed('/chats');
+              Navigator.of(context).pushReplacementNamed(RouteList.chats);
             },
           ),
           title: Text('New Group')

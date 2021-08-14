@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/models/app_model.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/widgets/gradient_appbar.dart';
 import 'package:provider/provider.dart';
 
@@ -23,11 +24,11 @@ class _AboutUsState extends State<AboutUs> {
   ];
 
   List<String> itemsRoute = [
-    '/help-center',
-    '/terms-of-service',
-    '/privacy-policy',
-    '/cookie-use',
-    '/legal-notices'
+    RouteList.helpCenter,
+    RouteList.termsOfService,
+    RouteList.privacyPolicy,
+    RouteList.cookieUse,
+    RouteList.legalNotices
   ];
 
   @override

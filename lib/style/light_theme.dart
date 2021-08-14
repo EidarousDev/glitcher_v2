@@ -73,7 +73,7 @@ IconThemeData customIconTheme(IconThemeData original) {
 const ColorScheme kColorScheme = ColorScheme(
   primary: kPrimary,
   primaryVariant: kGrey900,
-  secondary: kTeal50,
+  secondary: kPrimary,
   secondaryVariant: kGrey900,
   surface: kSurfaceWhite,
   background: Colors.white,
@@ -99,7 +99,7 @@ ThemeData buildLightTheme(String language, [String fontFamily = 'Roboto']) {
   return base.copyWith(
     brightness: Brightness.light,
     colorScheme: kColorScheme,
-    buttonColor: kTeal400,
+    buttonColor: kPrimary,
     cardColor: Colors.white,
     // textSelectionColor: kTeal100,
     errorColor: kErrorRed,
@@ -118,8 +118,8 @@ ThemeData buildLightTheme(String language, [String fontFamily = 'Roboto']) {
     backgroundColor: Colors.white,
     primaryColor: kLightPrimary,
     accentColor: kLightAccent,
-    floatingActionButtonTheme:
-        FloatingActionButtonThemeData(backgroundColor: kPrimary),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: kPrimary, foregroundColor: Colors.black),
 
     scaffoldBackgroundColor: kLightBG,
     appBarTheme: const AppBarTheme(

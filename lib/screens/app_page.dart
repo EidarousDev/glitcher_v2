@@ -17,6 +17,7 @@ import 'package:glitcher/screens/profile/profile_screen.dart';
 import 'package:glitcher/screens/users/search_screen.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
@@ -172,20 +173,21 @@ class _AppPageState extends State<AppPage> {
             'posts') {
           Post post =
               await DatabaseService.getPostWithId(deepLink.pathSegments.last);
-          Navigator.of(context).pushNamed('/post', arguments: {'post': post});
+          Navigator.of(context)
+              .pushNamed(RouteList.post, arguments: {'post': post});
         } else if (deepLink.pathSegments[deepLink.pathSegments.length - 2] ==
             'users') {
           User user = await DatabaseService.getUserWithId(
               deepLink.pathSegments.last,
               checkLocal: false);
           Navigator.of(context)
-              .pushNamed('/user-profile', arguments: {'userId': user.id});
+              .pushNamed(RouteList.profile, arguments: {'userId': user.id});
         } else if (deepLink.pathSegments[deepLink.pathSegments.length - 2] ==
             'games') {
           Game game =
               await DatabaseService.getGameWithId(deepLink.pathSegments.last);
           Navigator.of(context)
-              .pushNamed('/game-screen', arguments: {'game': game});
+              .pushNamed(RouteList.game, arguments: {'game': game});
         }
       }
     }, onError: (OnLinkErrorException e) async {
@@ -200,7 +202,8 @@ class _AppPageState extends State<AppPage> {
     if (deepLink != null) {
       Post post =
           await DatabaseService.getPostWithId(deepLink.pathSegments.last);
-      Navigator.of(context).pushNamed('/post', arguments: {'post': post});
+      Navigator.of(context)
+          .pushNamed(RouteList.post, arguments: {'post': post});
     }
   }
 
@@ -216,7 +219,7 @@ class _AppPageState extends State<AppPage> {
 //      String postId = deepLink.queryParameters['postId'];
 //      // perform your navigation operations here
 //      Post post = await DatabaseService.getPostWithId(postId);
-//      Navigator.of(context).pushNamed('/post', arguments: {'post': post});
+//      Navigator.of(context).pushNamed(RouteList.post, arguments: {'post': post});
 //    }
 //  }
 

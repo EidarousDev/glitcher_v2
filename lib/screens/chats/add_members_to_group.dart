@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/models/group_model.dart';
 import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/widgets/caching_image.dart';
 
 class AddMembersToGroup extends StatefulWidget {
@@ -81,7 +81,7 @@ class _AddMembersToGroupState extends State<AddMembersToGroup>
                   'new_group');
             }
 
-            Navigator.of(context).pushReplacementNamed('/group-members',
+            Navigator.of(context).pushReplacementNamed(RouteList.groupMembers,
                 arguments: {'groupId': widget.groupId});
           },
         ),
@@ -99,7 +99,7 @@ class _AddMembersToGroupState extends State<AddMembersToGroup>
               Icons.keyboard_backspace,
             ),
             onPressed: () {
-              Navigator.of(context).pushNamed('/group-members',
+              Navigator.of(context).pushNamed(RouteList.groupMembers,
                   arguments: {'groupId': widget.groupId});
             },
           ),

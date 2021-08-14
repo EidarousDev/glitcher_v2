@@ -7,6 +7,7 @@ import 'package:glitcher/models/group_model.dart';
 import 'package:glitcher/models/message_model.dart';
 import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/widgets/caching_image.dart';
 import 'package:glitcher/widgets/drawer.dart';
 import 'package:glitcher/widgets/gradient_appbar.dart';
@@ -239,7 +240,7 @@ class _ChatsState extends State<Chats>
         floatingActionButton: _tabController.index == 1
             ? FloatingActionButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/new-group');
+                  Navigator.of(context).pushNamed(RouteList.newGroup);
                 },
                 child: Icon(
                   Icons.add,
@@ -303,7 +304,8 @@ class _ChatsState extends State<Chats>
 
                       return ListTile(
                         onTap: () {
-                          Navigator.of(context).pushNamed('/group-conversation',
+                          Navigator.of(context).pushNamed(
+                              RouteList.groupConversation,
                               arguments: {'groupId': group.id});
                         },
                         leading: CacheThisImage(
@@ -334,6 +336,6 @@ class _ChatsState extends State<Chats>
 
   Future<bool> _onBackPressed() {
     /// Navigate back to home page
-    Navigator.of(context).pushReplacementNamed('/');
+    Navigator.of(context).pushReplacementNamed(RouteList.initialRoute);
   }
 }

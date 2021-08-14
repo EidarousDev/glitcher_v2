@@ -8,6 +8,7 @@ import 'package:glitcher/screens/welcome/widgets/verify_email.dart';
 import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/auth_provider.dart';
 import 'package:glitcher/services/database_service.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/custom_loader.dart';
@@ -281,7 +282,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _createAccountLabel() {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/sign-up');
+        Navigator.pushNamed(context, RouteList.signUp);
       },
       child: Column(
         children: [
@@ -348,14 +349,14 @@ class _LoginPageState extends State<LoginPage> {
 
         saveToken();
 
-        Navigator.of(context).pushReplacementNamed('/');
+        Navigator.of(context).pushReplacementNamed(RouteList.initialRoute);
       } else if (!user.emailVerified) {
         await auth.signOut();
         //await showVerifyEmailSentDialog(context);
       } else {
         //saveToken(); // We don't want to saveToken for non-verified users
 
-        Navigator.of(context).pushReplacementNamed('/');
+        Navigator.of(context).pushReplacementNamed(RouteList.initialRoute);
       }
     } catch (e) {
       // Email or Password Incorrect
@@ -399,7 +400,8 @@ class _LoginPageState extends State<LoginPage> {
                       _submitButton(),
                       GestureDetector(
                         onTap: () async {
-                          Navigator.of(context).pushNamed('/password-reset');
+                          Navigator.of(context)
+                              .pushNamed(RouteList.passwordReset);
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(vertical: 10),
@@ -445,11 +447,11 @@ class _LoginPageState extends State<LoginPage> {
             null) {
           print('existing user');
           saveToken();
-          Navigator.of(context).pushReplacementNamed('/');
+          Navigator.of(context).pushReplacementNamed(RouteList.initialRoute);
         } else {
           print('new user');
-          Navigator.of(context)
-              .pushReplacementNamed('/set-username', arguments: {'user': user});
+          Navigator.of(context).pushReplacementNamed(RouteList.setUsername,
+              arguments: {'user': user});
         }
       },
     );

@@ -18,6 +18,7 @@ import 'package:glitcher/screens/posts/new_post/widget/create_post_image.dart';
 import 'package:glitcher/screens/posts/new_post/widget/create_post_video.dart';
 import 'package:glitcher/screens/posts/new_post/widget/widget_view.dart';
 import 'package:glitcher/services/database_service.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/caching_image.dart';
@@ -230,7 +231,7 @@ class _CreatePostReplyPageState extends State<EditPost> {
     Navigator.of(context).pop();
 
     /// Navigate back to home page
-    Navigator.of(context).pushReplacementNamed('/home');
+    Navigator.of(context).pushReplacementNamed(RouteList.home);
   }
 
   @override

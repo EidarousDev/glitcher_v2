@@ -65,12 +65,14 @@ class _MyAppState extends State<MyApp> {
         ) {
           return AuthProvider(
             auth: Auth(),
-            child: MaterialApp(
-              title: widget.appModel.packageInfo.appName,
-              debugShowCheckedModeBanner: false,
-              theme: getTheme(context),
-              initialRoute: '/',
-              onGenerateRoute: RouteGenerator.generateRoute,
+            child: Consumer<AppModel>(
+              builder: (context, appModel, child) => MaterialApp(
+                title: widget.appModel.packageInfo.appName,
+                debugShowCheckedModeBanner: false,
+                theme: getTheme(context),
+                initialRoute: RouteList.initialRoute,
+                onGenerateRoute: RouteGenerator.generateRoute,
+              ),
             ),
           );
         },

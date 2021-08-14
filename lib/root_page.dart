@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:glitcher/constants/constants.dart';
-import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/models/user_model.dart' as user;
 import 'package:glitcher/screens/app_page.dart';
 import 'package:glitcher/screens/welcome/login_page.dart';
 import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/database_service.dart';
+import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/glitcher_loader.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +40,7 @@ class _RootPageState extends State<RootPage> {
   Widget buildWaitingScreen() {
     return Scaffold(
       body: Container(
-        color: switchColor(context, Colors.white, MyColors.darkAccent),
+        color: switchColor(context, Colors.white, kDarkBG),
         alignment: Alignment.center,
         child: GlitcherLoader(),
       ),

@@ -42,53 +42,40 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Getting arguments passed in while calling Navigator.pushNamed
     final Map args = settings.arguments as Map;
-
-    // for (MapEntry<String, YoutubePlayerController> controller
-    //     in Constants.youtubeControllers.entries) {
-    //   controller.value.pause();
-    //   controller.value.reset();
-    // }
-
     switch (settings.name) {
-      case '/':
+      case RouteList.initialRoute:
         return MaterialPageRoute(builder: (_) => RootPage());
 
-      case '/home':
+      case RouteList.home:
         return PageTransition(
             child: AppPage(), type: PageTransitionType.leftToRightWithFade);
 
-      case '/new-post':
+      case RouteList.newPost:
         return MaterialPageRoute(
             builder: (_) => CreatePost(
                   selectedGame: args['selectedGame'],
                 ));
 
-      case '/edit-post':
+      case RouteList.editPost:
         return MaterialPageRoute(builder: (_) => EditPost(post: args['post']));
 
-      case '/user-profile':
+      case RouteList.profile:
         return MaterialPageRoute(
           builder: (_) => ProfileScreen(
             args['userId'],
           ),
         );
 
-      case '/post':
+      case RouteList.post:
         // Validation of correct data type
         return MaterialPageRoute(
           builder: (_) => PostPreview(
             post: args['post'],
           ),
-          // child: PostPreview(
-          //   post: args['post'],
-          // ),
-          // type: PageTransitionType.scale
         );
-        // If args is not of the correct type, return an error page.
-        // You can also throw an exception while in development.
         return _errorRoute();
 
-      case '/add-comment':
+      case RouteList.addComment:
         // Validation of correct data type
         return MaterialPageRoute(
           builder: (_) => AddComment(
@@ -97,7 +84,7 @@ class RouteGenerator {
           ),
         );
 
-      case '/edit-comment':
+      case RouteList.editComment:
         // Validation of correct data type
         return MaterialPageRoute(
           builder: (_) => EditComment(
@@ -107,59 +94,59 @@ class RouteGenerator {
           ),
         );
 
-      case '/game-screen':
+      case RouteList.game:
         return MaterialPageRoute(
           builder: (_) => GameScreen(
             game: args['game'],
           ),
         );
 
-      case '/conversation':
+      case RouteList.conversation:
         return MaterialPageRoute(
             builder: (_) => Conversation(
                   otherUid: args['otherUid'],
                 ));
 
-      case '/group-conversation':
+      case RouteList.groupConversation:
         return MaterialPageRoute(
             builder: (_) => GroupConversation(
                   groupId: args['groupId'],
                 ));
 
-      case '/group-members':
+      case RouteList.groupMembers:
         return MaterialPageRoute(
             builder: (_) => GroupMembers(
                   groupId: args['groupId'],
                 ));
 
-      case '/add-members-to-group':
+      case RouteList.addMembersToGroup:
         return MaterialPageRoute(
             builder: (_) => AddMembersToGroup(
                   args['groupId'],
                 ));
 
-      case '/new-group':
+      case RouteList.newGroup:
         return MaterialPageRoute(builder: (_) => NewGroup());
 
-      case '/group-details':
+      case RouteList.groupDetails:
         return MaterialPageRoute(builder: (_) => GroupDetails(args['groupId']));
 
-      case '/chats':
+      case RouteList.chats:
         return MaterialPageRoute(builder: (_) => Chats());
 
-      case '/about-us':
+      case RouteList.aboutUs:
         return MaterialPageRoute(builder: (_) => AboutUs());
-      case '/cookie-use':
+      case RouteList.cookieUse:
         return MaterialPageRoute(builder: (_) => CookieUse());
-      case '/help-center':
+      case RouteList.helpCenter:
         return MaterialPageRoute(builder: (_) => HelpCenter());
-      case '/legal-notices':
+      case RouteList.legalNotices:
         return MaterialPageRoute(builder: (_) => LegalNotices());
-      case '/terms-of-service':
+      case RouteList.termsOfService:
         return MaterialPageRoute(builder: (_) => TermsOfService());
-      case '/privacy-policy':
+      case RouteList.privacyPolicy:
         return MaterialPageRoute(builder: (_) => PrivacyPolicy());
-      case '/browser':
+      case RouteList.browser:
         return MaterialPageRoute(
             builder: (_) => WebViewScreen(
                   url: args['url'],
@@ -167,13 +154,13 @@ class RouteGenerator {
                   headers: args['headers'],
                   javaScript: args['javaScript'],
                 ));
-      case '/hashtag-posts':
+      case RouteList.hashtag:
         return MaterialPageRoute(
             builder: (_) => HashtagPostsScreen(args['hashtag']));
-      case '/settings':
+      case RouteList.settings:
         return MaterialPageRoute(builder: (_) => SettingsScreen());
 
-      case '/add-reply':
+      case RouteList.addReply:
         // Validation of correct data type
         return MaterialPageRoute(
           builder: (_) => AddReply(
@@ -184,7 +171,7 @@ class RouteGenerator {
           ),
         );
 
-      case '/edit-reply':
+      case RouteList.editReply:
         // Validation of correct data type
         return MaterialPageRoute(
           builder: (_) => EditReply(
@@ -195,24 +182,24 @@ class RouteGenerator {
           ),
         );
 
-      case '/bookmarks':
+      case RouteList.bookmarks:
         return MaterialPageRoute(builder: (_) => BookmarksScreen());
 
-      case '/users':
+      case RouteList.users:
         return MaterialPageRoute(
             builder: (_) => UsersScreen(
                   screenType: args['screen_type'],
                   userId: args['userId'],
                 ));
 
-      case '/report-post':
+      case RouteList.reportPost:
         return MaterialPageRoute(
             builder: (_) => ReportPostScreen(
                   postAuthor: args['post_author'],
                   postId: args['post_id'],
                 ));
 
-      case '/suggestion':
+      case RouteList.suggestion:
         return MaterialPageRoute(
             builder: (_) => SuggestionScreen(
                   initialTitle: args['initial_title'],
@@ -220,28 +207,28 @@ class RouteGenerator {
                   gameId: args['game_id'],
                 ));
 
-      case '/sign-up':
+      case RouteList.signUp:
         return MaterialPageRoute(builder: (_) => SignUpPage());
 
-      case '/login':
+      case RouteList.login:
         return MaterialPageRoute(
             builder: (_) => LoginPage(
                   onSignUpCallback: args['on_sign_up_callback'],
                 ));
 
-      case '/password-reset':
+      case RouteList.passwordReset:
         return MaterialPageRoute(builder: (_) => PasswordResetScreen());
 
-      case '/set-username':
+      case RouteList.setUsername:
         return MaterialPageRoute(
             builder: (_) => SetUsernameScreen(
                   user: args['user'],
                 ));
 
-      case '/password-change':
+      case RouteList.passwordChange:
         return MaterialPageRoute(builder: (_) => PasswordChangeScreen());
 
-      case '/followed-games':
+      case RouteList.followedGames:
         return MaterialPageRoute(
             builder: (_) => FollowedGames(
                   userId: args['userId'],
@@ -265,4 +252,44 @@ class RouteGenerator {
       );
     });
   }
+}
+
+class RouteList {
+  static const String initialRoute = '/';
+  static const String home = '/home';
+  static const String newPost = '/new-post';
+  static const String editPost = '/edit-post';
+  static const String profile = '/user-profile';
+  static const String post = '/post';
+  static const String addComment = '/add-comment';
+  static const String editComment = '/edit-comment';
+  static const String game = '/game-screen';
+  static const String conversation = '/conversation';
+  static const String groupConversation = '/group-conversation';
+  static const String groupMembers = '/group-members';
+  static const String addMembersToGroup = '/add-members-to-group';
+  static const String newGroup = '/new-group';
+  static const String groupDetails = '/group-details';
+  static const String chats = '/chats';
+  static const String aboutUs = '/about-us';
+  static const String cookieUse = '/cookie-use';
+  static const String helpCenter = '/help-center';
+  static const String legalNotices = '/legal-notices';
+  static const String termsOfService = '/terms-of-service';
+  static const String privacyPolicy = '/privacy-policy';
+  static const String browser = '/browser';
+  static const String hashtag = '/hashtag-posts';
+  static const String settings = '/settings';
+  static const String addReply = '/add-reply';
+  static const String editReply = '/edit-reply';
+  static const String bookmarks = '/bookmarks';
+  static const String users = '/users';
+  static const String reportPost = '/report-post';
+  static const String suggestion = '/suggestion';
+  static const String signUp = '/sign-up';
+  static const String login = '/login';
+  static const String passwordReset = '/password-reset';
+  static const String setUsername = '/set-username';
+  static const String passwordChange = '/password-change';
+  static const String followedGames = '/followed-games';
 }

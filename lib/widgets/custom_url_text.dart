@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:glitcher/services/route_generator.dart';
 
 class UrlText extends StatelessWidget {
   final BuildContext context;
@@ -96,7 +97,8 @@ class _LinkTextSpan extends TextSpan {
                   onMentionPressed(text);
                 } else {
                   print('text is $text');
-                  Navigator.of(context).pushNamed('/browser', arguments: {
+                  Navigator.of(context)
+                      .pushNamed(RouteList.browser, arguments: {
                     'url': text,
                   });
                 }

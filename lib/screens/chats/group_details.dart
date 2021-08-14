@@ -9,6 +9,7 @@ import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/models/group_model.dart';
 import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/widgets/bottom_sheets/profile_image_edit_bottom_sheet.dart';
 import 'package:glitcher/widgets/caching_image.dart';
@@ -119,7 +120,8 @@ class _GroupDetailsState extends State<GroupDetails>
 
                   Navigator.of(context).pop();
 
-                  Navigator.pushNamedAndRemoveUntil(context, '/', (r) => false);
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, RouteList.initialRoute, (r) => false);
                 },
                 child: Text("Yes"),
               ),
@@ -171,7 +173,7 @@ class _GroupDetailsState extends State<GroupDetails>
                           color: Colors.white,
                         ),
                         onPressed: () async {
-                          Navigator.pushNamed(context, '/group-members',
+                          Navigator.pushNamed(context, RouteList.groupMembers,
                               arguments: {'groupId': groupId});
                         },
                       ),

@@ -15,6 +15,7 @@ import 'package:glitcher/models/user_model.dart' as user_model;
 import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/services/share_link.dart';
 import 'package:glitcher/services/sqlite_service.dart';
 import 'package:glitcher/utils/app_util.dart';
@@ -299,7 +300,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 right: 25.0,
                 child: IconButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed('/conversation',
+                    Navigator.of(context).pushNamed(RouteList.conversation,
                         arguments: {'otherUid': widget.userId});
                   },
                   icon: Icon(Icons.chat),
@@ -501,7 +502,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           onTap: () {
                             if (Constants.currentUserID == widget.userId ||
                                 !(userData.isAccountPrivate ?? false)) {
-                              Navigator.of(context).pushNamed('/users',
+                              Navigator.of(context).pushNamed(RouteList.users,
                                   arguments: {
                                     'screen_type': 'Followers',
                                     'userId': widget.userId
@@ -525,7 +526,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           onTap: () {
                             if (Constants.currentUserID == widget.userId ||
                                 !(userData.isAccountPrivate ?? false)) {
-                              Navigator.of(context).pushNamed('/users',
+                              Navigator.of(context).pushNamed(RouteList.users,
                                   arguments: {
                                     'screen_type': 'Following',
                                     'userId': widget.userId
@@ -550,7 +551,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           onTap: () {
                             if (Constants.currentUserID == widget.userId ||
                                 !(userData.isAccountPrivate ?? false)) {
-                              Navigator.of(context).pushNamed('/users',
+                              Navigator.of(context).pushNamed(RouteList.users,
                                   arguments: {
                                     'screen_type': 'Friends',
                                     'userId': widget.userId
@@ -580,7 +581,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onTap: () {
                         if (Constants.currentUserID == widget.userId ||
                             !(userData.isAccountPrivate ?? false)) {
-                          Navigator.of(context).pushNamed('/followed-games',
+                          Navigator.of(context).pushNamed(
+                              RouteList.followedGames,
                               arguments: {'userId': widget.userId});
                         } else {
                           AppUtil.showSnackBar(
@@ -994,7 +996,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<bool> _onBackPressed() {
     /// Navigate back to home page
     if (widget.userId == Constants.currentUserID)
-      Navigator.of(context).pushReplacementNamed('/home');
+      Navigator.of(context).pushReplacementNamed(RouteList.home);
     else
       Navigator.of(context).pop();
   }

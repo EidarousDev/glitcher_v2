@@ -35,12 +35,11 @@ class AppModel with ChangeNotifier {
 
   Future<void> updateTheme(bool theme) async {
     try {
-      var prefs = await SharedPreferences.getInstance();
       darkTheme = theme;
-      //TODO check this
-      //Utils.changeStatusBarColor(themeMode);
-      await prefs.setBool('darkTheme', theme);
+      themeMode = theme ? ThemeMode.dark : ThemeMode.light;
       notifyListeners();
+      var prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('darkTheme', theme);
     } catch (error) {
       print('[updateTheme] error: ${error.toString()}');
     }

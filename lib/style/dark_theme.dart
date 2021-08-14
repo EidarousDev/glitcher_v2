@@ -12,8 +12,7 @@ ThemeData buildDarkTheme(String language, [String fontFamily]) {
       bodyColor: kLightBG,
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-      backgroundColor: kPrimary,
-    ),
+        backgroundColor: kPrimary, foregroundColor: Colors.white),
     primaryTextTheme:
         buildTextTheme(base.primaryTextTheme, language, fontFamily).apply(
       displayColor: kLightBG,
@@ -49,7 +48,11 @@ ThemeData buildDarkTheme(String language, [String fontFamily]) {
       ),
     ),
     buttonTheme: ButtonThemeData(
-        colorScheme: kColorScheme.copyWith(onPrimary: kLightBG)),
+        textTheme: ButtonTextTheme.primary,
+        colorScheme: kColorScheme.copyWith(
+          onPrimary: kLightBG,
+          secondary: kPrimary,
+        )),
     pageTransitionsTheme: const PageTransitionsTheme(builders: {
       TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
       TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),

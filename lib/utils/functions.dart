@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:glitcher/models/app_model.dart';
 import 'package:glitcher/models/hashtag_model.dart';
 import 'package:glitcher/services/database_service.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
@@ -109,7 +110,7 @@ cropImage(File imageFile) async {
 
 /// push Home Screen and kill the current screen
 void pushHomeScreen(BuildContext context) {
-  Navigator.of(context).pushReplacementNamed('/home');
+  Navigator.of(context).pushReplacementNamed(RouteList.home);
 }
 
 void twoButtonsDialog(BuildContext context, confirmFunction,

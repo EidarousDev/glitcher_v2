@@ -6,6 +6,7 @@ import 'package:glitcher/constants/sizes.dart';
 import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/widgets/caching_image.dart';
 import 'package:glitcher/widgets/custom_loader.dart';
 
@@ -25,7 +26,7 @@ class _UserItemState extends State<UserItem> {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: ListTile(
         onTap: () {
-          Navigator.of(context).pushNamed('/user-profile', arguments: {
+          Navigator.of(context).pushNamed(RouteList.profile, arguments: {
             'userId': widget.user.id,
           });
         },
@@ -39,7 +40,7 @@ class _UserItemState extends State<UserItem> {
               defaultAssetImage: Strings.default_profile_image,
             ),
             onTap: () {
-              Navigator.of(context).pushNamed('/user-profile', arguments: {
+              Navigator.of(context).pushNamed(RouteList.profile, arguments: {
                 'userId': widget.user.id,
               });
             }),

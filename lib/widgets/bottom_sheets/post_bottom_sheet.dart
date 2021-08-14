@@ -9,6 +9,7 @@ import 'package:glitcher/models/post_model.dart';
 import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/services/share_link.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/custom_loader.dart';
@@ -127,7 +128,7 @@ class PostBottomSheet {
                 text: 'Edit this post',
                 onPressed: () {
                   Navigator.of(context)
-                      .pushNamed('/edit-post', arguments: {'post': post});
+                      .pushNamed(RouteList.editPost, arguments: {'post': post});
                 },
               )
             : Container(),
@@ -166,10 +167,11 @@ class PostBottomSheet {
         !isMyPost
             ? _widgetBottomSheetRow(context, Icon(Icons.report),
                 text: 'Report Post', onPressed: () async {
-                Navigator.of(context).pushNamed('/report-post', arguments: {
-                  'post_author': post.authorId,
-                  'post_id': post.id
-                });
+                Navigator.of(context).pushNamed(RouteList.reportPost,
+                    arguments: {
+                      'post_author': post.authorId,
+                      'post_id': post.id
+                    });
               })
             : Container(),
       ],
@@ -259,7 +261,7 @@ class PostBottomSheet {
       ),
     );
     Navigator.of(context).pop();
-    Navigator.of(context).pushReplacementNamed('/home');
+    Navigator.of(context).pushReplacementNamed(RouteList.home);
     print('deleting post!');
   }
 
@@ -302,7 +304,7 @@ class PostBottomSheet {
       ),
     );
     Navigator.of(context).pop();
-    Navigator.of(context).pushReplacementNamed('/home');
+    Navigator.of(context).pushReplacementNamed(RouteList.home);
     print('deleting post!');
   }
 

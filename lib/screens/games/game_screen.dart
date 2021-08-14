@@ -11,6 +11,7 @@ import 'package:glitcher/models/game_model.dart';
 import 'package:glitcher/models/post_model.dart';
 import 'package:glitcher/models/user_model.dart' as user;
 import 'package:glitcher/services/database_service.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/services/share_link.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/caching_image.dart';
@@ -50,7 +51,8 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
           actions: [
             IconButton(
               onPressed: () {
-                Navigator.of(context).pushNamed('/suggestion', arguments: {
+                Navigator.of(context)
+                    .pushNamed(RouteList.suggestion, arguments: {
                   'initial_title': '${widget.game.fullName} edit suggestion',
                   'initial_details':
                       'I (${Constants.currentUser.username}) suggest the following edit:',
@@ -258,7 +260,7 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
             Icons.add,
           ),
           onPressed: () {
-            Navigator.of(context).pushNamed('/new-post',
+            Navigator.of(context).pushNamed(RouteList.newPost,
                 arguments: {'selectedGame': widget.game.fullName});
           },
         ),

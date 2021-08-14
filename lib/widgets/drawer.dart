@@ -7,6 +7,7 @@ import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/screens/games/games_screen.dart';
 import 'package:glitcher/screens/profile/profile_screen.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/widgets/rate_app.dart';
 import 'package:provider/provider.dart';
@@ -85,7 +86,7 @@ class _BuildDrawerState extends State<BuildDrawer> {
             ),
             ListTile(
               onTap: () {
-                Navigator.of(context).pushNamed('/bookmarks');
+                Navigator.of(context).pushNamed(RouteList.bookmarks);
               },
               title: Text(
                 'Bookmarks',
@@ -96,7 +97,7 @@ class _BuildDrawerState extends State<BuildDrawer> {
             ),
             ListTile(
               onTap: () {
-                Navigator.of(context).pushNamed('/settings');
+                Navigator.of(context).pushNamed(RouteList.settings);
                 //Navigator.pop(context);
               },
               title: Text(
@@ -118,7 +119,7 @@ class _BuildDrawerState extends State<BuildDrawer> {
                 Icons.info,
               ),
               onTap: () {
-                Navigator.of(context).pushNamed('/about-us');
+                Navigator.of(context).pushNamed(RouteList.aboutUs);
               },
             ),
             ListTile(
@@ -162,7 +163,8 @@ class _BuildDrawerState extends State<BuildDrawer> {
                     authStatus = AuthStatus.NOT_LOGGED_IN;
                   });
                   print('Now, authStatus = $authStatus');
-                  Navigator.of(context).pushReplacementNamed('/');
+                  Navigator.of(context)
+                      .pushReplacementNamed(RouteList.initialRoute);
                   //moveUserTo(context: context, widget: LoginPage());
                 } catch (e) {
                   print('Sign out: $e');

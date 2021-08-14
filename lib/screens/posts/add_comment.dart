@@ -1,12 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/models/post_model.dart';
 import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
-import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/services/notification_handler.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/widgets/caching_image.dart';
 
 class AddCommentScreen extends StatefulWidget {
@@ -119,7 +120,7 @@ class _AddCommentScreenState extends State<AddCommentScreen> {
                   style: TextStyle(color: MyColors.darkGrey),
                   recognizer: new TapGestureRecognizer()
                     ..onTap = () => Navigator.of(context)
-                            .pushNamed('/user-profile', arguments: {
+                            .pushNamed(RouteList.profile, arguments: {
                           'userId': widget.userId,
                         }),
                 ),
@@ -162,7 +163,7 @@ class _AddCommentScreenState extends State<AddCommentScreen> {
                       ),
                       onTap: () {
                         Navigator.of(context)
-                            .pushNamed('/user-profile', arguments: {
+                            .pushNamed(RouteList.profile, arguments: {
                           'userId': widget.userId,
                         });
                       }),

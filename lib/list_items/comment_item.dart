@@ -11,6 +11,7 @@ import 'package:glitcher/models/post_model.dart';
 import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/bottom_sheets/comment_bottom_sheet.dart';
 import 'package:glitcher/widgets/caching_image.dart';
@@ -90,7 +91,8 @@ class _CommentItemState extends State<CommentItem> {
                   defaultAssetImage: Strings.default_profile_image,
                 ),
                 onTap: () {
-                  Navigator.of(context).pushNamed('/user-profile', arguments: {
+                  Navigator.of(context)
+                      .pushNamed(RouteList.profile, arguments: {
                     'userId': widget.comment.commenterID,
                   });
                 }),
@@ -123,7 +125,7 @@ class _CommentItemState extends State<CommentItem> {
                       ),
                     ),
               onTap: () {
-                Navigator.of(context).pushNamed('/user-profile', arguments: {
+                Navigator.of(context).pushNamed(RouteList.profile, arguments: {
                   'userId': widget.comment.commenterID,
                 });
               },
@@ -317,7 +319,8 @@ class _CommentItemState extends State<CommentItem> {
                   onTap: () {
                     print('Mention reply : ${widget.commenter.username}');
 
-                    Navigator.of(context).pushNamed('/add-reply', arguments: {
+                    Navigator.of(context)
+                        .pushNamed(RouteList.addReply, arguments: {
                       'post': widget.post,
                       'comment': widget.isReply
                           ? widget.parentComment
@@ -889,7 +892,7 @@ class _CommentItemState extends State<CommentItem> {
     String username = w.substring(1);
     User user = await DatabaseService.getUserWithUsername(username);
     Navigator.of(context)
-        .pushNamed('/user-profile', arguments: {'userId': user.id});
+        .pushNamed(RouteList.profile, arguments: {'userId': user.id});
     print(w);
   }
 }

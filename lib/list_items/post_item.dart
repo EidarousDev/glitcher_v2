@@ -17,6 +17,7 @@ import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/screens/home/home_screen.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/services/share_link.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/bottom_sheets/post_bottom_sheet.dart';
@@ -118,7 +119,7 @@ class _PostItemState extends State<PostItem> {
                       ),
                       onTap: () {
                         Navigator.of(context)
-                            .pushNamed('/user-profile', arguments: {
+                            .pushNamed(RouteList.profile, arguments: {
                           'userId': post.authorId,
                         });
                       }),
@@ -141,7 +142,7 @@ class _PostItemState extends State<PostItem> {
                                   color: MyColors.darkPrimary)),
                           onTap: () {
                             Navigator.of(context)
-                                .pushNamed('/user-profile', arguments: {
+                                .pushNamed(RouteList.profile, arguments: {
                               'userId': author.id,
                             });
                           },
@@ -166,7 +167,7 @@ class _PostItemState extends State<PostItem> {
                       onTap: () {
                         print('currentGame : ${currentGame.id}');
                         Navigator.of(context)
-                            .pushNamed('/game-screen', arguments: {
+                            .pushNamed(RouteList.game, arguments: {
                           'game': currentGame,
                         });
                       },
@@ -340,10 +341,7 @@ class _PostItemState extends State<PostItem> {
                                               )),
                                               Positioned.fill(
                                                 child: Align(
-                                                  child: Icon(
-                                                    Icons.play_arrow,
-                                                    size: 70,
-                                                  ),
+                                                  child: _youtubeBtn(),
                                                   alignment: Alignment.center,
                                                 ),
                                               )
@@ -494,11 +492,12 @@ class _PostItemState extends State<PostItem> {
                   ],
                 ),
                 onTap: () {
-//                    Navigator.of(context).pushNamed('/post', arguments: {
+//                    Navigator.of(context).pushNamed(RouteList.post, arguments: {
 //                      'post': post,
 //                      'commentsNo': post.commentsCount
 //                    });
-                  Navigator.of(context).pushNamed('/add-comment', arguments: {
+                  Navigator.of(context)
+                      .pushNamed(RouteList.addComment, arguments: {
                     'post': post,
                     'user': author,
                   });
@@ -860,7 +859,7 @@ class _PostItemState extends State<PostItem> {
     User user =
         await DatabaseService.getUserWithUsername(_mentionText.substring(1));
     Navigator.of(context)
-        .pushNamed('/user-profile', arguments: {'userId': user.id});
+        .pushNamed(RouteList.profile, arguments: {'userId': user.id});
     //print(user.id);
   }
 
@@ -890,7 +889,7 @@ class _PostItemState extends State<PostItem> {
     Hashtag hashtag = await DatabaseService.getHashtagWithText(_hashtagText);
 
     Navigator.of(context)
-        .pushNamed('/hashtag-posts', arguments: {'hashtag': hashtag});
+        .pushNamed(RouteList.hashtag, arguments: {'hashtag': hashtag});
     //print(hashtag.id);
   }
 
@@ -927,8 +926,20 @@ class _PostItemState extends State<PostItem> {
 
   _goToPostPreview(Post post) {
     if (!widget.isClickable) return;
-    Navigator.of(context).pushNamed('/post', arguments: {
+    Navigator.of(context).pushNamed(RouteList.post, arguments: {
       'post': post,
     });
+  }
+
+  Widget _youtubeBtn() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20), color: Colors.black87),
+      child: Icon(
+        Icons.play_arrow,
+        size: 50,
+      ),
+    );
   }
 }

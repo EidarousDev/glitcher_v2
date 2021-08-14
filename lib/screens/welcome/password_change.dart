@@ -4,6 +4,7 @@ import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/auth_provider.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/widgets/custom_loader.dart';
 import 'package:glitcher/widgets/gradient_appbar.dart';
@@ -284,7 +285,7 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
       if (errorCode == null) {
         AppUtil.showSnackBar(context, 'Password changed successfully');
         firebaseAuth.signOut();
-        Navigator.of(context).pushReplacementNamed('/login',
+        Navigator.of(context).pushReplacementNamed(RouteList.login,
             arguments: {'on_sign_up_callback': false});
       } else {
         if (errorCode == 'ERROR_WEAK_PASSWORD') {

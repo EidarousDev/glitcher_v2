@@ -3,6 +3,7 @@ import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/list_items/user_item.dart';
 import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/drawer.dart';
 import 'package:glitcher/widgets/gradient_appbar.dart';
@@ -143,6 +144,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Future<bool> _onBackPressed() {
     /// Navigate back to home page
-    Navigator.of(context).pushReplacementNamed('/home');
+    Navigator.of(context).pushReplacementNamed(RouteList.home);
   }
 }

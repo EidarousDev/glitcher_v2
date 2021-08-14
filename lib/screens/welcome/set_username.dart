@@ -4,6 +4,7 @@ import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/auth_provider.dart';
 import 'package:glitcher/services/database_service.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/custom_loader.dart';
@@ -157,7 +158,7 @@ class _SetUsernameScreenState extends State<SetUsernameScreen> {
 
         saveToken();
 
-        Navigator.of(context).pushReplacementNamed('/');
+        Navigator.of(context).pushReplacementNamed(RouteList.initialRoute);
       } else if (validUsername != null) {
         AppUtil.showSnackBar(context, 'Invalid username!');
       } else {
