@@ -33,12 +33,11 @@ class NotificationHandler {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     if (!kIsWeb) {
       _channel = const AndroidNotificationChannel(
-        'high_importance_channel', // id
-        'High Importance Notifications', // title
-        'This channel is used for important notifications.', // description
-        importance: Importance.high,
-      );
-
+          'high_importance_channel', // id
+          'High Importance Notifications', // title
+          'This channel is used for important notifications.', // description
+          importance: Importance.high,
+          playSound: true);
       _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
       /// Create an Android Notification Channel.
@@ -91,8 +90,9 @@ class NotificationHandler {
                 _channel.id,
                 _channel.name,
                 _channel.description,
-                // TODO add a proper drawable resource to android, for now using
-                //      one that already exists in example app.
+                groupKey: message.data['type'] == 'message'
+                    ? '${message.data['type']}_${message.data['sender']}'
+                    : null,
                 icon: 'ic_notification',
               ),
             ));
@@ -193,6 +193,9 @@ class NotificationHandler {
         enableVibration: true,
         importance: Importance.max,
         priority: Priority.high,
+        groupKey: message['type'] == 'message'
+            ? '${message['type']}_${message['sender']}'
+            : null,
         autoCancel: true);
     var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
     var platformChannelSpecifics = new NotificationDetails(

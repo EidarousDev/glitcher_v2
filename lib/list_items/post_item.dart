@@ -936,6 +936,7 @@ class _PostItemState extends State<PostItem> {
           borderRadius: BorderRadius.circular(20), color: Colors.black87),
       child: Icon(
         Icons.play_arrow,
+        color: Colors.white,
         size: 50,
       ),
     );
