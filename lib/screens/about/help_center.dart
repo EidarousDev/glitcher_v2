@@ -18,7 +18,7 @@ class _HelpCenterState extends State<HelpCenter> {
   //   JavascriptChannel(
   //       name: 'Print',
   //       onMessageReceived: (JavascriptMessage message) {
-  //         print(message.message);
+  //         //print(message.message);
   //       }),
   // ].toSet();
   // GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();

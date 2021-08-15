@@ -16,7 +16,7 @@ import 'database_service.dart';
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   // MyApp.restartApp(NotificationHandler.context);
-  // print(message.data['type']);
+  // //print(message.data['type']);
   // NotificationHandler.lastNotification = message.data;
 }
 
@@ -152,19 +152,22 @@ class NotificationHandler {
       'object_id': objectId,
       'type': type
     });
-
-    //To increment notificationsNumber
-    //User user = await DatabaseService.getUserWithId(receiverId);
-    await usersRef
-        .doc(receiverId)
-        .update({'notificationsNumber': FieldValue.increment(1)});
+    if (type == 'message') {
+      await usersRef
+          .doc(receiverId)
+          .update({'messagesNumber': FieldValue.increment(1)});
+    } else {
+      await usersRef
+          .doc(receiverId)
+          .update({'notificationsNumber': FieldValue.increment(1)});
+    }
   }
 
   static removeNotification(
       String receiverId, String objectId, String type) async {
     await DatabaseService.removeNotification(receiverId, objectId, type);
 
-    print('noti removed');
+    //print('noti removed');
   }
 
   void configLocalNotification() async {
@@ -176,7 +179,7 @@ class NotificationHandler {
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: (data) {
-      print('data: $data');
+      //print('data: $data');
     });
   }
 
@@ -207,5 +210,9 @@ class NotificationHandler {
     await usersRef
         .doc(Constants.currentUserID)
         .update({'notificationsNumber': 0});
+  }
+
+  clearMessagesNumber() async {
+    await usersRef.doc(Constants.currentUserID).update({'messagesNumber': 0});
   }
 }

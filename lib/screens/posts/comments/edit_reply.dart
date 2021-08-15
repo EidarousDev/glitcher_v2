@@ -138,7 +138,8 @@ class _AddReplyPageState extends State<EditReply> {
     Navigator.of(context).pop();
 
     /// Navigate back to home page
-    Navigator.of(context).pushNamed(RouteList.post, arguments: {'post': widget.post});
+    Navigator.of(context)
+        .pushNamed(RouteList.post, arguments: {'post': widget.post});
   }
 
   @override
@@ -156,7 +157,7 @@ class _AddReplyPageState extends State<EditReply> {
                 if (canSubmit) {
                   _submitButton();
                 } else {
-                  print('can\'t submit = $canSubmit');
+                  //print('can\'t submit = $canSubmit');
                 }
               },
               icon: Icon(
@@ -439,7 +440,7 @@ class _ComposeTweet extends WidgetView<EditReply, _AddReplyPageState> {
                         itemBuilder: (context, index) {
                           String friendUsername =
                               Constants.userFriends[index].username;
-                          print('username:' + friendUsername);
+                          //print('username:' + friendUsername);
                           if (('@' + friendUsername.toLowerCase())
                               .contains(viewState._mentionText.toLowerCase()))
                             return ListTile(

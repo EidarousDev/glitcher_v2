@@ -171,7 +171,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    print('onSignUpCallback = ${widget.onSignUpCallback}');
+    //print('onSignUpCallback = ${widget.onSignUpCallback}');
   }
 
   Widget _divider() {
@@ -246,7 +246,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 switch (result.status) {
                   case FacebookLoginStatus.loggedIn:
-                    print('facebook login success');
+                    //print('facebook login success');
                     //_sendTokenToServer(result.accessToken.token);
                     //_showLoggedInUI();
                     break;
@@ -329,9 +329,9 @@ class _LoginPageState extends State<LoginPage> {
   Future _login() async {
     final BaseAuth auth = AuthProvider.of(context).auth;
 
-    //print(mEmail + ' : ' + mPassword);
+    ////print(mEmail + ' : ' + mPassword);
     Navigator.of(context).push(CustomScreenLoader());
-    //print('Should be true: $_loading');
+    ////print('Should be true: $_loading');
     try {
       User user = await auth.signInWithEmailAndPassword(_email, _password);
       userId = user.uid;
@@ -339,7 +339,7 @@ class _LoginPageState extends State<LoginPage> {
           await DatabaseService.getUserWithId(userId, checkLocal: false);
 
       if (user.emailVerified && temp.id == null) {
-        print('signed up');
+        //print('signed up');
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String username = prefs.getString('username');
 
@@ -364,7 +364,7 @@ class _LoginPageState extends State<LoginPage> {
       AppUtil.showSnackBar(
           context, 'The email address or password is incorrect.');
     }
-    //print('Should be true: $_loading');
+    ////print('Should be true: $_loading');
   }
 
   @override
@@ -440,16 +440,16 @@ class _LoginPageState extends State<LoginPage> {
       Buttons.Google,
       text: "Sign in with Google",
       onPressed: () async {
-        print('Google SignIn Button Tapped!');
+        //print('Google SignIn Button Tapped!');
         User user = await signInWithGoogle();
         if ((await DatabaseService.getUserWithId(user.uid, checkLocal: false))
                 .id !=
             null) {
-          print('existing user');
+          //print('existing user');
           saveToken();
           Navigator.of(context).pushReplacementNamed(RouteList.initialRoute);
         } else {
-          print('new user');
+          //print('new user');
           Navigator.of(context).pushReplacementNamed(RouteList.setUsername,
               arguments: {'user': user});
         }
@@ -460,7 +460,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<User> signInWithGoogle() async {
     final GoogleSignInAccount googleSignInAccount =
         await googleSignIn.signIn().catchError((onError) {
-      print('google sign in error code: ${onError.code}');
+      //print('google sign in error code: ${onError.code}');
       AppUtil.showSnackBar(
           context, 'Unknown error, please try another sign in method!');
     });
@@ -488,6 +488,6 @@ class _LoginPageState extends State<LoginPage> {
   void signOutGoogle() async {
     await googleSignIn.signOut();
 
-    print("User Sign Out");
+    //print("User Sign Out");
   }
 }

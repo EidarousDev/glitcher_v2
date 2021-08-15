@@ -268,7 +268,7 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
       await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: _currentPassword);
     } catch (ex) {
-      print('authResult: ${ex.toString()}');
+      //print('authResult: ${ex.toString()}');
 
       if (ex.code == 'ERROR_WRONG_PASSWORD') {
         AppUtil.showSnackBar(context, 'Current Password is not correct!');
@@ -281,7 +281,7 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
       // Validation Passed
 
       String errorCode = await baseAuth.changePassword(_newPassword);
-      print('change pass error: $errorCode');
+      //print('change pass error: $errorCode');
       if (errorCode == null) {
         AppUtil.showSnackBar(context, 'Password changed successfully');
         firebaseAuth.signOut();
@@ -301,6 +301,6 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
 
     Navigator.of(context).pop();
 
-    print('Should be false: $_loading');
+    //print('Should be false: $_loading');
   }
 }

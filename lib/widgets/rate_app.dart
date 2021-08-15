@@ -51,7 +51,7 @@ class RateApp {
             child: Text('OK'),
             onPressed: () async {
               if (stars.round() < 4) {
-                print('move the user to contact us page!');
+                //print('move the user to contact us page!');
                 showDialog(
                   context: context,
                   builder: (context) => Padding(
@@ -82,10 +82,10 @@ class RateApp {
                   ),
                 );
               } else if (stars >= 4) {
-                print('5 stars!!');
+                //print('5 stars!!');
                 rateMyApp.launchStore();
               } else {
-                print('User did not rate the app!');
+                //print('User did not rate the app!');
               }
               // You can handle the result as you want (for instance if the user puts 1 star then open your contact page, if he puts more then open the store page, etc...).
               // This allows to mimic the behavior of the default "Rate" button. See "Advanced > Broadcasting events" for more information :

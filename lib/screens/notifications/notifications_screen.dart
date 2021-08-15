@@ -90,7 +90,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     List<notification_model.Notification> notifications =
         await DatabaseService.getNotifications();
     setState(() {
-      _notifications = notifications;
+      _notifications =
+          notifications.where((element) => element.type != 'message').toList();
       this.lastVisibleNotificationSnapShot = notifications.last.timestamp;
     });
   }
@@ -100,7 +101,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         lastVisibleNotificationSnapShot);
     if (notifications.length > 0) {
       setState(() {
-        notifications.forEach((element) => _notifications.add(element));
+        notifications.forEach((element) {
+          if (element.type != 'message') _notifications.add(element);
+        });
         this.lastVisibleNotificationSnapShot = _notifications.last.timestamp;
       });
     }
@@ -114,12 +117,12 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         if (_scrollController.offset >=
                 _scrollController.position.maxScrollExtent &&
             !_scrollController.position.outOfRange) {
-          print('reached the bottom');
+          //print('reached the bottom');
           nextNotifications();
         } else if (_scrollController.offset <=
                 _scrollController.position.minScrollExtent &&
             !_scrollController.position.outOfRange) {
-          print("reached the top");
+          //print("reached the top");
         } else {}
       });
     _setupFeed();

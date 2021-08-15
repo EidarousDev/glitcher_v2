@@ -32,7 +32,7 @@ class Conversation extends StatefulWidget {
   Conversation({this.otherUid});
 
   updateRecordTime(String recordTime) {
-    print('recordTime: $recordTime');
+    //print('recordTime: $recordTime');
     state.updateRecordTime(recordTime);
   }
 
@@ -90,7 +90,9 @@ class _ConversationState extends State<Conversation>
   void getMessages() async {
     var messages = await DatabaseService.getMessages(widget.otherUid);
     setState(() {
-      this._messages = messages;
+      this._messages = messages
+          .where((element) => !(_messages ?? []).contains(element))
+          .toList();
       this.firstVisibleGameSnapShot = messages.last.timestamp;
     });
   }
@@ -120,7 +122,7 @@ class _ConversationState extends State<Conversation>
         .listen((querySnapshot) {
       querySnapshot.docChanges.forEach((change) {
         if (change.type == DocumentChangeType.added) {
-          print('type is her');
+          //print('type is her');
           if (_messages != null) {
             List<Message> sameMessages = _messages
                 .where((element) =>
@@ -138,7 +140,7 @@ class _ConversationState extends State<Conversation>
         }
 
         if (Message.fromDoc(change.doc).sender == widget.otherUid) {
-          //print('made seen');
+          ////print('made seen');
           makeMessagesSeen();
         }
       });
@@ -159,7 +161,7 @@ class _ConversationState extends State<Conversation>
           if (this.mounted) {
             setState(() {
               seen = change.doc['isSeen'];
-              print('seen');
+              //print('seen');
             });
           }
         }
@@ -298,12 +300,12 @@ class _ConversationState extends State<Conversation>
         if (_scrollController.offset >=
                 _scrollController.position.maxScrollExtent &&
             !_scrollController.position.outOfRange) {
-          print('reached the bottom');
+          //print('reached the bottom');
           getPrevMessages();
         } else if (_scrollController.offset <=
                 _scrollController.position.minScrollExtent &&
             !_scrollController.position.outOfRange) {
-          print("reached the top");
+          //print("reached the top");
         } else {}
       });
   }
@@ -593,7 +595,7 @@ class _ConversationState extends State<Conversation>
                                               message:
                                                   'You must grant this microphone access to be able to use this feature.',
                                               okBtn: 'OK');
-                                          print('Permission has been denied');
+                                          //print('Permission has been denied');
                                         });
                                         setState(() {
                                           isMicrophoneGranted = isGranted;
@@ -669,7 +671,7 @@ class _ConversationState extends State<Conversation>
   }
 
   Future<bool> _onBackBtnPressed() async {
-    print('Back Button Pressed');
+    //print('Back Button Pressed');
     var message = await DatabaseService.getLastMessage(widget.otherUid);
     Navigator.of(context).pop(message);
     //Constants.chats.ChatsState

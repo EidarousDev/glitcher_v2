@@ -41,7 +41,7 @@ class AppModel with ChangeNotifier {
       var prefs = await SharedPreferences.getInstance();
       await prefs.setBool('darkTheme', theme);
     } catch (error) {
-      print('[updateTheme] error: ${error.toString()}');
+      //print('[updateTheme] error: ${error.toString()}');
     }
   }
 

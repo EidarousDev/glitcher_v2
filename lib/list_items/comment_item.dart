@@ -58,7 +58,7 @@ class _CommentItemState extends State<CommentItem> {
 
   @override
   Widget build(BuildContext context) {
-//    print(
+//    //print(
 //        'user: ${widget.commenter.username} and comment: ${widget.comment.text}');
     return SafeArea(
       child: Column(
@@ -317,7 +317,7 @@ class _CommentItemState extends State<CommentItem> {
                     ],
                   ),
                   onTap: () {
-                    print('Mention reply : ${widget.commenter.username}');
+                    //print('Mention reply : ${widget.commenter.username}');
 
                     Navigator.of(context)
                         .pushNamed(RouteList.addReply, arguments: {
@@ -469,8 +469,7 @@ class _CommentItemState extends State<CommentItem> {
       isLikeEnabled = true;
     });
 
-    print(
-        'likes = ${commentMeta['likes']} and dislikes = ${commentMeta['dislikes']}');
+    //print('likes = ${commentMeta['likes']} and dislikes = ${commentMeta['dislikes']}');
   }
 
   Future<void> dislikeBtnHandler(Post post, Comment comment) async {
@@ -558,8 +557,7 @@ class _CommentItemState extends State<CommentItem> {
       isDislikedEnabled = true;
     });
 
-    print(
-        'likes = ${commentMeta['likes']} and dislikes = ${commentMeta['dislikes']}');
+    //print('likes = ${commentMeta['likes']} and dislikes = ${commentMeta['dislikes']}');
   }
 
   void initLikes(String postId, Comment comment) async {
@@ -702,8 +700,7 @@ class _CommentItemState extends State<CommentItem> {
       isLikeEnabled = true;
     });
 
-    print(
-        'likes = ${replyMeta['likes']} and dislikes = ${replyMeta['dislikes']}');
+    //print('likes = ${replyMeta['likes']} and dislikes = ${replyMeta['dislikes']}');
   }
 
   Future<void> repliesDislikeBtnHandler(
@@ -809,8 +806,7 @@ class _CommentItemState extends State<CommentItem> {
       isDislikedEnabled = true;
     });
 
-    print(
-        'likes = ${replyMeta['likes']} and dislikes = ${replyMeta['dislikes']}');
+    //print('likes = ${replyMeta['likes']} and dislikes = ${replyMeta['dislikes']}');
   }
 
   void repliesInitLikes(
@@ -878,12 +874,12 @@ class _CommentItemState extends State<CommentItem> {
       if (scrollController.offset >=
               scrollController.position.maxScrollExtent &&
           !scrollController.position.outOfRange) {
-        print('reached the bottom');
+        //print('reached the bottom');
         //nextComments();
       } else if (scrollController.offset <=
               scrollController.position.minScrollExtent &&
           !scrollController.position.outOfRange) {
-        print("reached the top");
+        //print("reached the top");
       } else {}
     });
   }
@@ -893,6 +889,6 @@ class _CommentItemState extends State<CommentItem> {
     User user = await DatabaseService.getUserWithUsername(username);
     Navigator.of(context)
         .pushNamed(RouteList.profile, arguments: {'userId': user.id});
-    print(w);
+    //print(w);
   }
 }

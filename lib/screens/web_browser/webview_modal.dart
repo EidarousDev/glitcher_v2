@@ -43,7 +43,7 @@ class WebViewModal extends ModalRoute<void> {
   //   JavascriptChannel(
   //       name: 'Print',
   //       onMessageReceived: (JavascriptMessage message) {
-  //         print(message.message);
+  //         //print(message.message);
   //       }),
   // ].toSet();
   // final flutterWebViewPlugin = FlutterWebviewPlugin();

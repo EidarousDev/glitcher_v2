@@ -17,6 +17,7 @@ class User with ChangeNotifier {
   int followedGames;
   bool isAccountPrivate;
   int notificationsNumber;
+  int messagesNumber;
   List search;
   int isFollower;
   int isFollowing;
@@ -38,6 +39,7 @@ class User with ChangeNotifier {
       this.followedGames,
       this.isAccountPrivate,
       this.notificationsNumber,
+      this.messagesNumber,
       this.search,
       this.isFollower,
       this.isFollowing,
@@ -62,6 +64,7 @@ class User with ChangeNotifier {
         followedGames: data['followed_games'],
         isAccountPrivate: data['is_account_private'],
         notificationsNumber: data['notificationsNumber'],
+        messagesNumber: data['messagesNumber'],
         search: data['search']);
   }
 
@@ -118,6 +121,7 @@ class User with ChangeNotifier {
     followedGames = user.followedGames;
     isAccountPrivate = user.isAccountPrivate;
     notificationsNumber = user.notificationsNumber;
+    messagesNumber = user.messagesNumber;
     search = user.search;
     isFollower = user.isFollower;
     isFollowing = user.isFollowing;

@@ -156,7 +156,7 @@ class _AddCommentPageState extends State<EditComment> {
                 if (canSubmit) {
                   _submitButton();
                 } else {
-                  print('can\'t submit = $canSubmit');
+                  //print('can\'t submit = $canSubmit');
                 }
               },
               icon: Icon(
@@ -423,7 +423,7 @@ class _ComposeTweet extends WidgetView<EditComment, _AddCommentPageState> {
                         itemBuilder: (context, index) {
                           String friendUsername =
                               Constants.userFriends[index].username;
-                          print('username:' + friendUsername);
+                          //print('username:' + friendUsername);
                           if (('@' + friendUsername.toLowerCase())
                               .contains(viewState._mentionText.toLowerCase()))
                             return ListTile(

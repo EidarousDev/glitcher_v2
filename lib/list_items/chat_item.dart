@@ -12,6 +12,7 @@ class ChatItem extends StatefulWidget {
   Message msg;
   final bool isOnline;
   final int counter;
+  final Function onClearNotifications;
 
   ChatItem({
     Key key,
@@ -20,6 +21,7 @@ class ChatItem extends StatefulWidget {
     //this.time,
     @required this.msg,
     @required this.isOnline,
+    this.onClearNotifications,
     @required this.counter,
   }) : super(key: key);
 
@@ -28,6 +30,13 @@ class ChatItem extends StatefulWidget {
 }
 
 class _ChatItemState extends State<ChatItem> {
+  int _counter;
+  @override
+  void initState() {
+    super.initState();
+    _counter = widget.counter;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -101,7 +110,7 @@ class _ChatItemState extends State<ChatItem> {
               ),
             ),
             SizedBox(height: 5),
-            widget.counter == 0
+            _counter == 0
                 ? SizedBox()
                 : Container(
                     padding: EdgeInsets.all(1),
@@ -116,7 +125,7 @@ class _ChatItemState extends State<ChatItem> {
                     child: Padding(
                       padding: EdgeInsets.only(top: 1, left: 5, right: 5),
                       child: Text(
-                        "${widget.counter}",
+                        "$_counter",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 10,
@@ -128,6 +137,12 @@ class _ChatItemState extends State<ChatItem> {
           ],
         ),
         onTap: () async {
+          if (widget.onClearNotifications != null) {
+            widget.onClearNotifications();
+            setState(() {
+              _counter = 0;
+            });
+          }
           ValueKey key = this.widget.key;
           String uid = key.value;
           var message = await Navigator.of(context)

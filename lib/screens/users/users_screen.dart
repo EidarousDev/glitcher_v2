@@ -192,11 +192,11 @@ class _UsersScreenState extends State<UsersScreen> {
       if (_scrollController.offset >=
               _scrollController.position.maxScrollExtent &&
           !_scrollController.position.outOfRange) {
-        print('reached the bottom');
+        //print('reached the bottom');
       } else if (_scrollController.offset <=
               _scrollController.position.minScrollExtent &&
           !_scrollController.position.outOfRange) {
-        print("reached the top");
+        //print("reached the top");
       } else {}
     });
     getUsers();

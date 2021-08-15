@@ -183,7 +183,7 @@ class _AddMembersToGroupState extends State<AddMembersToGroup>
                     setState(() {
                       chosens[index] = value;
                     });
-                    print(value);
+                    //print(value);
                   }),
             );
           },

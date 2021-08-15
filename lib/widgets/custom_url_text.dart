@@ -96,7 +96,7 @@ class _LinkTextSpan extends TextSpan {
                     (text.contains("@") || text.contains("@"))) {
                   onMentionPressed(text);
                 } else {
-                  print('text is $text');
+                  //print('text is $text');
                   Navigator.of(context)
                       .pushNamed(RouteList.browser, arguments: {
                     'url': text,

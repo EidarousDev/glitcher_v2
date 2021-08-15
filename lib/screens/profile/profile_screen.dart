@@ -127,12 +127,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         if (_scrollController.offset >=
                 _scrollController.position.maxScrollExtent &&
             !_scrollController.position.outOfRange) {
-          print('reached the bottom');
+          //print('reached the bottom');
           nextPosts();
         } else if (_scrollController.offset <=
                 _scrollController.position.minScrollExtent &&
             !_scrollController.position.outOfRange) {
-          print("reached the top");
+          //print("reached the top");
         } else {}
       });
     checkUser();
@@ -188,7 +188,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       _loading = true;
     });
-    print('profileUserID = ${widget.userId}');
+    //print('profileUserID = ${widget.userId}');
     user_model.User user =
         await DatabaseService.getUserWithId(widget.userId, checkLocal: false);
     setState(() {
@@ -704,7 +704,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   shareProfile(String userId, String username, String profileImageUrl) async {
-    print('profileImageUrl: $profileImageUrl');
+    //print('profileImageUrl: $profileImageUrl');
     var userLink = await DynamicLinks(
             Provider.of<AppModel>(context, listen: false)
                 .packageInfo
@@ -712,7 +712,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         .createProfileDynamicLink(
             {'userId': userId, 'text': username, 'imageUrl': profileImageUrl});
     Share.share('Check out @$username profile: $userLink');
-    print('Check out @$username profile: $userLink');
+    //print('Check out @$username profile: $userLink');
   }
 
   updateUsername() async {

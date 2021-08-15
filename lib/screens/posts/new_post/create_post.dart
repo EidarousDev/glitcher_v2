@@ -115,12 +115,12 @@ class _CreatePostReplyPageState extends State<CreatePost> {
   }
 
   void _onVideoIconSelected(File file) async {
-    print('File size: ${file.lengthSync()}');
+    //print('File size: ${file.lengthSync()}');
     if (file.lengthSync() / (1024 * 1024) >= kMaxVideoSizedInMegaBytes) {
       customSnackBar(_scaffoldKey, 'Video exceeded 10 Megabytes limit.');
     } else {
       setState(() {
-        print('File xx: ${file.path}');
+        //print('File xx: ${file.path}');
         _video = file;
       });
       videoPlayerController = VideoPlayerController.file(File(_video.path))
@@ -202,7 +202,7 @@ class _CreatePostReplyPageState extends State<CreatePost> {
       //   quality: VideoQuality.LowQuality, includeAudio: true,
       //   deleteOrigin: false, // It's false by default
       // );
-      // print('Compressed sized ${mediaInfo.filesize}');
+      // //print('Compressed sized ${mediaInfo.filesize}');
       _uploadedFileURL = await AppUtil.uploadFile(
           _video, context, 'posts_videos/${Constants.currentUserID}/' + postId);
     } else if (_image != null) {
@@ -218,7 +218,7 @@ class _CreatePostReplyPageState extends State<CreatePost> {
       await AppUtil.deleteAppDirectoryFiles();
     } else {}
 
-    print(_youtubeId);
+    //print(_youtubeId);
     DocumentSnapshot gameInDB = await gamesRef.doc(_selectedGame.id).get();
 
     if (!gameInDB.exists) {
@@ -242,7 +242,7 @@ class _CreatePostReplyPageState extends State<CreatePost> {
         await DatabaseService.getUserLastPost(Constants.currentUserID);
 
     if (lastPost == null) {
-      print('First time to post');
+      //print('First time to post');
     } else if (lastPost != null &&
         DateTime.now().millisecondsSinceEpoch -
                 lastPost.timestamp.millisecondsSinceEpoch <
@@ -289,7 +289,7 @@ class _CreatePostReplyPageState extends State<CreatePost> {
                 if (canSubmit) {
                   _submitButton();
                 } else {
-                  print('can\'t submit = $canSubmit');
+                  //print('can\'t submit = $canSubmit');
                 }
               },
               icon: Icon(
@@ -429,8 +429,8 @@ class _ComposeTweet extends WidgetView<CreatePost, _CreatePostReplyPageState> {
                               : '';
                         });
 
-                        print(viewState.words[viewState.words.length - 1]);
-                        print('yotubeId: ${viewState._youtubeId}');
+                        //print(viewState.words[viewState.words.length - 1]);
+                        //print('yotubeId: ${viewState._youtubeId}');
                       },
                       maxLength: Sizes.maxPostChars,
                       minLines: 5,
@@ -455,7 +455,7 @@ class _ComposeTweet extends WidgetView<CreatePost, _CreatePostReplyPageState> {
                         itemBuilder: (context, index) {
                           String friendUsername =
                               Constants.userFriends[index].username;
-                          print('username:' + friendUsername);
+                          //print('username:' + friendUsername);
                           if (('@' + friendUsername.toLowerCase())
                               .contains(viewState._mentionText.toLowerCase()))
                             return ListTile(
@@ -517,7 +517,7 @@ class _ComposeTweet extends WidgetView<CreatePost, _CreatePostReplyPageState> {
                         itemCount: Constants.hashtags.length,
                         itemBuilder: (context, index) {
                           String hashtag = Constants.hashtags[index].text;
-                          print('hashtag:' + hashtag);
+                          //print('hashtag:' + hashtag);
                           if (('#' + hashtag.toLowerCase())
                               .contains(viewState._hashtagText.toLowerCase()))
                             return ListTile(

@@ -54,7 +54,7 @@ class _AppPageState extends State<AppPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('currentUser = ${Constants.currentUser}');
+    //print('currentUser = ${Constants.currentUser}');
     return Scaffold(
       key: _scaffoldKey,
       body: PageView(
@@ -84,9 +84,19 @@ class _AppPageState extends State<AppPage> {
               title: Container(height: 0.0),
             ),
             BottomNavigationBarItem(
-              icon: Icon(
-                Icons.message,
-              ),
+              // ignore: null_aware_before_operator
+              icon: (Constants.currentUser?.messagesNumber ?? 0) > 0
+                  ? Badge(
+                      badgeContent: Text(
+                          (Constants.currentUser?.messagesNumber ?? 0) < 9
+                              ? (Constants.currentUser?.messagesNumber ?? 0)
+                                  .toString()
+                              : '+9'),
+                      child: Icon(Icons.message),
+                      toAnimate: true,
+                      animationType: BadgeAnimationType.scale,
+                    )
+                  : Icon(Icons.message),
               title: Container(height: 0.0),
             ),
             BottomNavigationBarItem(
@@ -134,7 +144,7 @@ class _AppPageState extends State<AppPage> {
     super.initState();
     initDynamicLinks();
     //setPackageInfo();
-    print('Constants.loggedInUser: ${Constants.currentUser}');
+    //print('Constants.loggedInUser: ${Constants.currentUser}');
     _pageController = PageController(initialPage: 0);
     //_retrieveDynamicLink();
     userListener();
@@ -154,7 +164,7 @@ class _AppPageState extends State<AppPage> {
 
       // Got a new connectivity status!
       if (result == ConnectivityResult.none) {
-        print('No internet');
+        //print('No internet');
         AppUtil.showFixedSnackBar(context, 'No internet connection.');
       } else {
         _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -191,8 +201,8 @@ class _AppPageState extends State<AppPage> {
         }
       }
     }, onError: (OnLinkErrorException e) async {
-      print('onLinkError');
-      print(e.message);
+      //print('onLinkError');
+      //print(e.message);
     });
 
     final PendingDynamicLinkData data =
@@ -215,7 +225,7 @@ class _AppPageState extends State<AppPage> {
 //    if (deepLink != null) {
 //      // to get the parameters we sent
 //      // to get what link it is use deepLink.path
-//      print('test link $deepLink.path');
+//      //print('test link $deepLink.path');
 //      String postId = deepLink.queryParameters['postId'];
 //      // perform your navigation operations here
 //      Post post = await DatabaseService.getPostWithId(postId);
@@ -234,7 +244,7 @@ class _AppPageState extends State<AppPage> {
     setState(() {
       Constants.favouriteFilter = favouriteFilter;
     });
-    print('filter: ${Constants.favouriteFilter}');
+    //print('filter: ${Constants.favouriteFilter}');
   }
 
   userListener() {
@@ -260,6 +270,8 @@ class _AppPageState extends State<AppPage> {
           //TODO change if bottom navbar changed
           //notification screen
           NotificationHandler().clearNotificationsNumber();
+        } else if (page == 1) {
+          NotificationHandler().clearMessagesNumber();
         }
       });
     }
@@ -274,7 +286,7 @@ class _AppPageState extends State<AppPage> {
           .doc(token)
           .set({'modifiedAt': FieldValue.serverTimestamp(), 'signed': true});
     }
-    print('token = $token');
+    //print('token = $token');
   }
 
   Future<void> setHashtags() async {

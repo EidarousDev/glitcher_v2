@@ -262,7 +262,7 @@ class PostBottomSheet {
     );
     Navigator.of(context).pop();
     Navigator.of(context).pushReplacementNamed(RouteList.home);
-    print('deleting post!');
+    //print('deleting post!');
   }
 
   void unfollowUser(BuildContext context, User user) async {
@@ -305,7 +305,7 @@ class PostBottomSheet {
     );
     Navigator.of(context).pop();
     Navigator.of(context).pushReplacementNamed(RouteList.home);
-    print('deleting post!');
+    //print('deleting post!');
   }
 
   void _bookmarkPost(String postId, BuildContext context) async {

@@ -150,22 +150,22 @@ class _CreateBottomIconState extends State<CreateBottomIcon> {
     ]);
 
     if (result != null) {
-      print(result.files[0].path);
+      //print(result.files[0].path);
       File file = File(result.files[0].path);
       setState(() {
         widget.onVideoIconSelected(file);
-        print('file video xx $file');
+        //print('file video xx $file');
       });
     } else {
       // User canceled the picker
     }
     // ImagePicker imagePicker = ImagePicker();
     // await imagePicker.getVideo(source: ImageSource.gallery).then((value) async {
-    //   print(value.path);
+    //   //print(value.path);
     //   File file = File(value.path);
     //   setState(() {
     //     widget.onVideoIconSelected(file);
-    //     print('file video xx $file');
+    //     //print('file video xx $file');
     //   });
     // });
   }

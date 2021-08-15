@@ -88,25 +88,25 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-//      floatingActionButton: FloatingActionButton(
-//        onPressed: () async {
-//          Navigator.of(context).push(CustomScreenLoader());
-//          QuerySnapshot usersSnapshot = await usersRef.getDocuments();
-//          List<User> users =
-//              usersSnapshot.documents.map((doc) => User.fromDoc(doc)).toList();
-//          for (User user in users) {
-//            List list = await DatabaseService.getAllFollowedGames(user.id);
-//            await usersRef
-//                .document(user.id)
-//                .updateData({'followed_games': list.length});
-//
-//            print('User(${user.username}) Done!');
-//          }
-//          Navigator.of(context).pop();
-//          AppUtil.showSnackBar(context, _scaffoldKey, 'DONE!!!');
-//        },
-//        child: Icon(Icons.code),
-//      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     Navigator.of(context).push(CustomScreenLoader());
+      //
+      //     QuerySnapshot usersSnapshot = await usersRef.get();
+      //
+      //     List<user.User> users =
+      //         usersSnapshot.docs.map((doc) => user.User.fromDoc(doc)).toList();
+      //
+      //     for (user.User xxx in users) {
+      //       await usersRef.doc(xxx.id).update({'messagesNumber': 0});
+      //
+      //       //print('User(${xxx.username}) Done!');
+      //     }
+      //     Navigator.of(context).pop();
+      //     AppUtil.showSnackBar(context, 'DONE!!!');
+      //   },
+      //   child: Icon(Icons.code),
+      // ),
       appBar: AppBar(
         centerTitle: true,
         title: Text('Home'),
@@ -117,15 +117,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             child: InkWell(
               onTap: () => Scaffold.of(context).openDrawer(),
               child: Icon(Icons.menu),
-//                    CachedNetworkImage(
-//                      imageUrl: profileImageUrl,
-//                      imageBuilder: (context, imageProvider) => CircleAvatar(
-//                        radius: 25.0,
-//                      ),
-//                      placeholder: (context, url) =>
-//                          CircularProgressIndicator(),
-//                      errorWidget: (context, url, error) => Icon(Icons.error),
-//                    ),
             ),
           ),
         ),
@@ -405,7 +396,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       Navigator.pop(context); // Dismiss the loader dialog
     }
 
-    print('Home Filter: $_feedFilter');
+    //print('Home Filter: $_feedFilter');
 
     if (_feedFilter == 0) {
       posts = await DatabaseService.getPosts();
@@ -443,12 +434,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         if (_scrollController.offset >=
                 _scrollController.position.maxScrollExtent &&
             !_scrollController.position.outOfRange) {
-          print('reached the bottom');
+          //print('reached the bottom');
           nextPosts();
         } else if (_scrollController.offset <=
                 _scrollController.position.minScrollExtent &&
             !_scrollController.position.outOfRange) {
-          print("reached the top");
+          //print("reached the top");
         } else {}
       });
     loadUserData();
@@ -462,13 +453,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     super.didChangeDependencies();
     if (mounted) {
       if (Provider.of<AppModel>(context, listen: false).newUpdateExists) {
-        print('new update');
+        //print('new update');
         //TODO show update dialog
         // AppUtil.alertDialog(
         //     message: 'New update',
         //     context: context,
         //     okBtn: 'Update',
-        //     onSuccess: () => print('new update'));
+        //     onSuccess: () => //print('new update'));
       }
     }
     RateApp(context).rateGlitcher();
@@ -491,13 +482,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     updateOnlineUserState(state);
     if (state == AppLifecycleState.resumed) {
       // user returned to our app
-      print('resumed');
+      //print('resumed');
     } else if (state == AppLifecycleState.inactive) {
       // app is inactive
-      print('inactive');
+      //print('inactive');
     } else if (state == AppLifecycleState.paused) {
       // user is about quit our app temporally
-      print('paused');
+      //print('paused');
     } else if (state == AppLifecycleState.detached) {
       // app suspended (not used in iOS)
     }
@@ -514,7 +505,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   void loadUserData() async {
     currentFirebaseUser = await firebaseAuth.currentUser;
-    //print('currentUserID: ${currentUser.uid}');
+    ////print('currentUserID: ${currentUser.uid}');
     // here you write the codes to input the data into firestore
     loggedInUser = await DatabaseService.getUserWithId(currentFirebaseUser.uid,
         checkLocal: false);
@@ -524,7 +515,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         //profileImageUrl = loggedInUser.profileImageUrl;
         loggedInProfileImageURL = loggedInUser.profileImageUrl;
         username = loggedInUser.username;
-//        print(
+//        //print(
 //            'profileImageUrl = ${loggedInProfileImageURL} and username = $username');
       });
     }
@@ -551,7 +542,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 //    setState(() {
 //      Cache.homePosts = _posts;
 //    });
-//    print('cache posts length: ${Cache.homePosts}');
+//    //print('cache posts length: ${Cache.homePosts}');
   }
 
   AudioPlayer audioPlayer = AudioPlayer();

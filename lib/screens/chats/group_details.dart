@@ -63,7 +63,7 @@ class _GroupDetailsState extends State<GroupDetails>
       usersIds.add(doc.id);
     });
 
-    //print('member: ${usersIds[0]}');
+    ////print('member: ${usersIds[0]}');
     setState(() {
       groupMembersIds = usersIds;
     });
@@ -283,7 +283,7 @@ class _GroupDetailsState extends State<GroupDetails>
                   getGroup();
 
                   setState(() {
-                    print('To save group name');
+                    //print('To save group name');
                     setState(() {
                       _editing = false;
                     });

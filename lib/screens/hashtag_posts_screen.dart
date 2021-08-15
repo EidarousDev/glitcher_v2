@@ -74,7 +74,7 @@ class _HashtagPostsScreenState extends State<HashtagPostsScreen>
   }
 
   _setupFeed() async {
-    //print('what\'s happening?');
+    ////print('what\'s happening?');
     List<Post> posts = await DatabaseService.getHashtagPosts(widget.hashtag.id);
     setState(() {
       _posts = posts;
@@ -86,7 +86,7 @@ class _HashtagPostsScreenState extends State<HashtagPostsScreen>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    print('hashtag: ${widget.hashtag.text}');
+    //print('hashtag: ${widget.hashtag.text}');
 
     ///Set up listener here
     _scrollController
@@ -94,12 +94,12 @@ class _HashtagPostsScreenState extends State<HashtagPostsScreen>
         if (_scrollController.offset >=
                 _scrollController.position.maxScrollExtent &&
             !_scrollController.position.outOfRange) {
-          print('reached the bottom');
+          //print('reached the bottom');
           nextHashtagPosts();
         } else if (_scrollController.offset <=
                 _scrollController.position.minScrollExtent &&
             !_scrollController.position.outOfRange) {
-          print("reached the top");
+          //print("reached the top");
         } else {}
       });
     loadUserData();
@@ -132,7 +132,7 @@ class _HashtagPostsScreenState extends State<HashtagPostsScreen>
 
   void loadUserData() async {
     currentUser = firebaseAuth.currentUser;
-    //print('currentUserID: ${currentUser.uid}');
+    ////print('currentUserID: ${currentUser.uid}');
     // here you write the codes to input the data into firestore
     loggedInUser =
         await DatabaseService.getUserWithId(currentUser.uid, checkLocal: false);
@@ -140,7 +140,7 @@ class _HashtagPostsScreenState extends State<HashtagPostsScreen>
     setState(() {
       profileImageUrl = loggedInUser.profileImageUrl;
       username = loggedInUser.username;
-      //print('profileImageUrl = $profileImageUrl and username = $username');
+      ////print('profileImageUrl = $profileImageUrl and username = $username');
     });
   }
 

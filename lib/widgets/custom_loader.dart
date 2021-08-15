@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:glitcher/constants/sizes.dart';
@@ -44,7 +42,7 @@ class CustomLoader {
       _overlayEntry?.remove();
       _overlayEntry = null;
     } catch (e) {
-      print("Exception:: $e");
+      //print("Exception:: $e");
     }
   }
 

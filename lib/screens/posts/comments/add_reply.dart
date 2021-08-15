@@ -69,7 +69,7 @@ class _AddReplyPageState extends State<AddReply> {
 
     super.initState();
 
-    print('Mention reply : ${widget.mention}');
+    //print('Mention reply : ${widget.mention}');
     setState(() {
       _textEditingController.text = widget.mention;
     });
@@ -161,7 +161,7 @@ class _AddReplyPageState extends State<AddReply> {
                 if (canSubmit) {
                   _submitButton();
                 } else {
-                  print('can\'t submit = $canSubmit');
+                  //print('can\'t submit = $canSubmit');
                 }
               },
               icon: Icon(
@@ -428,7 +428,7 @@ class _ComposeTweet extends WidgetView<AddReply, _AddReplyPageState> {
                         itemBuilder: (context, index) {
                           String friendUsername =
                               Constants.userFriends[index].username;
-                          print('username:' + friendUsername);
+                          //print('username:' + friendUsername);
                           if (('@' + friendUsername.toLowerCase())
                               .contains(viewState._mentionText.toLowerCase()))
                             return ListTile(

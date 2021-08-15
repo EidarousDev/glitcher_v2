@@ -24,7 +24,7 @@ saveToken() async {
   if (Platform.isIOS || Platform.isMacOS) {
     token = await FirebaseMessaging.instance.getAPNSToken();
   } else {
-    print(await FirebaseMessaging.instance.getToken());
+    //print(await FirebaseMessaging.instance.getToken());
     token = await FirebaseMessaging.instance.getToken();
   }
   await usersRef
@@ -56,7 +56,7 @@ String validateUsername(String value) {
   } else {
     _errorMsgUsername = null;
   }
-  print('errorMsgUsername = $_errorMsgUsername');
+  //print('errorMsgUsername = $_errorMsgUsername');
   return _errorMsgUsername;
 }
 
@@ -80,7 +80,7 @@ Future getFavouriteFilter() async {
 }
 
 Future<List> getHashtags() async {
-  print('currentUID = ${Constants.currentUserID}');
+  //print('currentUID = ${Constants.currentUserID}');
   List<Hashtag> hashtags = await DatabaseService.getHashtags();
 
   return hashtags;
@@ -94,7 +94,7 @@ pickImage(ImageSource source) async {
 }
 
 Color switchColor(BuildContext context, Color lightColor, Color darkColor) {
-  //print('current theme: ${Constants.currentTheme}');
+  ////print('current theme: ${Constants.currentTheme}');
   return Provider.of<AppModel>(context, listen: false).darkTheme
       ? darkColor
       : lightColor;
@@ -168,9 +168,9 @@ class Functions {
       Constants.country = jsonDecode(body)['country'];
       //TODO: updateUserCountry is called in the app initstate needs to be replaced!
       //DatabaseService.updateUserCountry();
-      print('Country: ${Constants.country}');
+      //print('Country: ${Constants.country}');
     } catch (e) {
-      print('fetching country error $e');
+      //print('fetching country error $e');
     }
   }
 

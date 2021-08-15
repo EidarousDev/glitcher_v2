@@ -150,7 +150,7 @@ class _SetUsernameScreenState extends State<SetUsernameScreen> {
     String validUsername = validateUsername(_username);
     try {
       if (_username != '' && validUsername == null) {
-        print('signed up');
+        //print('signed up');
         await DatabaseService.addUserToDatabase(
             widget.user.uid, widget.user.email, _username);
         await DatabaseService.addUserEmailToNewsletter(

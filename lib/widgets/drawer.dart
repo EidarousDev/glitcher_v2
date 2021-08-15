@@ -162,12 +162,12 @@ class _BuildDrawerState extends State<BuildDrawer> {
                   setState(() {
                     authStatus = AuthStatus.NOT_LOGGED_IN;
                   });
-                  print('Now, authStatus = $authStatus');
+                  //print('Now, authStatus = $authStatus');
                   Navigator.of(context)
                       .pushReplacementNamed(RouteList.initialRoute);
                   //moveUserTo(context: context, widget: LoginPage());
                 } catch (e) {
-                  print('Sign out: $e');
+                  //print('Sign out: $e');
                 }
               },
               title: Text(

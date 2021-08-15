@@ -83,7 +83,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     Firebase.initializeApp().whenComplete(() {
-      print("Firebase Initialized!");
+      //print("Firebase Initialized!");
       setState(() {});
     });
     super.initState();

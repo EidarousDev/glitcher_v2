@@ -33,7 +33,7 @@ class AppUtil {
     if (!(await Directory('$initialPath$appName').exists())) {
       final dir = await Directory('$initialPath$appName').create();
       appTempDirectoryPath = dir.path + '/';
-      print('appTempDirectoryPath: $appTempDirectoryPath');
+      //print('appTempDirectoryPath: $appTempDirectoryPath');
     } else {
       appTempDirectoryPath = '$initialPath$appName/';
     }
@@ -48,7 +48,7 @@ class AppUtil {
   static englishOnly(String input) {
     String pattern = r'^(?:[a-zA-Z]|\P{L})+$';
     RegExp regex = RegExp(pattern, unicode: true);
-    print(regex.hasMatch(input));
+    //print(regex.hasMatch(input));
     return regex.hasMatch(input);
   }
 
@@ -60,7 +60,7 @@ class AppUtil {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      print('Could not launch $url');
+      //print('Could not launch $url');
     }
   }
 
@@ -129,7 +129,7 @@ class AppUtil {
       {ImageSource source = ImageSource.gallery}) async {
     PickedFile image =
         await ImagePicker.platform.pickImage(source: source, imageQuality: 80);
-    print('File size: ${File(image.path).lengthSync()}');
+    //print('File size: ${File(image.path).lengthSync()}');
     return File(image.path);
   }
 
@@ -142,13 +142,13 @@ class AppUtil {
     if (file == null) return;
 
     Reference storageReference = FirebaseStorage.instance.ref().child(path);
-    print('storage path: $path');
+    //print('storage path: $path');
     UploadTask uploadTask;
 
     if (path.contains('group')) {
       Map<String, String> members = {};
       for (String id in groupMembersIds) {
-        print('Member: $id');
+        //print('Member: $id');
         members.putIfAbsent(id, () => id);
       }
       uploadTask = storageReference.putFile(
@@ -163,7 +163,7 @@ class AppUtil {
     }
 
     await uploadTask;
-    print('File Uploaded');
+    //print('File Uploaded');
     String url = await storageReference.getDownloadURL();
 
     return url;
@@ -196,7 +196,7 @@ class AppUtil {
     } else {
       return null;
     }
-    print('Launching URL : $url');
+    //print('Launching URL : $url');
     return url;
   }
 

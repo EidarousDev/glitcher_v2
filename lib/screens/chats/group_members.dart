@@ -131,7 +131,7 @@ class _GroupMembersState extends State<GroupMembers>
                                   ? Colors.yellow
                                   : Colors.white70),
                           onPressed: () {
-                            print('user to be made admin');
+                            //print('user to be made admin');
                             showDialog(
                                 context: context,
                                 builder: (context) {
@@ -166,7 +166,7 @@ class _GroupMembersState extends State<GroupMembers>
                         IconButton(
                           icon: Icon(Icons.close, color: Colors.white70),
                           onPressed: () {
-                            print('user to be removed');
+                            //print('user to be removed');
                             showDialog(
                                 context: context,
                                 builder: (context) {

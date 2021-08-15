@@ -175,7 +175,7 @@ class _AddCommentScreenState extends State<AddCommentScreen> {
                     itemCount: Constants.userFriends.length,
                     itemBuilder: (context, index) {
                       String s = Constants.userFriends[index].username;
-                      print('username:' + s);
+                      //print('username:' + s);
                       if (('@' + s).contains(_commentText))
                         return ListTile(
                           leading: CacheThisImage(

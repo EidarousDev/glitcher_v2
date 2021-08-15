@@ -81,12 +81,12 @@ class _PostPreviewState extends State<PostPreview>
       if (_scrollController.offset >=
               _scrollController.position.maxScrollExtent &&
           !_scrollController.position.outOfRange) {
-        print('reached the bottom');
+        //print('reached the bottom');
         nextComments();
       } else if (_scrollController.offset <=
               _scrollController.position.minScrollExtent &&
           !_scrollController.position.outOfRange) {
-        print("reached the top");
+        //print("reached the top");
       } else {}
     });
   }
@@ -108,7 +108,7 @@ class _PostPreviewState extends State<PostPreview>
     if (comments.length > 0) {
       setState(() {
         this.lastVisibleCommentSnapShot = comments.last.timestamp;
-        print('It"s actually here!');
+        //print('It"s actually here!');
       });
     }
   }
@@ -191,7 +191,7 @@ class _PostPreviewState extends State<PostPreview>
                           return SizedBox.shrink();
                         }
                         User commenter = snapshot.data;
-                        //print('commenter: $commenter and comment: $comment');
+                        ////print('commenter: $commenter and comment: $comment');
                         return CommentItem(
                           post: widget.post,
                           comment: comment,
@@ -333,9 +333,9 @@ class _PostPreviewState extends State<PostPreview>
     _currentPost = await DatabaseService.getPostWithId(widget.post.id);
     _author = await DatabaseService.getUserWithId(_currentPost.authorId,
         checkLocal: true);
-    print('currentPost = $_currentPost and author= $_author');
+    //print('currentPost = $_currentPost and author= $_author');
     await loadComments();
-    print('comments.length = ${_comments.length}');
+    //print('comments.length = ${_comments.length}');
     setState(() {
       _loading = false;
     });

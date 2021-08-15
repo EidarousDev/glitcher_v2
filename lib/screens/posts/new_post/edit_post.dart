@@ -117,7 +117,7 @@ class _CreatePostReplyPageState extends State<EditPost> {
   }
 
   void _onImageIconSelected(File file) {
-    print('File size: ${file.lengthSync()}');
+    //print('File size: ${file.lengthSync()}');
     if (file.lengthSync() / (1024 * 1024) == 3) {
       customSnackBar(_scaffoldKey, 'Image exceeded 3 Megabytes limit.');
     } else {
@@ -128,12 +128,12 @@ class _CreatePostReplyPageState extends State<EditPost> {
   }
 
   void _onVideoIconSelected(File file) {
-    print('File size: ${file.lengthSync()}');
+    //print('File size: ${file.lengthSync()}');
     if (file.lengthSync() / (1024 * 1024) == 10) {
       customSnackBar(_scaffoldKey, 'Video exceeded 10 Megabytes limit.');
     } else {
       setState(() {
-        print('File xx: ${file.path}');
+        //print('File xx: ${file.path}');
 
         _video = file;
         VideoPlayerController controller =
@@ -204,7 +204,7 @@ class _CreatePostReplyPageState extends State<EditPost> {
           _image, context, 'posts_images/${Constants.currentUserID}/' + postId);
     } else {}
 
-    print(_youtubeId);
+    //print(_youtubeId);
 
     var postData = {
       'author': Constants.currentUserID,
@@ -249,7 +249,7 @@ class _CreatePostReplyPageState extends State<EditPost> {
                 if (canSubmit) {
                   _submitButton();
                 } else {
-                  print('can\'t submit = $canSubmit');
+                  //print('can\'t submit = $canSubmit');
                 }
               },
               icon: Icon(
@@ -433,8 +433,8 @@ class _ComposeTweet extends WidgetView<EditPost, _CreatePostReplyPageState> {
                               : '';
                         });
 
-                        print(viewState.words[viewState.words.length - 1]);
-                        print('yotubeId: ${viewState._youtubeId}');
+                        //print(viewState.words[viewState.words.length - 1]);
+                        //print('yotubeId: ${viewState._youtubeId}');
                       },
                       maxLength: Sizes.maxPostChars,
                       minLines: 5,
@@ -459,7 +459,7 @@ class _ComposeTweet extends WidgetView<EditPost, _CreatePostReplyPageState> {
                         itemBuilder: (context, index) {
                           String friendUsername =
                               Constants.userFriends[index].username;
-                          print('username:' + friendUsername);
+                          //print('username:' + friendUsername);
                           if (('@' + friendUsername.toLowerCase())
                               .contains(viewState._mentionText.toLowerCase()))
                             return ListTile(
@@ -519,7 +519,7 @@ class _ComposeTweet extends WidgetView<EditPost, _CreatePostReplyPageState> {
                       itemCount: Constants.hashtags.length,
                       itemBuilder: (context, index) {
                         String s = Constants.hashtags[index].text;
-                        print('hashtag:' + s);
+                        //print('hashtag:' + s);
                         if (('#' + s).contains(viewState._hashtagText))
                           return ListTile(
                             title: Text(Constants.hashtags[index].text),

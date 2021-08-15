@@ -32,7 +32,7 @@ class Sizes {
   static const int postExcerpt = 150; // vertical   offset
 
   static double fullWidth(BuildContext context) {
-    // print(MediaQuery.of(context).size.width.toString());
+    // //print(MediaQuery.of(context).size.width.toString());
     return MediaQuery.of(context).size.width;
   }
 

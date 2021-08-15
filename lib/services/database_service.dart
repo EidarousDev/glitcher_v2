@@ -167,7 +167,7 @@ class DatabaseService {
   }
 
   static deletePost(String postId) async {
-    print('deleting post...');
+    //print('deleting post...');
 
     CollectionReference commentsRef =
         postsRef.doc(postId).collection('comments');
@@ -635,6 +635,21 @@ class DatabaseService {
     return notifications;
   }
 
+  static Future<List<notification.Notification>> hasNewMessages(
+      String otherUID) async {
+    QuerySnapshot notificationSnapshot = await usersRef
+        .doc(Constants.currentUserID)
+        .collection('notifications')
+        .where('type', isEqualTo: 'message')
+        .where('seen', isEqualTo: false)
+        .where('sender', isEqualTo: otherUID)
+        .get();
+    List<notification.Notification> notifications = notificationSnapshot.docs
+        .map((doc) => notification.Notification.fromDoc(doc))
+        .toList();
+    return notifications;
+  }
+
   // This function is used to get the author info of each post
   static Future<User> getUserWithId(String userId,
       {@required bool checkLocal}) async {
@@ -971,7 +986,7 @@ class DatabaseService {
           games.add(Game.fromMap(gameData));
         });
       } catch (e) {
-        print('fetching games error $e');
+        //print('fetching games error $e');
       }
     }
 
@@ -1432,6 +1447,7 @@ class DatabaseService {
       'email': email,
       'description': 'Write something about yourself',
       'notificationsNumber': 0,
+      'messagesNumber': 0,
       'violations': 0,
       'search': search
     };

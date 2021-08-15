@@ -116,7 +116,7 @@ class Game {
             game['esrb_rating'] == null ? null : game['esrb_rating']['name'],
       );
     } catch (ex) {
-      print('game error: $ex');
+      //print('game error: $ex');
       return null;
     }
   }

@@ -32,7 +32,7 @@ class AudioRecorder {
         _recordDuration = 0;
       }
     } catch (e) {
-      print(e);
+      //print(e);
     }
   }
 

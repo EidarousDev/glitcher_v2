@@ -277,11 +277,11 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
         .createGameDynamicLink(
             {'gameId': gameId, 'text': gameName, 'imageUrl': imageUrl});
     Share.share('Check out ($gameName) : $gameLink');
-    print('Check out this game ($gameName): $gameLink');
+    //print('Check out this game ($gameName): $gameLink');
   }
 
   _setupFeed() async {
-    //print('what\'s happening?');
+    ////print('what\'s happening?');
     List<Post> posts = await DatabaseService.getGamePosts(widget.game.fullName);
     setState(() {
       _posts = posts;
@@ -303,12 +303,12 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
         if (_scrollController.offset >=
                 _scrollController.position.maxScrollExtent &&
             !_scrollController.position.outOfRange) {
-          print('reached the bottom');
+          //print('reached the bottom');
           nextGamePosts();
         } else if (_scrollController.offset <=
                 _scrollController.position.minScrollExtent &&
             !_scrollController.position.outOfRange) {
-          print("reached the top");
+          //print("reached the top");
         } else {}
       });
     _setupFeed();

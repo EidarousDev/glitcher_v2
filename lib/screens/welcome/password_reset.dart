@@ -91,14 +91,14 @@ class PasswordResetScreen extends StatelessWidget {
         User user =
             await DatabaseService.getUserWithEmail(_emailController.text);
         if (user.id == null) {
-          //print('Email is not registered!');
+          ////print('Email is not registered!');
           Navigator.pop(context); // Dismiss the loader dialog
           AppUtil.showSnackBar(context, 'Email is not registered!');
         } else {
           try {
             await firebaseAuth.sendPasswordResetEmail(
                 email: _emailController.text);
-            //print('Password reset e-mail sent');
+            ////print('Password reset e-mail sent');
             Navigator.pop(context); // Dismiss the loader dialog
             AppUtil.alertDialog(
                 context: context,

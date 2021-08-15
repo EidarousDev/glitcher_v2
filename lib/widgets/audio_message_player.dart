@@ -38,7 +38,7 @@ class _AudioMessagePlayerState extends State<AudioMessagePlayer> {
   }
 
   Future play() async {
-    print('audio url: ${widget.url}');
+    //print('audio url: ${widget.url}');
     await _myAudioPlayer.play();
   }
 
@@ -47,7 +47,7 @@ class _AudioMessagePlayerState extends State<AudioMessagePlayer> {
   }
 
   Future stop() async {
-    await _myAudioPlayer.stop();
+    _myAudioPlayer.dispose();
   }
 
   Widget _buildPlayer() => Consumer<MyAudioPlayer>(

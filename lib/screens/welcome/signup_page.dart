@@ -314,7 +314,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         Navigator.of(context).push(WebViewModal(
                                             url:
                                                 'https://www.gl1tch3r.com/terms-of-service'));
-                                        print('Terms of Service"');
+                                        //print('Terms of Service"');
                                       }),
                                 TextSpan(text: ' and that you have read our '),
                                 TextSpan(
@@ -325,7 +325,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         Navigator.of(context).push(WebViewModal(
                                             url:
                                                 'https://www.gl1tch3r.com/privacy-policy'));
-                                        print('Privacy Policy"');
+                                        //print('Privacy Policy"');
                                       }),
                               ],
                             ),
@@ -382,14 +382,14 @@ class _SignUpPageState extends State<SignUpPage> {
   Future _signUp() async {
     final BaseAuth auth = AuthProvider.of(context).auth;
 
-    //print(_email + ' : ' + _password);
+    ////print(_email + ' : ' + _password);
     Navigator.of(context).push(CustomScreenLoader());
 
     String validEmail = validateEmail(_email);
     String validUsername = validateUsername(_username);
 
-    print('validEmail: $validEmail ');
-    print('validUsername: $validUsername ');
+    //print('validEmail: $validEmail ');
+    //print('validUsername: $validUsername ');
 
     final valid = await DatabaseService.isUsernameTaken(_username);
 
@@ -454,7 +454,7 @@ class _SignUpPageState extends State<SignUpPage> {
             _setFocusNode(myFocusNodeEmail);
             return;
           } else {
-            print('$_errorMsgUsername\n$_errorMsgEmail');
+            //print('$_errorMsgUsername\n$_errorMsgEmail');
             AppUtil.showSnackBar(context, "An Error Occurred");
             _setFocusNode(myFocusNodeEmail);
             return;

@@ -34,7 +34,7 @@ class GroupConversation extends StatefulWidget {
   _GroupConversationState createState() => state;
 
   updateRecordTime(String recordTime) {
-    print('recordTime: $recordTime');
+    //print('recordTime: $recordTime');
     state.updateRecordTime(recordTime);
   }
 }
@@ -85,7 +85,7 @@ class _GroupConversationState extends State<GroupConversation>
 
   Future<File> _localFile() async {
     final path = await _localPath();
-    print('path $path');
+    //print('path $path');
     var file = File('$path/glitcher_record.wav');
 
     //await file.writeAsBytes(bytes);
@@ -156,7 +156,7 @@ class _GroupConversationState extends State<GroupConversation>
       usersIds.add(document.id);
     });
 
-    print('member: ${usersIds[0]}');
+    //print('member: ${usersIds[0]}');
     setState(() {
       groupMembersIds = usersIds;
     });
@@ -204,12 +204,12 @@ class _GroupConversationState extends State<GroupConversation>
         if (_scrollController.offset >=
                 _scrollController.position.maxScrollExtent &&
             !_scrollController.position.outOfRange) {
-          print('reached the bottom');
+          //print('reached the bottom');
           getPrevGroupMessages();
         } else if (_scrollController.offset <=
                 _scrollController.position.minScrollExtent &&
             !_scrollController.position.outOfRange) {
-          print("reached the top");
+          //print("reached the top");
         } else {}
       });
   }
@@ -283,7 +283,7 @@ class _GroupConversationState extends State<GroupConversation>
               PopupMenuButton<String>(
                 elevation: 0,
                 onCanceled: () {
-                  print('You have not chosen anything');
+                  //print('You have not chosen anything');
                 },
                 tooltip: 'This is tooltip',
                 onSelected: _select,
@@ -492,7 +492,7 @@ class _GroupConversationState extends State<GroupConversation>
                                               message:
                                                   'You must grant this microphone access to be able to use this feature.',
                                               okBtn: 'OK');
-                                          print('Permission has been denied');
+                                          //print('Permission has been denied');
                                         });
                                         setState(() {
                                           isMicrophoneGranted = isGranted;

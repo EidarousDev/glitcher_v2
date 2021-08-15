@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:glitcher/constants/my_colors.dart';
@@ -5,8 +7,10 @@ import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/list_items/chat_item.dart';
 import 'package:glitcher/models/group_model.dart';
 import 'package:glitcher/models/message_model.dart';
+import 'package:glitcher/models/notification_model.dart' as noti;
 import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
+import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/widgets/caching_image.dart';
 import 'package:glitcher/widgets/drawer.dart';
@@ -47,10 +51,13 @@ class _ChatsState extends State<Chats>
     });
   }
 
+  Map<String, List<noti.Notification>> _notifications = {};
   Future<ChatItem> loadUserData(String uid) async {
     ChatItem chatItem;
     User user = await DatabaseService.getUserWithId(uid, checkLocal: true);
     Message message = await DatabaseService.getLastMessage(user.id);
+    List<noti.Notification> newMessages =
+        await DatabaseService.hasNewMessages(uid);
     setState(() {
       chatItem = ChatItem(
         key: ValueKey(uid),
@@ -58,12 +65,22 @@ class _ChatsState extends State<Chats>
         name: user.username,
         isOnline: user.online == 'online',
         msg: message ?? 'No messages yet',
-        counter: 0,
+        counter: newMessages.length,
+        onClearNotifications: () async {
+          for (noti.Notification notification in newMessages) {
+            await NotificationHandler.makeNotificationSeen(notification.id);
+          }
+        },
       );
       chats.add(chatItem);
     });
 
     return chatItem;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -120,15 +137,15 @@ class _ChatsState extends State<Chats>
       // user returned to our app
       getCurrentUserFriends();
       getChatGroups();
-      print('resumed');
+      //print('resumed');
     } else if (state == AppLifecycleState.inactive) {
       // app is inactive
       //_setupFeed();
-      print('inactive');
+      //print('inactive');
     } else if (state == AppLifecycleState.paused) {
       // user is about quit our app temporally
       //_setupFeed();
-      print('paused');
+      //print('paused');
     } else if (state == AppLifecycleState.detached) {
       // app suspended (not used in iOS)
     }

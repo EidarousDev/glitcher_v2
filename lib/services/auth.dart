@@ -66,7 +66,7 @@ class Auth implements BaseAuth {
           .user;
     } catch (signUpError) {
       if (signUpError is PlatformException) {
-        print('Sign up error: ${signUpError.code}');
+        //print('Sign up error: ${signUpError.code}');
         if (signUpError.code == 'ERROR_EMAIL_ALREADY_IN_USE') {
           return 'Email is already in use';
         } else if (signUpError.code == 'ERROR_WEAK_PASSWORD') {
@@ -83,8 +83,8 @@ class Auth implements BaseAuth {
       await user.sendEmailVerification();
       return user.uid;
     } catch (e) {
-      print("An error occurred while trying to send verification email");
-      print(e.message);
+      //print("An error occurred while trying to send verification email");
+      //print(e.message);
     }
   }
 
@@ -117,9 +117,9 @@ class Auth implements BaseAuth {
   Future<void> changeEmail(String email) async {
     User user = _firebaseAuth.currentUser;
     user.updateEmail(email).then((_) {
-      print("Succesfully changed email");
+      //print("Succesfully changed email");
     }).catchError((error) {
-      print("email can't be changed" + error.toString());
+      //print("email can't be changed" + error.toString());
     });
     return null;
   }
@@ -129,10 +129,10 @@ class Auth implements BaseAuth {
     try {
       User user = _firebaseAuth.currentUser;
       await user.updatePassword(password);
-      print("Successfully changed password");
+      //print("Successfully changed password");
       return null;
     } catch (error) {
-      print("Password can't be changed " + error.code);
+      //print("Password can't be changed " + error.code);
       return error.code;
     }
   }
@@ -141,16 +141,16 @@ class Auth implements BaseAuth {
   Future<void> deleteUser() async {
     User user = _firebaseAuth.currentUser;
     user.delete().then((_) {
-      print("Succesfull user deleted");
+      //print("Succesfull user deleted");
     }).catchError((error) {
-      print("user can't be delete" + error.toString());
+      //print("user can't be delete" + error.toString());
     });
     return null;
   }
 
   @override
   Future<void> sendPasswordResetMail(String email) async {
-    print('===========>' + email);
+    //print('===========>' + email);
     await _firebaseAuth.sendPasswordResetEmail(email: email);
     return null;
   }
@@ -159,7 +159,7 @@ class Auth implements BaseAuth {
     final User user = _firebaseAuth.currentUser;
 
     final uid = user.uid;
-    //print('currentUserID: $uid');
+    ////print('currentUserID: $uid');
     // here you write the codes to input the data into firestore
     user_model.User loggedInUser =
         await DatabaseService.getUserWithId(uid, checkLocal: false);

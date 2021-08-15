@@ -42,8 +42,8 @@ class _ChatBubbleState extends State<ChatBubble> {
   @override
   void initState() {
     super.initState();
-    //print('Message: ${widget.message}');
-    print('type: ${widget.type}, message: ${widget.message}');
+    ////print('Message: ${widget.message}');
+    //print('type: ${widget.type}, message: ${widget.message}');
   }
 
   @override

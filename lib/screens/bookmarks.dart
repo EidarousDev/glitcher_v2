@@ -59,7 +59,7 @@ class _BookmarksScreenState extends State<BookmarksScreen>
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     Post post = _posts[index];
-                    //print('post author: ${post.authorId}');
+                    ////print('post author: ${post.authorId}');
                     return post.authorId != 'deleted'
                         ? FutureBuilder(
                             future: DatabaseService.getUserWithId(post.authorId,
@@ -133,12 +133,12 @@ class _BookmarksScreenState extends State<BookmarksScreen>
         if (_scrollController.offset >=
                 _scrollController.position.maxScrollExtent &&
             !_scrollController.position.outOfRange) {
-          print('reached the bottom');
+          //print('reached the bottom');
           nextBookmarksPosts();
         } else if (_scrollController.offset <=
                 _scrollController.position.minScrollExtent &&
             !_scrollController.position.outOfRange) {
-          print("reached the top");
+          //print("reached the top");
         } else {}
       });
     _setupFeed();

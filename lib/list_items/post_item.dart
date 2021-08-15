@@ -165,7 +165,7 @@ class _PostItemState extends State<PostItem> {
                             color: MyColors.darkGrey,
                           )),
                       onTap: () {
-                        print('currentGame : ${currentGame.id}');
+                        //print('currentGame : ${currentGame.id}');
                         Navigator.of(context)
                             .pushNamed(RouteList.game, arguments: {
                           'game': currentGame,
@@ -545,7 +545,7 @@ class _PostItemState extends State<PostItem> {
         .createPostDynamicLink(
             {'postId': postId, 'text': postText, 'imageUrl': imageUrl});
     Share.share('Check out: $postText : $postLink');
-    print('Check out: $postText : $postLink');
+    //print('Check out: $postText : $postLink');
   }
 
   void _loadAudioByteData() async {
@@ -693,8 +693,7 @@ class _PostItemState extends State<PostItem> {
       isLikeEnabled = true;
     });
 
-    print(
-        'likes = ${postMeta['likes']} and dislikes = ${postMeta['dislikes']}');
+    //print('likes = ${postMeta['likes']} and dislikes = ${postMeta['dislikes']}');
   }
 
   Future<void> dislikeBtnHandler(Post post) async {
@@ -760,8 +759,7 @@ class _PostItemState extends State<PostItem> {
       isDislikedEnabled = true;
     });
 
-    print(
-        'likes = ${postMeta['likes']} and dislikes = ${postMeta['dislikes']}');
+    //print('likes = ${postMeta['likes']} and dislikes = ${postMeta['dislikes']}');
   }
 
   void initLikes(Post post) async {
@@ -855,19 +853,19 @@ class _PostItemState extends State<PostItem> {
   }
 
   Future mentionedUserProfile() async {
-    //print('mention: $_mentionText');
+    ////print('mention: $_mentionText');
     User user =
         await DatabaseService.getUserWithUsername(_mentionText.substring(1));
     Navigator.of(context)
         .pushNamed(RouteList.profile, arguments: {'userId': user.id});
-    //print(user.id);
+    ////print(user.id);
   }
 
   checkIfContainsHashtag() {
     var words = widget.post.text.split(' ');
-    //print(words.length);
+    ////print(words.length);
     for (String word in words) {
-      //print('word: $word');
+      ////print('word: $word');
       _hashtagText = words.length > 0 && word.startsWith('#') ? word : '';
       break;
     }
@@ -877,7 +875,7 @@ class _PostItemState extends State<PostItem> {
     var words = widget.post.text.split(' ');
 
     for (String word in words) {
-      //print('word: $word');
+      ////print('word: $word');
       _mentionText = words.length > 0 && word.startsWith('@') ? word : '';
       //if (_mentionText.length > 1) _mentionText = _mentionText.substring(1);
       break;
@@ -885,12 +883,12 @@ class _PostItemState extends State<PostItem> {
   }
 
   Future hashtagScreen() async {
-    //print('hashtagText: $_hashtagText');
+    ////print('hashtagText: $_hashtagText');
     Hashtag hashtag = await DatabaseService.getHashtagWithText(_hashtagText);
 
     Navigator.of(context)
         .pushNamed(RouteList.hashtag, arguments: {'hashtag': hashtag});
-    //print(hashtag.id);
+    ////print(hashtag.id);
   }
 
   dropDownOptions() {

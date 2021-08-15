@@ -198,7 +198,7 @@ class CommentBottomSheet {
     );
     Navigator.of(context).pop();
     Navigator.of(context).pushReplacementNamed(RouteList.home);
-    print('deleting post!');
+    //print('deleting post!');
   }
 
   Widget _widgetBottomSheetRow(BuildContext context, Icon icon,
@@ -283,7 +283,7 @@ class CommentBottomSheet {
       ),
     );
     Navigator.of(context).pop();
-    print('deleting comment!');
+    //print('deleting comment!');
   }
 
   void _bookmarkPost(String postId) async {

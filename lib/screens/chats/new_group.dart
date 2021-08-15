@@ -133,7 +133,7 @@ class _NewGroupState extends State<NewGroup>
                           bool isGranted = await PermissionsService()
                               .requestStoragePermission(context,
                                   onPermissionDenied: () {
-                            print('Permission has been denied');
+                            //print('Permission has been denied');
                           });
 
                           if (isGranted) {
@@ -266,7 +266,7 @@ class _NewGroupState extends State<NewGroup>
                           setState(() {
                             chosens[index] = value;
                           });
-                          print(value);
+                          //print(value);
                         }),
                   );
                 },

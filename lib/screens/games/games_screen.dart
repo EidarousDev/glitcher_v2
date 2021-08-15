@@ -175,12 +175,12 @@ class _GamesScreenState extends State<GamesScreen> {
       if (_scrollController.offset >=
               _scrollController.position.maxScrollExtent &&
           !_scrollController.position.outOfRange) {
-        print('reached the bottom');
+        //print('reached the bottom');
         nextGames();
       } else if (_scrollController.offset <=
               _scrollController.position.minScrollExtent &&
           !_scrollController.position.outOfRange) {
-        print("reached the top");
+        //print("reached the top");
       } else {}
     });
     _setupFeed();
@@ -193,7 +193,7 @@ class _GamesScreenState extends State<GamesScreen> {
         games.forEach((element) => _games.add(element));
         this.lastVisibleGameSnapShot = games.last.fullName;
       });
-      print('lastVisibleGameSnapShot: $lastVisibleGameSnapShot');
+      //print('lastVisibleGameSnapShot: $lastVisibleGameSnapShot');
     }
   }
 

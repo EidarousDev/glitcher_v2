@@ -80,8 +80,7 @@ class _RootPageState extends State<RootPage> {
         authStatus = AuthStatus.LOGGED_IN;
       });
     } else if (firebaseUser?.uid != null && !(firebaseUser.emailVerified)) {
-      print(
-          '!(firebaseUser.isEmailVerified) = ${!(firebaseUser.emailVerified)}');
+      //print('!(firebaseUser.isEmailVerified) = ${!(firebaseUser.emailVerified)}');
       //await showVerifyEmailSentDialog(context);
       setState(() {
         authStatus = AuthStatus.NOT_LOGGED_IN;
@@ -91,6 +90,6 @@ class _RootPageState extends State<RootPage> {
         authStatus = AuthStatus.NOT_LOGGED_IN;
       });
     }
-    print('authStatus = $authStatus');
+    //print('authStatus = $authStatus');
   }
 }

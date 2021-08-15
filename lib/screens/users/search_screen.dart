@@ -131,12 +131,12 @@ class _SearchScreenState extends State<SearchScreen> {
       if (_scrollController.offset >=
               _scrollController.position.maxScrollExtent &&
           !_scrollController.position.outOfRange) {
-        print('reached the bottom');
+        //print('reached the bottom');
         nextSearchUsers(_searchController.text);
       } else if (_scrollController.offset <=
               _scrollController.position.minScrollExtent &&
           !_scrollController.position.outOfRange) {
-        print("reached the top");
+        //print("reached the top");
       } else {}
     });
     super.initState();
