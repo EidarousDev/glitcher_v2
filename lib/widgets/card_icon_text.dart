@@ -18,6 +18,7 @@ class CardIconText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16),
       height: Sizes.sm_profile_image_h,
       decoration: BoxDecoration(
           color: color, borderRadius: BorderRadius.all(Radius.circular(20))),

@@ -33,7 +33,7 @@ class CommentBottomSheet {
   }
 
   double calculateHeightRatio(bool isMyComment) {
-    double ratio = 1.0;
+    double ratio = 1;
     if (!isMyComment) {
       ratio = 0.17;
     } else if (isMyComment) {
@@ -51,87 +51,88 @@ class CommentBottomSheet {
       backgroundColor: Colors.transparent,
       context: context,
       builder: (context) {
-        return Container(
-            padding: EdgeInsets.only(top: 5, bottom: 0),
-            height:
-                Sizes.fullHeight(context) * calculateHeightRatio(isMyComment),
-            width: Sizes.fullWidth(context),
-            decoration: BoxDecoration(
-              color: switchColor(context, MyColors.lightButtonsBackground,
-                  MyColors.darkAccent),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-            ),
-            child: _commentOptions(
-                context, isMyComment, post, comment, parentComment, user));
+        return _commentOptions(
+            context, isMyComment, post, comment, parentComment, user);
       },
     );
   }
 
   Widget _commentOptions(BuildContext context, bool isMyComment, Post post,
       Comment comment, Comment parentComment, User user) {
-    return Column(
-      children: <Widget>[
-        Container(
-          width: Sizes.fullWidth(context) * .1,
-          height: 5,
-          decoration: BoxDecoration(
-            color: switchColor(context, MyColors.lightPrimary, Colors.white70),
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
+    return Container(
+      padding: EdgeInsets.only(top: 5, bottom: 0),
+      height: Sizes.fullHeight(context) * calculateHeightRatio(isMyComment),
+      width: Sizes.fullWidth(context),
+      decoration: BoxDecoration(
+        color: switchColor(
+            context, MyColors.lightButtonsBackground, MyColors.darkAccent),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            width: Sizes.fullWidth(context) * .1,
+            height: 5,
+            decoration: BoxDecoration(
+              color:
+                  switchColor(context, MyColors.lightPrimary, Colors.white70),
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
+              ),
             ),
           ),
-        ),
-        isMyComment
-            ? _widgetBottomSheetRow(
-                context,
-                Icon(Icons.edit),
-                text: 'Edit Comment',
-                onPressed: () {
-                  if (parentComment == null) {
-                    Navigator.of(context).pushNamed(RouteList.editComment,
-                        arguments: {
-                          'post': post,
-                          'user': user,
-                          'comment': comment
-                        });
-                  } else {
-                    Navigator.of(context).pushNamed(RouteList.editReply,
-                        arguments: {
-                          'post': post,
-                          'comment': parentComment,
-                          'reply': comment,
-                          'user': user
-                        });
-                  }
-                },
-                isEnable: false,
-              )
-            : Container(),
-        isMyComment
-            ? _widgetBottomSheetRow(
-                context,
-                Icon(
-                  Icons.delete_forever,
-                  color: MyColors.darkPrimary,
-                ),
-                text: 'Delete Comment',
-                onPressed: () {
-                  _deleteComment(context, post.id, comment.id,
-                      parentComment == null ? null : parentComment.id);
-                },
-                isEnable: true,
-              )
-            : Container(),
-        isMyComment
-            ? Container()
-            : _widgetBottomSheetRow(
-                context, Icon(Icons.indeterminate_check_box),
-                text: 'Unfollow ${user.username}', onPressed: () async {
-                unfollowUser(context, user);
-              }),
+          isMyComment
+              ? _widgetBottomSheetRow(
+                  context,
+                  Icon(Icons.edit),
+                  text: 'Edit Comment',
+                  onPressed: () {
+                    if (parentComment == null) {
+                      Navigator.of(context).pushNamed(RouteList.editComment,
+                          arguments: {
+                            'post': post,
+                            'user': user,
+                            'comment': comment
+                          });
+                    } else {
+                      Navigator.of(context).pushNamed(RouteList.editReply,
+                          arguments: {
+                            'post': post,
+                            'comment': parentComment,
+                            'reply': comment,
+                            'user': user
+                          });
+                    }
+                  },
+                  isEnable: false,
+                )
+              : Container(),
+          isMyComment
+              ? _widgetBottomSheetRow(
+                  context,
+                  Icon(
+                    Icons.delete_forever,
+                    color: MyColors.darkPrimary,
+                  ),
+                  text: 'Delete Comment',
+                  onPressed: () {
+                    _deleteComment(context, post.id, comment.id,
+                        parentComment == null ? null : parentComment.id);
+                  },
+                  isEnable: true,
+                )
+              : Container(),
+          isMyComment
+              ? Container()
+              : _widgetBottomSheetRow(
+                  context, Icon(Icons.indeterminate_check_box),
+                  text: 'Unfollow ${user.username}', onPressed: () async {
+                  unfollowUser(context, user);
+                }),
 
 //        isMyComment
 //            ? Container()
@@ -154,7 +155,8 @@ class CommentBottomSheet {
 //                Icon(Icons.report),
 //                text: 'Report Post',
 //              ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -284,9 +286,5 @@ class CommentBottomSheet {
     );
     Navigator.of(context).pop();
     //print('deleting comment!');
-  }
-
-  void _bookmarkPost(String postId) async {
-    await DatabaseService.addPostToBookmarks(postId);
   }
 }

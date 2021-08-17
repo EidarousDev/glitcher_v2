@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
@@ -25,7 +24,6 @@ import 'package:glitcher/widgets/drawer.dart';
 import 'package:glitcher/widgets/gradient_appbar.dart';
 import 'package:glitcher/widgets/rate_app.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 //import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -68,20 +66,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   User currentFirebaseUser;
   Timestamp lastVisiblePostSnapShot;
   bool _noMorePosts = false;
-//  bool _isFetching = false;
-//  bool arePostsFilteredByFollowedGames = false;
-//  bool arePostsFilteredByFollowing = false;
-//  int gamersFilterRadio = -1;
   int _feedFilter = 0;
 
   ScrollController _scrollController = ScrollController();
 
   bool isFiltering = false;
-
-  int _spawnedAudioCount = 0;
-  ByteData _swipeUpSFX;
-  // RefreshController _refreshController =
-  //     RefreshController(initialRefresh: false);
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -284,73 +273,32 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 1,
-                      width: double.infinity,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                            color: switchColor(context, MyColors.lightCardBG,
-                                MyColors.darkLineBreak)),
-                      ),
-                    ),
-                    Center(
+                    Container(
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          Expanded(
-                              child: CardIconText(
-                            tStyle: TextStyle(fontWeight: FontWeight.bold),
-                            icon: FontAwesome.image,
-                            text: "Image",
-                            color: Theme.of(context).dividerColor,
-                            ccolor: switchColor(
-                                context, MyColors.lightPrimary, Colors.blue),
-                          )),
-                          SizedBox(
-                            height: 25,
-                            width: 1.0,
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).dividerColor),
-                            ),
-                          ),
-                          Expanded(
-                              child: CardIconText(
+                          CardIconText(
+                              tStyle: TextStyle(fontWeight: FontWeight.bold),
+                              icon: FontAwesome.image,
+                              text: "Image",
+                              color: Colors.transparent,
+                              ccolor: kPrimary),
+                          CardIconText(
                             tStyle: TextStyle(fontWeight: FontWeight.bold),
                             icon: FontAwesome.file_video_o,
                             text: "Video",
-                            color: Theme.of(context).dividerColor,
-                            ccolor: switchColor(context, MyColors.lightPrimary,
-                                Colors.greenAccent),
-                          )),
-                          SizedBox(
-                            height: 25,
-                            width: 1.0,
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).dividerColor),
-                            ),
+                            color: Colors.transparent,
+                            ccolor: kPrimary,
                           ),
-                          Expanded(
-                              child: CardIconText(
+                          CardIconText(
                             tStyle: TextStyle(fontWeight: FontWeight.bold),
                             icon: FontAwesome.youtube,
                             text: "YouTube",
-                            color: Theme.of(context).dividerColor,
-                            ccolor: switchColor(
-                                context, MyColors.lightPrimary, Colors.pink),
-                          )),
+                            color: Colors.transparent,
+                            ccolor: Colors.red,
+                          ),
                         ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 1,
-                      width: double.infinity,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                            color: switchColor(context, MyColors.lightCardBG,
-                                MyColors.darkLineBreak)),
                       ),
                     ),
                   ],
@@ -473,7 +421,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     loadUserData();
     loadUserFavoriteFilter();
     _setupFeed();
-    _loadAudioByteData();
   }
 
   @override
@@ -579,17 +526,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     // if failed,use loadFailed(),if no data return,use LoadNodata()
     if (mounted) setState(() {});
     //_refreshController.loadComplete();
-  }
-
-  void _refresh() {
-    getTemporaryDirectory().then((dir) {
-      dir.delete(recursive: true);
-    });
-    setState(() {});
-  }
-
-  void _loadAudioByteData() async {
-    _swipeUpSFX = await rootBundle.load(Strings.swipe_up_to_reload);
   }
 }
 

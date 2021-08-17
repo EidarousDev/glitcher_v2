@@ -50,109 +50,110 @@ class PostBottomSheet {
       backgroundColor: Colors.transparent,
       context: context,
       builder: (context) {
-        return Container(
-            padding: EdgeInsets.only(top: 5, bottom: 0),
-            height: Sizes.fullHeight(context) * calculateHeightRatio(isMyPost),
-            width: Sizes.fullWidth(context),
-            decoration: BoxDecoration(
-              color: switchColor(context, MyColors.lightButtonsBackground,
-                  MyColors.darkAccent),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-            ),
-            child: _postOptions(context, isMyPost, post, user));
+        return _postOptions(context, isMyPost, post, user);
       },
     );
   }
 
   Widget _postOptions(
       BuildContext context, bool isMyPost, Post post, User user) {
-    return Column(
-      children: <Widget>[
-        Container(
-          width: Sizes.fullWidth(context) * .1,
-          height: 5,
-          decoration: BoxDecoration(
-            color: switchColor(context, MyColors.lightPrimary, Colors.white70),
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
+    return Container(
+      padding: EdgeInsets.only(top: 5, bottom: 0),
+      width: Sizes.fullWidth(context),
+      decoration: BoxDecoration(
+        color: switchColor(
+            context, MyColors.lightButtonsBackground, MyColors.darkAccent),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            width: Sizes.fullWidth(context) * .1,
+            height: 5,
+            decoration: BoxDecoration(
+              color:
+                  switchColor(context, MyColors.lightPrimary, Colors.white70),
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
+              ),
             ),
           ),
-        ),
-        InkWell(
-          onTap: () async {
-            var postLink = await DynamicLinks(
-                    Provider.of<AppModel>(context, listen: false)
-                        .packageInfo
-                        .packageName)
-                .createPostDynamicLink({
-              'postId': post.id,
-              'text': post.text,
-              'imageUrl': post.imageUrl
-            });
-            var text = ClipboardData(text: '$postLink');
-            Clipboard.setData(text);
-            //AppUtil().showToast('Post copied to clipboard');
-          },
-          child: _widgetBottomSheetRow(
-            context,
-            Icon(Icons.link),
-            text: 'Copy link to post',
+          InkWell(
+            onTap: () async {
+              var postLink = await DynamicLinks(
+                      Provider.of<AppModel>(context, listen: false)
+                          .packageInfo
+                          .packageName)
+                  .createPostDynamicLink({
+                'postId': post.id,
+                'text': post.text,
+                'imageUrl': post.imageUrl
+              });
+              var text = ClipboardData(text: '$postLink');
+              Clipboard.setData(text);
+              //AppUtil().showToast('Post copied to clipboard');
+            },
+            child: _widgetBottomSheetRow(
+              context,
+              Icon(Icons.link),
+              text: 'Copy link to post',
+            ),
           ),
-        ),
-        showRemoveFromBookmarks
-            ? _widgetBottomSheetRow(
-                context,
-                Icon(Icons.close),
-                text: 'Remove post from bookmarks',
-                onPressed: () async {
-                  await DatabaseService.removePostFromBookmarks(post.id);
-                  Navigator.of(context).pop();
-                },
-              )
+          showRemoveFromBookmarks
+              ? _widgetBottomSheetRow(
+                  context,
+                  Icon(Icons.close),
+                  text: 'Remove post from bookmarks',
+                  onPressed: () async {
+                    await DatabaseService.removePostFromBookmarks(post.id);
+                    Navigator.of(context).pop();
+                  },
+                )
 //            Container()
-            : _widgetBottomSheetRow(
-                context,
-                Icon(Icons.bookmark),
-                text: 'Bookmark this post',
-                onPressed: () {
-                  _bookmarkPost(post.id, context);
-                },
-              ),
-        isMyPost
-            ? _widgetBottomSheetRow(
-                context,
-                Icon(Icons.edit),
-                text: 'Edit this post',
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed(RouteList.editPost, arguments: {'post': post});
-                },
-              )
-            : Container(),
-        isMyPost
-            ? _widgetBottomSheetRow(
-                context,
-                Icon(Icons.delete_forever),
-                text: 'Delete Post',
-                onPressed: () {
-                  _deletePost(
-                    context,
-                    post.id,
-                  );
-                },
-                isEnable: true,
-              )
-            : Container(),
-        isMyPost
-            ? Container()
-            : _widgetBottomSheetRow(
-                context, Icon(Icons.indeterminate_check_box),
-                text: 'Unfollow ${user.username}', onPressed: () async {
-                unfollowUser(context, user);
-              }),
+              : _widgetBottomSheetRow(
+                  context,
+                  Icon(Icons.bookmark),
+                  text: 'Bookmark this post',
+                  onPressed: () {
+                    _bookmarkPost(post.id, context);
+                  },
+                ),
+          isMyPost
+              ? _widgetBottomSheetRow(
+                  context,
+                  Icon(Icons.edit),
+                  text: 'Edit this post',
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(RouteList.editPost,
+                        arguments: {'post': post});
+                  },
+                )
+              : Container(),
+          isMyPost
+              ? _widgetBottomSheetRow(
+                  context,
+                  Icon(Icons.delete_forever),
+                  text: 'Delete Post',
+                  onPressed: () {
+                    _deletePost(
+                      context,
+                      post.id,
+                    );
+                  },
+                  isEnable: true,
+                )
+              : Container(),
+          isMyPost
+              ? Container()
+              : _widgetBottomSheetRow(
+                  context, Icon(Icons.indeterminate_check_box),
+                  text: 'Unfollow ${user.username}', onPressed: () async {
+                  unfollowUser(context, user);
+                }),
 
 //        isMyPost
 //            ? Container()
@@ -164,24 +165,25 @@ class PostBottomSheet {
 //        isMyPost
 //            ? Container()
 //            :
-        !isMyPost
-            ? _widgetBottomSheetRow(context, Icon(Icons.report),
-                text: 'Report Post', onPressed: () async {
-                Navigator.of(context).pushNamed(RouteList.reportPost,
-                    arguments: {
-                      'post_author': post.authorId,
-                      'post_id': post.id
-                    });
-              })
-            : Container(),
-      ],
+          !isMyPost
+              ? _widgetBottomSheetRow(context, Icon(Icons.report),
+                  text: 'Report Post', onPressed: () async {
+                  Navigator.of(context).pushNamed(RouteList.reportPost,
+                      arguments: {
+                        'post_author': post.authorId,
+                        'post_id': post.id
+                      });
+                })
+              : Container(),
+        ],
+      ),
     );
   }
 
   Widget _widgetBottomSheetRow(BuildContext context, Icon icon,
       {String text, Function onPressed, bool isEnable = false}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Flex(
         direction: Axis.horizontal,
         crossAxisAlignment: CrossAxisAlignment.center,

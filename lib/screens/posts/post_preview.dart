@@ -177,7 +177,7 @@ class _PostPreviewState extends State<PostPreview>
               return Center(child: CircularProgressIndicator());
             default:
               return ListView.builder(
-                controller: _scrollController,
+                physics: NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemCount: _comments.length,

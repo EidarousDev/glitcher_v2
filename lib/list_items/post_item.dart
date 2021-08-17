@@ -82,457 +82,474 @@ class _PostItemState extends State<PostItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5),
-      child: _buildPost(widget.post, widget.author),
-    );
+    return _buildPost(widget.post, widget.author);
   }
 
   _buildPost(Post post, User author) {
     initLikes(post);
-    return Column(
-      children: <Widget>[
-        Column(
-          children: [
-            ListTile(
-              contentPadding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
-              leading: widget.isLoading
-                  ? Shimmer.fromColors(
-                      baseColor: Colors.grey[300],
-                      highlightColor: Colors.grey[100],
-                      child: Container(
-                        width: Sizes.md_profile_image_w,
-                        height: Sizes.md_profile_image_h,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    )
-                  : InkWell(
-                      child: CacheThisImage(
-                        imageUrl: author.profileImageUrl,
-                        imageShape: BoxShape.circle,
-                        width: Sizes.md_profile_image_w,
-                        height: Sizes.md_profile_image_h,
-                        defaultAssetImage: Strings.default_profile_image,
-                      ),
-                      onTap: () {
-                        Navigator.of(context)
-                            .pushNamed(RouteList.profile, arguments: {
-                          'userId': post.authorId,
-                        });
-                      }),
-              title: widget.isLoading
-                  ? Shimmer.fromColors(
-                      baseColor: Colors.grey[300],
-                      highlightColor: Colors.grey[100],
-                      child: Container(
-                        color: Colors.grey[300],
-                        height: 10,
-                        width: 70,
-                      ))
-                  : Row(
-                      children: <Widget>[
-                        InkWell(
-                          child: Text('@${author.username}' ?? '',
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: MyColors.darkPrimary)),
+    return InkWell(
+      onTap: () => _goToPostPreview(post),
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 5),
+        child: Column(
+          children: <Widget>[
+            Column(
+              children: [
+                ListTile(
+                  contentPadding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
+                  leading: widget.isLoading
+                      ? Shimmer.fromColors(
+                          baseColor: Colors.grey[300],
+                          highlightColor: Colors.grey[100],
+                          child: Container(
+                            width: Sizes.md_profile_image_w,
+                            height: Sizes.md_profile_image_h,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        )
+                      : InkWell(
+                          child: CacheThisImage(
+                            imageUrl: author.profileImageUrl,
+                            imageShape: BoxShape.circle,
+                            width: Sizes.md_profile_image_w,
+                            height: Sizes.md_profile_image_h,
+                            defaultAssetImage: Strings.default_profile_image,
+                          ),
                           onTap: () {
                             Navigator.of(context)
                                 .pushNamed(RouteList.profile, arguments: {
-                              'userId': author.id,
+                              'userId': post.authorId,
+                            });
+                          }),
+                  title: widget.isLoading
+                      ? Shimmer.fromColors(
+                          baseColor: Colors.grey[300],
+                          highlightColor: Colors.grey[100],
+                          child: Container(
+                            color: Colors.grey[300],
+                            height: 10,
+                            width: 70,
+                          ))
+                      : Row(
+                          children: <Widget>[
+                            InkWell(
+                              child: Text('@${author.username}' ?? '',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: MyColors.darkPrimary)),
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushNamed(RouteList.profile, arguments: {
+                                  'userId': author.id,
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                  subtitle: widget.isLoading
+                      ? Shimmer.fromColors(
+                          baseColor: Colors.grey[300],
+                          highlightColor: Colors.grey[100],
+                          child: Container(
+                            color: Colors.grey[300],
+                            height: 10,
+                            width: 70,
+                          ))
+                      : InkWell(
+                          child: Text('↳ ${post.game}' ?? '',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: MyColors.darkGrey,
+                              )),
+                          onTap: () {
+                            //print('currentGame : ${currentGame.id}');
+                            Navigator.of(context)
+                                .pushNamed(RouteList.game, arguments: {
+                              'game': currentGame,
                             });
                           },
                         ),
-                      ],
-                    ),
-              subtitle: widget.isLoading
-                  ? Shimmer.fromColors(
-                      baseColor: Colors.grey[300],
-                      highlightColor: Colors.grey[100],
-                      child: Container(
-                        color: Colors.grey[300],
-                        height: 10,
-                        width: 70,
-                      ))
-                  : InkWell(
-                      child: Text('↳ ${post.game}' ?? '',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: MyColors.darkGrey,
-                          )),
-                      onTap: () {
-                        //print('currentGame : ${currentGame.id}');
-                        Navigator.of(context)
-                            .pushNamed(RouteList.game, arguments: {
-                          'game': currentGame,
-                        });
-                      },
-                    ),
-              trailing: ValueListenableBuilder<int>(
-                valueListenable: number,
-                builder: (context, value, child) {
-                  return PostBottomSheet().postOptionIcon(
-                    context,
-                    post,
-                  );
-                },
-              ),
-            ),
-            widget.isLoading
-                ? Shimmer.fromColors(
-                    baseColor: Colors.grey[300],
-                    highlightColor: Colors.grey[100],
-                    child: Container(
-                      color: Colors.grey[300],
-                      height: 200,
-                      width: MediaQuery.of(context).size.width - 20,
-                    ))
-                : Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              secondHalf.isEmpty
-                                  ? GestureDetector(
-                                      onLongPress: () async {
-                                        _onLongPressedPost(context);
-                                      },
-                                      onTap: () => _goToPostPreview(post),
-                                      child: UrlText(
-                                        context: context,
-                                        text: post.text,
-                                        onMentionPressed: (text) =>
-                                            mentionedUserProfile(),
-                                        onHashTagPressed: (text) =>
-                                            hashtagScreen(),
-                                        style: TextStyle(
-                                          color: switchColor(context,
-                                              Colors.black, Colors.white),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                        urlStyle: TextStyle(
-                                            color: Colors.blue,
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    )
-                                  : GestureDetector(
-                                      onLongPress: () async {
-                                        _onLongPressedPost(context);
-                                      },
-                                      onTap: () => _goToPostPreview(post),
-                                      child: UrlText(
-                                        context: context,
-                                        text: flag
-                                            ? (firstHalf + '...')
-                                            : (firstHalf + secondHalf),
-                                        onMentionPressed: (text) =>
-                                            mentionedUserProfile(),
-                                        onHashTagPressed: (text) =>
-                                            hashtagScreen(),
-                                        style: TextStyle(
-                                          color: switchColor(context,
-                                              Colors.black, Colors.white),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                        urlStyle: TextStyle(
-                                            color: Colors.blue,
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    ),
-                              InkWell(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    secondHalf.isEmpty
-                                        ? Text('')
-                                        : Text(
-                                            flag ? 'Show more' : 'Show less',
-                                            style: TextStyle(
-                                                color: MyColors.darkPrimary),
-                                          )
-                                  ],
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    flag = !flag;
-                                  });
-                                },
-                              ),
-                              SizedBox(
-                                height: 8.0,
-                              ),
-                              Container(
-                                child: post.imageUrl == null
-                                    ? null
-                                    : Container(
-                                        width: Sizes.home_post_image_w,
-                                        height: Sizes.home_post_image_h,
-                                        child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            child: InkWell(
-                                                onTap: () {
-                                                  showDialog(
-                                                      barrierDismissible: true,
-                                                      builder: (_) {
-                                                        return Container(
-                                                          width: Sizes
-                                                              .sm_profile_image_w,
-                                                          height: Sizes
-                                                              .sm_profile_image_h,
-                                                          child: ImageOverlay(
-                                                            imageUrl:
-                                                                post.imageUrl,
-                                                            btnText: Strings
-                                                                .SAVE_IMAGE,
-                                                            btnFunction: () {},
-                                                          ),
-                                                        );
-                                                      },
-                                                      context: context);
-                                                },
-                                                child: CacheThisImage(
-                                                  imageUrl: post.imageUrl,
-                                                  imageShape:
-                                                      BoxShape.rectangle,
-                                                  width:
-                                                      Sizes.home_post_image_w,
-                                                  height:
-                                                      Sizes.home_post_image_h,
-                                                  defaultAssetImage: Strings
-                                                      .default_post_image,
-                                                ))),
-                                      ),
-                              ),
-                              Container(
-                                child: post.video == null
-                                    ? null
-                                    : AspectRatio(
-                                        aspectRatio: videoPlayerController
-                                            .value.aspectRatio,
-                                        child: playerWidget),
-                              ),
-                              post.youtubeId != null && post.imageUrl == null
-                                  ? widget.youtubePlayer != null
-                                      ? widget.youtubePlayer
-                                      : InkWell(
+                  trailing: ValueListenableBuilder<int>(
+                    valueListenable: number,
+                    builder: (context, value, child) {
+                      return PostBottomSheet().postOptionIcon(
+                        context,
+                        post,
+                      );
+                    },
+                  ),
+                ),
+                widget.isLoading
+                    ? Shimmer.fromColors(
+                        baseColor: Colors.grey[300],
+                        highlightColor: Colors.grey[100],
+                        child: Container(
+                          color: Colors.grey[300],
+                          height: 200,
+                          width: MediaQuery.of(context).size.width - 20,
+                        ))
+                    : Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0, vertical: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  secondHalf.isEmpty
+                                      ? GestureDetector(
+                                          onLongPress: () async {
+                                            _onLongPressedPost(context);
+                                          },
                                           onTap: () => _goToPostPreview(post),
-                                          child: Stack(
-                                            children: [
-                                              Container(
-                                                  child: CacheThisImage(
-                                                imageUrl:
-                                                    'https://img.youtube.com/vi/${post.youtubeId}/0.jpg',
-                                                defaultAssetImage:
-                                                    Strings.default_post_image,
-                                                height: 200,
-                                                imageShape: BoxShape.rectangle,
-                                              )),
-                                              Positioned.fill(
-                                                child: Align(
-                                                  child: _youtubeBtn(),
-                                                  alignment: Alignment.center,
-                                                ),
-                                              )
-                                            ],
+                                          child: UrlText(
+                                            context: context,
+                                            text: post.text,
+                                            onMentionPressed: (text) =>
+                                                mentionedUserProfile(),
+                                            onHashTagPressed: (text) =>
+                                                hashtagScreen(),
+                                            style: TextStyle(
+                                              color: switchColor(context,
+                                                  Colors.black, Colors.white),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                            urlStyle: TextStyle(
+                                                color: Colors.blue,
+                                                fontWeight: FontWeight.w400),
                                           ),
                                         )
-                                  : Container(),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: Text(
-                                  "${Functions.formatTimestamp(post.timestamp)}",
-                                  style: TextStyle(
-                                      fontSize: 13.0,
-                                      color: switchColor(context,
-                                          MyColors.darkGrey, Colors.white70)),
-                                ),
+                                      : GestureDetector(
+                                          onLongPress: () async {
+                                            _onLongPressedPost(context);
+                                          },
+                                          onTap: () => _goToPostPreview(post),
+                                          child: UrlText(
+                                            context: context,
+                                            text: flag
+                                                ? (firstHalf + '...')
+                                                : (firstHalf + secondHalf),
+                                            onMentionPressed: (text) =>
+                                                mentionedUserProfile(),
+                                            onHashTagPressed: (text) =>
+                                                hashtagScreen(),
+                                            style: TextStyle(
+                                              color: switchColor(context,
+                                                  Colors.black, Colors.white),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                            urlStyle: TextStyle(
+                                                color: Colors.blue,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        ),
+                                  InkWell(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        secondHalf.isEmpty
+                                            ? Text('')
+                                            : Text(
+                                                flag
+                                                    ? 'Show more'
+                                                    : 'Show less',
+                                                style: TextStyle(
+                                                    color:
+                                                        MyColors.darkPrimary),
+                                              )
+                                      ],
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        flag = !flag;
+                                      });
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 8.0,
+                                  ),
+                                  Container(
+                                    child: post.imageUrl == null
+                                        ? null
+                                        : Container(
+                                            width: Sizes.home_post_image_w,
+                                            height: Sizes.home_post_image_h,
+                                            child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                child: InkWell(
+                                                    onTap: () {
+                                                      showDialog(
+                                                          barrierDismissible:
+                                                              true,
+                                                          builder: (_) {
+                                                            return Container(
+                                                              width: Sizes
+                                                                  .sm_profile_image_w,
+                                                              height: Sizes
+                                                                  .sm_profile_image_h,
+                                                              child:
+                                                                  ImageOverlay(
+                                                                imageUrl: post
+                                                                    .imageUrl,
+                                                                btnText: Strings
+                                                                    .SAVE_IMAGE,
+                                                                btnFunction:
+                                                                    () {},
+                                                              ),
+                                                            );
+                                                          },
+                                                          context: context);
+                                                    },
+                                                    child: CacheThisImage(
+                                                      imageUrl: post.imageUrl,
+                                                      imageShape:
+                                                          BoxShape.rectangle,
+                                                      width: Sizes
+                                                          .home_post_image_w,
+                                                      height: Sizes
+                                                          .home_post_image_h,
+                                                      defaultAssetImage: Strings
+                                                          .default_post_image,
+                                                    ))),
+                                          ),
+                                  ),
+                                  Container(
+                                    child: post.video == null
+                                        ? null
+                                        : AspectRatio(
+                                            aspectRatio: videoPlayerController
+                                                .value.aspectRatio,
+                                            child: playerWidget),
+                                  ),
+                                  post.youtubeId != null &&
+                                          post.imageUrl == null
+                                      ? widget.youtubePlayer != null
+                                          ? widget.youtubePlayer
+                                          : InkWell(
+                                              onTap: () =>
+                                                  _goToPostPreview(post),
+                                              child: Stack(
+                                                children: [
+                                                  Container(
+                                                      child: CacheThisImage(
+                                                    imageUrl:
+                                                        'https://img.youtube.com/vi/${post.youtubeId}/0.jpg',
+                                                    defaultAssetImage: Strings
+                                                        .default_post_image,
+                                                    height: 200,
+                                                    imageShape:
+                                                        BoxShape.rectangle,
+                                                  )),
+                                                  Positioned.fill(
+                                                    child: Align(
+                                                      child: _youtubeBtn(),
+                                                      alignment:
+                                                          Alignment.center,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                      : Container(),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: Text(
+                                      "${Functions.formatTimestamp(post.timestamp)}",
+                                      style: TextStyle(
+                                          fontSize: 13.0,
+                                          color: switchColor(
+                                              context,
+                                              MyColors.darkGrey,
+                                              Colors.white70)),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Container(
+                    width: double.infinity,
+                    height: .5,
                   ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: Container(
-                width: double.infinity,
-                height: .5,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 1.0,
+              width: double.infinity,
+              child: DecoratedBox(
+                decoration:
+                    BoxDecoration(color: Theme.of(context).dividerColor),
               ),
             ),
-          ],
-        ),
-        SizedBox(
-          height: 1.0,
-          width: double.infinity,
-          child: DecoratedBox(
-            decoration: BoxDecoration(color: Theme.of(context).dividerColor),
-          ),
-        ),
-        Container(
-          height: Sizes.inline_break,
-          color: Theme.of(context).cardColor,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              InkWell(
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(
-                      child: isLiked
-                          ? Icon(
-                              FontAwesome.thumbs_up,
-                              size: Sizes.card_btn_size,
-                              color: MyColors.darkPrimary,
+            Container(
+              height: Sizes.inline_break,
+              color: Theme.of(context).cardColor,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  InkWell(
+                    child: Row(
+                      children: <Widget>[
+                        SizedBox(
+                          child: isLiked
+                              ? Icon(
+                                  FontAwesome.thumbs_up,
+                                  size: Sizes.card_btn_size,
+                                  color: MyColors.darkPrimary,
+                                )
+                              : Icon(
+                                  FontAwesome.thumbs_o_up,
+                                  size: Sizes.card_btn_size,
+                                ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 16.0),
+                          child: Text(
+                            '${post.likesCount ?? 0}',
+                          ),
+                        ),
+                      ],
+                    ),
+                    onTap: () async {
+                      if (isLikeEnabled) {
+                        audioPlayer
+                            .setAsset(
+                              Strings.like_sound,
                             )
-                          : Icon(
-                              FontAwesome.thumbs_o_up,
-                              size: Sizes.card_btn_size,
-                            ),
+                            .then((value) => audioPlayer.play());
+                        await likeBtnHandler(post);
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    width: 1.0,
+                    height: Sizes.inline_break,
+                    child: DecoratedBox(
+                      decoration:
+                          BoxDecoration(color: Theme.of(context).dividerColor),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 16.0),
-                      child: Text(
-                        '${post.likesCount ?? 0}',
-                      ),
+                  ),
+                  InkWell(
+                    child: Row(
+                      children: <Widget>[
+                        SizedBox(
+                          child: isDisliked
+                              ? Icon(
+                                  FontAwesome.thumbs_down,
+                                  size: Sizes.card_btn_size,
+                                  color: MyColors.darkPrimary,
+                                )
+                              : Icon(
+                                  FontAwesome.thumbs_o_down,
+                                  size: Sizes.card_btn_size,
+                                ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 16.0),
+                          child: Text(
+                            '${post.disLikesCount ?? 0}',
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                onTap: () async {
-                  if (isLikeEnabled) {
-                    audioPlayer
-                        .setAsset(
-                          Strings.like_sound,
-                        )
-                        .then((value) => audioPlayer.play());
-                    await likeBtnHandler(post);
-                  }
-                },
-              ),
-              SizedBox(
-                width: 1.0,
-                height: Sizes.inline_break,
-                child: DecoratedBox(
-                  decoration:
-                      BoxDecoration(color: Theme.of(context).dividerColor),
-                ),
-              ),
-              InkWell(
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(
-                      child: isDisliked
-                          ? Icon(
-                              FontAwesome.thumbs_down,
-                              size: Sizes.card_btn_size,
-                              color: MyColors.darkPrimary,
+                    onTap: () async {
+                      if (isDislikedEnabled) {
+                        audioPlayer
+                            .setAsset(
+                              Strings.dislike_sound,
                             )
-                          : Icon(
-                              FontAwesome.thumbs_o_down,
-                              size: Sizes.card_btn_size,
-                            ),
+                            .then((value) => audioPlayer.play());
+                        await dislikeBtnHandler(post);
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    width: 1.0,
+                    height: Sizes.inline_break,
+                    child: DecoratedBox(
+                      decoration:
+                          BoxDecoration(color: Theme.of(context).dividerColor),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 16.0),
-                      child: Text(
-                        '${post.disLikesCount ?? 0}',
-                      ),
+                  ),
+                  InkWell(
+                    child: Row(
+                      children: <Widget>[
+                        SizedBox(
+                          child: Icon(
+                            Icons.chat_bubble_outline,
+                            size: Sizes.card_btn_size,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 16.0),
+                          child: Text(
+                            '${post.commentsCount ?? 0}',
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                onTap: () async {
-                  if (isDislikedEnabled) {
-                    audioPlayer
-                        .setAsset(
-                          Strings.dislike_sound,
-                        )
-                        .then((value) => audioPlayer.play());
-                    await dislikeBtnHandler(post);
-                  }
-                },
-              ),
-              SizedBox(
-                width: 1.0,
-                height: Sizes.inline_break,
-                child: DecoratedBox(
-                  decoration:
-                      BoxDecoration(color: Theme.of(context).dividerColor),
-                ),
-              ),
-              InkWell(
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(
-                      child: Icon(
-                        Icons.chat_bubble_outline,
-                        size: Sizes.card_btn_size,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 16.0),
-                      child: Text(
-                        '${post.commentsCount ?? 0}',
-                      ),
-                    ),
-                  ],
-                ),
-                onTap: () {
+                    onTap: () {
 //                    Navigator.of(context).pushNamed(RouteList.post, arguments: {
 //                      'post': post,
 //                      'commentsNo': post.commentsCount
 //                    });
-                  Navigator.of(context)
-                      .pushNamed(RouteList.addComment, arguments: {
-                    'post': post,
-                    'user': author,
-                  });
-                },
-              ),
-              SizedBox(
-                width: 1.0,
-                height: Sizes.inline_break,
-                child: DecoratedBox(
-                  decoration:
-                      BoxDecoration(color: Theme.of(context).dividerColor),
-                ),
-              ),
-              InkWell(
-                child: SizedBox(
-                  child: Icon(
-                    Icons.share,
-                    size: Sizes.card_btn_size,
+                      Navigator.of(context)
+                          .pushNamed(RouteList.addComment, arguments: {
+                        'post': post,
+                        'user': author,
+                      });
+                    },
                   ),
-                ),
-                onTap: () async {
-                  await sharePost(post.id, post.text, post.imageUrl);
-                },
+                  SizedBox(
+                    width: 1.0,
+                    height: Sizes.inline_break,
+                    child: DecoratedBox(
+                      decoration:
+                          BoxDecoration(color: Theme.of(context).dividerColor),
+                    ),
+                  ),
+                  InkWell(
+                    child: SizedBox(
+                      child: Icon(
+                        Icons.share,
+                        size: Sizes.card_btn_size,
+                      ),
+                    ),
+                    onTap: () async {
+                      await sharePost(post.id, post.text, post.imageUrl);
+                    },
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+            SizedBox(
+              height: 14.0,
+              width: double.infinity,
+              child: DecoratedBox(
+                decoration:
+                    BoxDecoration(color: Theme.of(context).dividerColor),
+              ),
+            ),
+          ],
         ),
-        SizedBox(
-          height: 14.0,
-          width: double.infinity,
-          child: DecoratedBox(
-            decoration: BoxDecoration(color: Theme.of(context).dividerColor),
-          ),
-        ),
-      ],
+      ),
     );
   }
 
@@ -553,22 +570,8 @@ class _PostItemState extends State<PostItem> {
     _dislikeSFX = await rootBundle.load(Strings.dislike_sound);
   }
 
-  // Youtube Video listener
-  void listener() {
-//    if (_youtubeController.value.playerState == PlayerState.ENDED) {
-//      //_showThankYouDialog();
-//    }
-    if (mounted) {
-//      setState(() {
-//        //_playerStatus = _youtubeController.value.playerState.toString();
-//        //_errorCode = _youtubeController.value.errorCode.toString();
-//      });
-    }
-  }
-
   @override
   void dispose() {
-    //Constants.youtubeControllers[widget.post.id].dispose();
     videoPlayerController?.dispose();
     chewieController?.dispose();
     super.dispose();
@@ -576,24 +579,10 @@ class _PostItemState extends State<PostItem> {
 
   @override
   void initState() {
-    _loadAudioByteData();
     super.initState();
 
     checkIfContainsHashtag();
     checkIfContainsMention();
-
-    // if (Constants.youtubeControllers.containsKey(widget.post.id)) {
-    //   Constants.youtubeControllers.remove(widget.post.id);
-    // }
-    // Constants.youtubeControllers.putIfAbsent(
-    //     widget.post.id,
-    //     () => YoutubePlayerController(
-    //           initialVideoId: widget.post.youtubeId ?? '',
-    //           flags: YoutubePlayerFlags(
-    //             autoPlay: false,
-    //             mute: false,
-    //           ),
-    //         ));
 
     setCurrentGame();
     if (widget.post.text.length > Sizes.postExcerpt) {
