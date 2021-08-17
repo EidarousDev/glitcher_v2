@@ -431,29 +431,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     WidgetsBinding.instance.addObserver(this);
 
-    ///Set up listener here
-    _scrollController
-      ..addListener(() {
-        if (_scrollController.offset >=
-                _scrollController.position.maxScrollExtent &&
-            !_scrollController.position.outOfRange) {
-          //print('reached the bottom');
-          nextPosts();
-        } else if (_scrollController.offset <=
-                _scrollController.position.minScrollExtent &&
-            !_scrollController.position.outOfRange) {
-          //print("reached the top");
-        } else {}
-      });
-    loadUserData();
-    loadUserFavoriteFilter();
-    _setupFeed();
-    _loadAudioByteData();
-  }
-
-  @override
-  didChangeDependencies() {
-    super.didChangeDependencies();
     if (mounted) {
       if (Provider.of<AppModel>(context, listen: false).newUpdateExists) {
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
@@ -478,6 +455,31 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         });
       }
     }
+
+    ///Set up listener here
+    _scrollController
+      ..addListener(() {
+        if (_scrollController.offset >=
+                _scrollController.position.maxScrollExtent &&
+            !_scrollController.position.outOfRange) {
+          //print('reached the bottom');
+          nextPosts();
+        } else if (_scrollController.offset <=
+                _scrollController.position.minScrollExtent &&
+            !_scrollController.position.outOfRange) {
+          //print("reached the top");
+        } else {}
+      });
+    loadUserData();
+    loadUserFavoriteFilter();
+    _setupFeed();
+    _loadAudioByteData();
+  }
+
+  @override
+  didChangeDependencies() {
+    super.didChangeDependencies();
+
     RateApp(context).rateGlitcher();
   }
 

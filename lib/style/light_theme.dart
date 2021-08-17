@@ -88,6 +88,7 @@ const ColorScheme kColorScheme = ColorScheme(
 
 ThemeData buildLightTheme(String language, [String fontFamily = 'Roboto']) {
   final base = ThemeData.light().copyWith(
+    iconTheme: IconThemeData(color: kDarkBG),
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: {
         TargetPlatform.android: FadeThroughPageTransitionsBuilder(),
@@ -116,6 +117,14 @@ ThemeData buildLightTheme(String language, [String fontFamily = 'Roboto']) {
     iconTheme: customIconTheme(base.iconTheme),
     hintColor: Colors.black26,
     backgroundColor: Colors.white,
+    sliderTheme: SliderThemeData(
+      inactiveTrackColor: Colors.grey.shade200,
+      activeTrackColor: kDarkDivider,
+      thumbColor: kDarkCard,
+      trackHeight: 3.0,
+      thumbShape: RoundSliderThumbShape(enabledThumbRadius: 6.0),
+      overlayShape: RoundSliderOverlayShape(overlayRadius: 12.0),
+    ),
     primaryColor: kLightPrimary,
     accentColor: kLightAccent,
     floatingActionButtonTheme: FloatingActionButtonThemeData(

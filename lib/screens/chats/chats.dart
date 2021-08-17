@@ -26,6 +26,7 @@ class _ChatsState extends State<Chats>
         SingleTickerProviderStateMixin,
         AutomaticKeepAliveClientMixin,
         WidgetsBindingObserver {
+  PageController _pageController;
   TabController _tabController;
   List<ChatItem> chats = [];
   List<Group> groups = [];
@@ -51,7 +52,6 @@ class _ChatsState extends State<Chats>
     });
   }
 
-  Map<String, List<noti.Notification>> _notifications = {};
   Future<ChatItem> loadUserData(String uid) async {
     ChatItem chatItem;
     User user = await DatabaseService.getUserWithId(uid, checkLocal: true);
@@ -88,7 +88,8 @@ class _ChatsState extends State<Chats>
     getCurrentUserFriends();
     getChatGroups();
     super.initState();
-    _tabController = TabController(vsync: this, initialIndex: 0, length: 2);
+    _pageController = PageController(initialPage: 0);
+    _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
   }
 
   getChatGroups() async {
@@ -198,7 +199,7 @@ class _ChatsState extends State<Chats>
                   _searching = false;
                 });
               }
-              if (_tabController.index == 0) {
+              if (_pageController.page == 0) {
                 chats.forEach((chatItem) {
                   if (chatItem.name
                       .toLowerCase()
@@ -238,6 +239,8 @@ class _ChatsState extends State<Chats>
                 _searching = false;
               });
               _searchController.clear();
+              _pageController.animateToPage(index,
+                  duration: Duration(milliseconds: 400), curve: Curves.easeIn);
             },
             controller: _tabController,
             indicatorColor: Theme.of(context).primaryColor,
@@ -263,8 +266,8 @@ class _ChatsState extends State<Chats>
                   Icons.add,
                 ))
             : null,
-        body: TabBarView(
-          controller: _tabController,
+        body: PageView(
+          controller: _pageController,
           children: <Widget>[
             chats.length > 0
                 ? ListView.separated(
@@ -339,7 +342,9 @@ class _ChatsState extends State<Chats>
                 : Center(
                     child: Text(
                     'No groups yet',
-                    style: TextStyle(fontSize: 20, color: Colors.grey),
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
                   )),
           ],
         ),

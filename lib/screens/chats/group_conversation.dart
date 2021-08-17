@@ -104,7 +104,9 @@ class _GroupConversationState extends State<GroupConversation>
   void getGroupMessages() async {
     var messages = await DatabaseService.getGroupMessages(widget.groupId);
     setState(() {
-      this._messages = messages;
+      this._messages = messages
+          .where((element) => !(_messages ?? []).contains(element))
+          .toList();
 
       if (messages.length >
           0) //TODO comment this line if prevMessages malfunction
@@ -135,6 +137,13 @@ class _GroupConversationState extends State<GroupConversation>
       querySnapshot.docChanges.forEach((change) {
         if (change.type == DocumentChangeType.added) {
           if (_messages != null) {
+            List<Message> sameMessages = _messages
+                .where((element) =>
+                    element.timestamp ==
+                        Message.fromDoc(change.doc).timestamp &&
+                    element.timestamp != null)
+                .toList();
+            if (sameMessages.length > 0) return;
             if (this.mounted) {
               setState(() {
                 _messages.insert(0, Message.fromDoc(change.doc));

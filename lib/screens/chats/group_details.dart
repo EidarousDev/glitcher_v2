@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
@@ -146,7 +147,7 @@ class _GroupDetailsState extends State<GroupDetails>
     return Scaffold(
         appBar: AppBar(
           flexibleSpace: gradientAppBar(context),
-          title: Text(_group.name),
+          title: Text(_group?.name ?? ''),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -167,15 +168,18 @@ class _GroupDetailsState extends State<GroupDetails>
                   Positioned.fill(
                     child: Align(
                       alignment: Alignment.topRight,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.person_add,
-                          color: Colors.white,
+                      child: Container(
+                        decoration: BoxDecoration(color: Colors.black45),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.person_add,
+                            color: Colors.white,
+                          ),
+                          onPressed: () async {
+                            Navigator.pushNamed(context, RouteList.groupMembers,
+                                arguments: {'groupId': groupId});
+                          },
                         ),
-                        onPressed: () async {
-                          Navigator.pushNamed(context, RouteList.groupMembers,
-                              arguments: {'groupId': groupId});
-                        },
                       ),
                     ),
                   ),
@@ -192,21 +196,25 @@ class _GroupDetailsState extends State<GroupDetails>
                   border: Border.all(color: MyColors.darkAccent, width: 3),
                   boxShadow: <BoxShadow>[],
                 ),
-                child: ListTile(
+                child: InkWell(
                   onTap: () async {
                     exitGroup();
                   },
-                  title: Row(
-                    children: [
-                      Icon(Icons.exit_to_app, color: Colors.white),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        'Exit group',
-                        style: TextStyle(fontSize: 18),
-                      )
-                    ],
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.exit_to_app, color: Colors.white),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          'Exit group',
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               )
@@ -237,7 +245,7 @@ class _GroupDetailsState extends State<GroupDetails>
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  _group.name,
+                  _group?.name ?? '',
                   style: TextStyle(fontSize: 30),
                 ),
               ),
@@ -250,17 +258,20 @@ class _GroupDetailsState extends State<GroupDetails>
         ? Positioned.fill(
             child: Align(
               alignment: Alignment.bottomRight,
-              child: IconButton(
-                icon: Icon(
-                  Icons.edit,
-                  color: Colors.white,
+              child: Container(
+                decoration: BoxDecoration(color: Colors.black45),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.edit,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _editing = !_editing;
+                      _textEditingController.text = _group.name;
+                    });
+                  },
                 ),
-                onPressed: () {
-                  setState(() {
-                    _editing = !_editing;
-                    _textEditingController.text = _group.name;
-                  });
-                },
               ),
             ),
           )

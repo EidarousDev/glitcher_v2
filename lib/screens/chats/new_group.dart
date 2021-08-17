@@ -10,6 +10,7 @@ import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/services/permissions_service.dart';
 import 'package:glitcher/services/route_generator.dart';
+import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/widgets/bottom_sheets/profile_image_edit_bottom_sheet.dart';
 import 'package:glitcher/widgets/caching_image.dart';
@@ -64,7 +65,7 @@ class _NewGroupState extends State<NewGroup>
     super.build(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: MyColors.darkPrimary,
+        backgroundColor: kPrimary,
         child: Icon(
           Icons.done,
         ),
@@ -86,7 +87,7 @@ class _NewGroupState extends State<NewGroup>
               _imageFile, context, 'group_chat_images/$_groupId');
           await addGroup();
           await addGroupToUsers();
-          Navigator.of(context).pushNamed(RouteList.chats);
+          Navigator.of(context).pop();
         },
       ),
       appBar: AppBar(
@@ -116,7 +117,7 @@ class _NewGroupState extends State<NewGroup>
             expandedHeight: 50,
             leading: Container(),
             flexibleSpace: Container(
-              color: MyColors.darkBG,
+              color: Theme.of(context).cardColor,
               child: Padding(
                 padding: const EdgeInsets.all(3.0),
                 child: Row(
@@ -179,7 +180,7 @@ class _NewGroupState extends State<NewGroup>
                       flex: 10,
                       child: TextField(
                         autofocus: true,
-                        cursorColor: MyColors.darkPrimary,
+                        cursorColor: kPrimary,
                         controller: textEditingController,
                         decoration: InputDecoration.collapsed(
                           hintStyle: TextStyle(color: Colors.grey.shade400),
@@ -257,7 +258,11 @@ class _NewGroupState extends State<NewGroup>
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    subtitle: Text(friendsData.elementAt(index).description),
+                    subtitle: Text(
+                      friendsData.elementAt(index).description,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     trailing: Checkbox(
                         checkColor: Colors.white,
                         activeColor: MyColors.darkPrimary,

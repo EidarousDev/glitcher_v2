@@ -69,34 +69,21 @@ class _AudioMessagePlayerState extends State<AudioMessagePlayer> {
                     ),
               myAudioPlayer.duration == null
                   ? Container()
-                  : SliderTheme(
-                      data: SliderTheme.of(context).copyWith(
-                        activeTrackColor: Colors.grey.shade400,
-                        thumbColor: kDarkCard,
-                        trackHeight: 3.0,
-                        thumbShape:
-                            RoundSliderThumbShape(enabledThumbRadius: 6.0),
-                        overlayShape:
-                            RoundSliderOverlayShape(overlayRadius: 12.0),
-                      ),
-                      child: Slider(
-                          value: myAudioPlayer.position?.inMilliseconds
-                                  ?.toDouble() ??
+                  : Slider(
+                      value:
+                          myAudioPlayer.position?.inMilliseconds?.toDouble() ??
                               0.0,
-                          onChanged: (double value) {
-                            myAudioPlayer
-                                .seek(Duration(seconds: value ~/ 1000));
+                      onChanged: (double value) {
+                        myAudioPlayer.seek(Duration(seconds: value ~/ 1000));
 
-                            if (!isPlaying) {
-                              play();
-                            }
-                          },
-                          min: 0.0,
-                          max: myAudioPlayer.duration != null
-                              ? myAudioPlayer.duration?.inMilliseconds
-                                  ?.toDouble()
-                              : 1.7976931348623157e+308),
-                    ),
+                        if (!isPlaying) {
+                          play();
+                        }
+                      },
+                      min: 0.0,
+                      max: myAudioPlayer.duration != null
+                          ? myAudioPlayer.duration?.inMilliseconds?.toDouble()
+                          : 1.7976931348623157e+308),
             ]),
           ));
 

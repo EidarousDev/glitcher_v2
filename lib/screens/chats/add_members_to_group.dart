@@ -6,7 +6,9 @@ import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/services/route_generator.dart';
+import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/widgets/caching_image.dart';
+import 'package:glitcher/widgets/gradient_appbar.dart';
 
 class AddMembersToGroup extends StatefulWidget {
   final String groupId;
@@ -67,6 +69,7 @@ class _AddMembersToGroupState extends State<AddMembersToGroup>
             Icons.done,
           ),
           onPressed: () async {
+            AppUtil.showGlitcherLoader(context);
             for (int i = 0; i < chosens.length; i++) {
               if (chosens[i]) {
                 await DatabaseService.addMemberToGroup(
@@ -86,21 +89,13 @@ class _AddMembersToGroupState extends State<AddMembersToGroup>
           },
         ),
         appBar: AppBar(
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: <Color>[MyColors.darkCardBG, MyColors.darkBG])),
-          ),
-//        elevation: 4,
+          flexibleSpace: gradientAppBar(context),
           leading: IconButton(
             icon: Icon(
               Icons.keyboard_backspace,
             ),
             onPressed: () {
-              Navigator.of(context).pushNamed(RouteList.groupMembers,
-                  arguments: {'groupId': widget.groupId});
+              Navigator.of(context).pop();
             },
           ),
           title: TextField(
