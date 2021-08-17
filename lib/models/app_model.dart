@@ -18,8 +18,10 @@ class AppModel with ChangeNotifier {
   PackageInfo get packageInfo => _packageInfo;
 
   bool _newUpdateExists;
+  bool _isUpdateMandatory;
 
   bool get newUpdateExists => _newUpdateExists;
+  bool get isUpdateMandatory => _isUpdateMandatory;
 
   Future<void> getPackageInfo() async {
     _packageInfo = await PackageInfo.fromPlatform();
@@ -50,6 +52,7 @@ class AppModel with ChangeNotifier {
     var version = jsonDecode(await RemoteConfigService.getString('version'));
     newUpdateExists = version['build'] > build;
     _newUpdateExists = newUpdateExists;
+    _isUpdateMandatory = version['mandatory'];
     if (newUpdateExists) return true;
     return false;
   }

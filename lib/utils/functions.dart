@@ -118,6 +118,7 @@ void twoButtonsDialog(BuildContext context, confirmFunction,
     String headerText = "Confirm",
     String bodyText = "Are you sure you want to do this?",
     String cancelBtn = "CANCEL",
+    Function cancelFunction,
     String yestBtn = "YES"}) {
   showDialog(
     context: context,
@@ -130,9 +131,10 @@ void twoButtonsDialog(BuildContext context, confirmFunction,
         actions: <Widget>[
           new TextButton(
             child: new Text(cancelBtn),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+            onPressed: cancelFunction ??
+                () {
+                  Navigator.of(context).pop();
+                },
           ),
           new TextButton(
             child: new Text(yestBtn),

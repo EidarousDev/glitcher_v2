@@ -1,7 +1,10 @@
 //eidarous
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:glitcher/constants/constants.dart';
@@ -453,13 +456,26 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     super.didChangeDependencies();
     if (mounted) {
       if (Provider.of<AppModel>(context, listen: false).newUpdateExists) {
-        //print('new update');
-        //TODO show update dialog
-        // AppUtil.alertDialog(
-        //     message: 'New update',
-        //     context: context,
-        //     okBtn: 'Update',
-        //     onSuccess: () => //print('new update'));
+        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+          bool isMandatory =
+              Provider.of<AppModel>(context, listen: false).isUpdateMandatory;
+          twoButtonsDialog(context, () async {
+            // AppUpdateInfo appUpdateInfo = await InAppUpdate.checkForUpdate();
+            // if (appUpdateInfo?.updateAvailability ==
+            //     UpdateAvailability.updateAvailable)
+            //   InAppUpdate.performImmediateUpdate();
+            if (Platform.isAndroid) {
+              AppUtil.launchURL(Strings.playStoreUrl);
+            }
+          },
+              bodyText: isMandatory
+                  ? 'New critical update available, you must update in order to continue use'
+                  : 'New update available, want to update?',
+              headerText: 'New Update',
+              isBarrierDismissible: isMandatory ? false : true,
+              yestBtn: 'UPDATE',
+              cancelFunction: isMandatory ? () => exit(0) : null);
+        });
       }
     }
     RateApp(context).rateGlitcher();

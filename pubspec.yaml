@@ -75,6 +75,7 @@ dependencies:
   #video_thumbnail: ^0.4.3
   firebase_remote_config: ^0.10.0+3
   webview_flutter: 2.0.4
+  #in_app_update: ^2.0.0
 
 dev_dependencies:
   flutter_test:

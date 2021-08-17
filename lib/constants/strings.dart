@@ -1,5 +1,7 @@
 class Strings {
   static String appDescription = 'GLITCHER | #1 Social App for Gamers';
+  static String playStoreUrl =
+      'https://play.google.com/store/apps/details?id=com.devyat.glitcher';
 
   // Generic strings
   static const String ok = 'OK';
