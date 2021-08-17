@@ -303,7 +303,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Navigator.of(context).pushNamed(RouteList.conversation,
                         arguments: {'otherUid': widget.userId});
                   },
-                  icon: Icon(Icons.chat),
+                  icon: Icon(
+                    Icons.chat,
+                    color: switchColor(context, Colors.black, Colors.white),
+                  ),
                   iconSize: 25.0,
                   color: switchColor(context, MyColors.lightButtonsBackground,
                       MyColors.darkPrimaryTappedBtn),
@@ -353,6 +356,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ? IconButton(
                                     icon: Icon(
                                       Icons.edit,
+                                      color: switchColor(
+                                          context, Colors.black, Colors.white),
                                       size: 18,
                                     ),
                                     onPressed: () {
@@ -364,6 +369,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 : IconButton(
                                     icon: Icon(
                                       Icons.done,
+                                      color: switchColor(
+                                          context, Colors.black, Colors.white),
                                       size: 18,
                                     ),
                                     onPressed: () {
@@ -404,6 +411,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ? IconButton(
                                     icon: Icon(
                                       Icons.edit,
+                                      color: switchColor(
+                                          context, Colors.black, Colors.white),
                                       size: 16,
                                     ),
                                     onPressed: () {
@@ -416,6 +425,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 : IconButton(
                                     icon: Icon(
                                       Icons.done,
+                                      color: switchColor(
+                                          context, Colors.black, Colors.white),
                                       size: 16,
                                     ),
                                     onPressed: () {
@@ -466,6 +477,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ? IconButton(
                                 icon: Icon(
                                   Icons.edit,
+                                  color: switchColor(
+                                      context, Colors.black, Colors.white),
                                   size: 18,
                                 ),
                                 onPressed: () {
@@ -477,6 +490,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             : IconButton(
                                 icon: Icon(
                                   Icons.done,
+                                  color: switchColor(
+                                      context, Colors.black, Colors.white),
                                   size: 18,
                                 ),
                                 onPressed: () {
