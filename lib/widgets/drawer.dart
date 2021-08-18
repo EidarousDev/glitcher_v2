@@ -148,7 +148,7 @@ class _BuildDrawerState extends State<BuildDrawer> {
               onTap: () async {
                 try {
                   String token = await FirebaseMessaging.instance.getToken();
-                  usersRef
+                  await usersRef
                       .doc(userModel.id)
                       .collection('tokens')
                       .doc(token)

@@ -83,19 +83,18 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       // floatingActionButton: FloatingActionButton(
       //   onPressed: () async {
       //     Navigator.of(context).push(CustomScreenLoader());
-      //
       //     QuerySnapshot usersSnapshot = await usersRef.get();
       //
-      //     List<user.User> users =
-      //         usersSnapshot.docs.map((doc) => user.User.fromDoc(doc)).toList();
-      //
-      //     for (user.User xxx in users) {
-      //       await usersRef.doc(xxx.id).update({'messagesNumber': 0});
-      //
-      //       //print('User(${xxx.username}) Done!');
+      //     int docsDeleted = 0;
+      //     for (var doc in usersSnapshot.docs) {
+      //       if ((doc.data() as Map)['username'] == null) {
+      //         await usersRef.doc(doc.id).delete();
+      //         print('Docs deleted${docsDeleted++}');
+      //       }
       //     }
       //     Navigator.of(context).pop();
       //     AppUtil.showSnackBar(context, 'DONE!!!');
+      //     print('DONE!!!');
       //   },
       //   child: Icon(Icons.code),
       // ),
