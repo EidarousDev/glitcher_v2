@@ -517,7 +517,7 @@ class DatabaseService {
     return friends;
   }
 
-  static getAllFollowing(String userId) async {
+  static Future<List<User>> getAllFollowing(String userId) async {
     QuerySnapshot followingSnapshot =
         await usersRef.doc(userId).collection('following').get();
 

@@ -161,6 +161,8 @@ class _PostItemState extends State<PostItem> {
                           ))
                       : InkWell(
                           child: Text('↳ ${post.game}' ?? '',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: 14,
                                 color: MyColors.darkGrey,

@@ -18,7 +18,7 @@ import 'package:provider/provider.dart';
 
 class PostBottomSheet {
   bool showRemoveFromBookmarks = false;
-
+  bool isFollowingPostAuthor = false;
   Widget postOptionIcon(BuildContext context, Post post) {
     return customInkWell(
         radius: BorderRadius.circular(20),
@@ -44,6 +44,13 @@ class PostBottomSheet {
   void _openBottomSheet(BuildContext context, Post post) async {
     User user =
         await DatabaseService.getUserWithId(post.authorId, checkLocal: false);
+    bool isFollowing = (await usersRef
+            .doc(Constants.currentUserID)
+            .collection('following')
+            .doc(user.id)
+            .get())
+        .exists;
+    isFollowingPostAuthor = isFollowing;
     bool isMyPost = Constants.currentUserID == post.authorId;
     showRemoveFromBookmarks = await DatabaseService.isPostInBookmarks(post.id);
     await showModalBottomSheet(
@@ -149,11 +156,13 @@ class PostBottomSheet {
               : Container(),
           isMyPost
               ? Container()
-              : _widgetBottomSheetRow(
-                  context, Icon(Icons.indeterminate_check_box),
-                  text: 'Unfollow ${user.username}', onPressed: () async {
-                  unfollowUser(context, user);
-                }),
+              : isFollowingPostAuthor
+                  ? _widgetBottomSheetRow(
+                      context, Icon(Icons.indeterminate_check_box),
+                      text: 'Unfollow ${user.username}', onPressed: () async {
+                      unfollowUser(context, user);
+                    })
+                  : Container(),
 
 //        isMyPost
 //            ? Container()

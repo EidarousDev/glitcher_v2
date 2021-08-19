@@ -18,6 +18,7 @@ import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/services/share_link.dart';
 import 'package:glitcher/services/sqlite_service.dart';
+import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/bottom_sheets/profile_image_edit_bottom_sheet.dart';
@@ -286,11 +287,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           followUser();
                         },
                   icon: !isFollowing
-                      ? Icon(FontAwesome.user_plus)
-                      : Icon(FontAwesome.user_times),
+                      ? Icon(
+                          FontAwesome.user_plus,
+                          color: kPrimary,
+                        )
+                      : Icon(
+                          FontAwesome.user_times,
+                          color: kPrimary,
+                        ),
                   iconSize: 25.0,
-                  color: switchColor(context, MyColors.lightButtonsBackground,
-                      MyColors.darkPrimaryTappedBtn),
                 ),
               )
             : Container(),
@@ -305,7 +310,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   },
                   icon: Icon(
                     Icons.chat,
-                    color: switchColor(context, Colors.black, Colors.white),
+                    color: kPrimary,
                   ),
                   iconSize: 25.0,
                   color: switchColor(context, MyColors.lightButtonsBackground,
@@ -533,7 +538,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 'Followers',
                                 style: TextStyle(color: Colors.grey),
                               ),
-                              Text(userData?.followers.toString())
+                              Text('${userData?.followers ?? '0'}')
                             ],
                           ),
                         ),
@@ -558,7 +563,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style:
                                     TextStyle(color: Colors.grey, fontSize: 14),
                               ),
-                              Text(userData?.following.toString())
+                              Text('${userData?.following ?? '0'}')
                             ],
                           ),
                         ),
@@ -583,7 +588,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style:
                                     TextStyle(color: Colors.grey, fontSize: 14),
                               ),
-                              Text(userData?.friends.toString())
+                              Text('${userData?.friends ?? '0'}')
                             ],
                           ),
                         ),
@@ -610,7 +615,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             'Followed Games',
                             style: TextStyle(color: Colors.grey),
                           ),
-                          Text(userData?.followedGames.toString())
+                          Text('${userData?.followedGames ?? '0'}')
                         ],
                       ),
                     ),
@@ -786,21 +791,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void followUser() async {
-//    setState(() {
-//      _isBtnEnabled = false;
-//      _loading = true;
-//    });
-
     Navigator.of(context).push(CustomScreenLoader());
 
     await DatabaseService.followUser(widget.userId);
     await checkUser();
 
-//    setState(() {
-//      _loading = false;
-//      _isBtnEnabled = true;
-//      isFollowing = false;
-//    });
     Navigator.of(context).pop();
   }
 
