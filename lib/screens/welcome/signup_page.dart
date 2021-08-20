@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:glitcher/constants/my_colors.dart';
-import 'package:glitcher/screens/web_browser/webview_modal.dart';
 import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/auth_provider.dart';
 import 'package:glitcher/services/database_service.dart';
@@ -60,105 +59,111 @@ class _SignUpPageState extends State<SignUpPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Expanded(
-            child: TextFormField(
-                focusNode: focusNode,
-                onChanged: (value) {
-                  if (isEmail) {
-                    setState(() {
-                      _email = value;
-                    });
-                  } else if (isUsername) {
-                    setState(() {
-                      _username = value;
-                    });
-                  } else if (isPassword) {
-                    setState(() {
-                      _password = value;
-                    });
-                  } else if (isConfirmPassword) {
-                    _confirmPassword = value;
-                  }
-                },
-                keyboardType:
-                    isEmail ? TextInputType.emailAddress : TextInputType.text,
-                onFieldSubmitted: (v) async {
-                  if (isUsername) {
-                    FocusScope.of(context).requestFocus(myFocusNodeEmail);
-                  } else if (isEmail) {
-                    FocusScope.of(context).requestFocus(myFocusNodePassword);
-                  } else if (isPassword) {
-                    FocusScope.of(context)
-                        .requestFocus(myFocusNodeConfirmPassword);
-                  } else if (isConfirmPassword) {
-                    if (!_isTermsOfTermsAgreed) {
-                      AppUtil.showSnackBar(
-                          context, 'Please agree to terms of use.');
-                      return;
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      color: switchColor(context, Colors.black, Colors.white),
+                      width: 1)),
+              child: TextFormField(
+                  focusNode: focusNode,
+                  onChanged: (value) {
+                    if (isEmail) {
+                      setState(() {
+                        _email = value;
+                      });
+                    } else if (isUsername) {
+                      setState(() {
+                        _username = value;
+                      });
+                    } else if (isPassword) {
+                      setState(() {
+                        _password = value;
+                      });
+                    } else if (isConfirmPassword) {
+                      _confirmPassword = value;
                     }
-                    await _submit();
-                  }
-                },
-                textInputAction: isConfirmPassword
-                    ? TextInputAction.done
-                    : TextInputAction.next,
-                style: TextStyle(color: MyColors.darkCardBG),
-                obscureText: _isObscure && (isPassword || isConfirmPassword),
-                decoration: InputDecoration(
-                    hintText: title,
-                    hintStyle: TextStyle(color: Colors.grey),
-                    prefixIcon: Container(
-                      width: 48,
-                      child: isEmail
-                          ? Icon(
-                              Icons.email,
-                              size: 18,
-                              color: Colors.grey.shade400,
-                            )
-                          : isPassword || isConfirmPassword
-                              ? Icon(
-                                  Icons.lock,
-                                  size: 18,
-                                  color: Colors.grey.shade400,
-                                )
-                              : Icon(
-                                  Icons.person,
-                                  size: 18,
-                                  color: Colors.grey.shade400,
-                                ),
-                    ),
-                    suffixIcon: Container(
-                      width: 48,
-                      child: _isObscure && (isPassword || isConfirmPassword)
-                          ? IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _isObscure = !_isObscure;
-                                });
-                              },
-                              icon: Icon(
-                                Icons.remove_red_eye,
+                  },
+                  keyboardType:
+                      isEmail ? TextInputType.emailAddress : TextInputType.text,
+                  onFieldSubmitted: (v) async {
+                    if (isUsername) {
+                      FocusScope.of(context).requestFocus(myFocusNodeEmail);
+                    } else if (isEmail) {
+                      FocusScope.of(context).requestFocus(myFocusNodePassword);
+                    } else if (isPassword) {
+                      FocusScope.of(context)
+                          .requestFocus(myFocusNodeConfirmPassword);
+                    } else if (isConfirmPassword) {
+                      if (!_isTermsOfTermsAgreed) {
+                        AppUtil.showSnackBar(
+                            context, 'Please agree to terms of use.');
+                        return;
+                      }
+                      await _submit();
+                    }
+                  },
+                  textInputAction: isConfirmPassword
+                      ? TextInputAction.done
+                      : TextInputAction.next,
+                  style: TextStyle(color: MyColors.darkCardBG),
+                  obscureText: _isObscure && (isPassword || isConfirmPassword),
+                  decoration: InputDecoration(
+                      hintText: title,
+                      hintStyle: TextStyle(color: Colors.grey),
+                      prefixIcon: Container(
+                        width: 48,
+                        child: isEmail
+                            ? Icon(
+                                Icons.email,
                                 size: 18,
-                              ),
-                              color: Colors.grey.shade400,
-                            )
-                          : isPassword || isConfirmPassword
-                              ? IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _isObscure = !_isObscure;
-                                    });
-                                  },
-                                  icon: Icon(
-                                    Icons.visibility_off,
+                                color: Colors.grey.shade400,
+                              )
+                            : isPassword || isConfirmPassword
+                                ? Icon(
+                                    Icons.lock,
                                     size: 18,
+                                    color: Colors.grey.shade400,
+                                  )
+                                : Icon(
+                                    Icons.person,
+                                    size: 18,
+                                    color: Colors.grey.shade400,
                                   ),
-                                  color: Colors.grey.shade400,
-                                )
-                              : Container(),
-                    ),
-                    border: InputBorder.none,
-                    fillColor: Color(0xfff3f3f4),
-                    filled: true)),
+                      ),
+                      suffixIcon: Container(
+                        width: 48,
+                        child: _isObscure && (isPassword || isConfirmPassword)
+                            ? IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isObscure = !_isObscure;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.remove_red_eye,
+                                  size: 18,
+                                ),
+                                color: Colors.grey.shade400,
+                              )
+                            : isPassword || isConfirmPassword
+                                ? IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _isObscure = !_isObscure;
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.visibility_off,
+                                      size: 18,
+                                    ),
+                                    color: Colors.grey.shade400,
+                                  )
+                                : Container(),
+                      ),
+                      border: InputBorder.none,
+                      fillColor: Color(0xfff3f3f4),
+                      filled: true)),
+            ),
           )
         ],
       ),
@@ -305,28 +310,27 @@ class _SignUpPageState extends State<SignUpPage> {
                               children: <TextSpan>[
                                 TextSpan(
                                     text:
-                                        'By clicking Sign Up, you agree to our '),
+                                        'By clicking Sign Up, you agree to our ',
+                                    style: TextStyle(
+                                        color: switchColor(context,
+                                            Colors.black, Colors.white))),
                                 TextSpan(
                                     text: 'Terms of Service',
                                     style: linkStyle,
                                     recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        Navigator.of(context).push(WebViewModal(
-                                            url:
-                                                'https://www.gl1tch3r.com/terms-of-service'));
-                                        //print('Terms of Service"');
-                                      }),
-                                TextSpan(text: ' and that you have read our '),
+                                      ..onTap = () => Navigator.of(context)
+                                          .pushNamed(RouteList.termsOfService)),
+                                TextSpan(
+                                    text: ' and that you have read our ',
+                                    style: TextStyle(
+                                        color: switchColor(context,
+                                            Colors.black, Colors.white))),
                                 TextSpan(
                                     text: 'Privacy Policy',
                                     style: linkStyle,
                                     recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        Navigator.of(context).push(WebViewModal(
-                                            url:
-                                                'https://www.gl1tch3r.com/privacy-policy'));
-                                        //print('Privacy Policy"');
-                                      }),
+                                      ..onTap = () => Navigator.of(context)
+                                          .pushNamed(RouteList.privacyPolicy)),
                               ],
                             ),
                           ),

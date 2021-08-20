@@ -4,7 +4,9 @@ import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/screens/welcome/widgets/bezier_container.dart';
 import 'package:glitcher/services/database_service.dart';
+import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/utils/app_util.dart';
+import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/logo_widgets.dart';
 
 class PasswordResetScreen extends StatelessWidget {
@@ -35,7 +37,7 @@ class PasswordResetScreen extends StatelessWidget {
                       children: <Widget>[
                         LogoWithText(),
                         SizedBox(height: 50),
-                        _entryField('E-Mail'),
+                        _entryField(context, 'E-Mail'),
                         SizedBox(height: 20),
                         _submitButton(context),
                         SizedBox(height: 100.0),
@@ -50,7 +52,7 @@ class PasswordResetScreen extends StatelessWidget {
         ));
   }
 
-  Widget _entryField(String title) {
+  Widget _entryField(BuildContext context, String title) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Row(
@@ -58,26 +60,32 @@ class PasswordResetScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Expanded(
-            child: TextFormField(
-                controller: _emailController,
-                // onChanged: (value) {
-                //   _email = value;
-                // },
-                keyboardType: TextInputType.emailAddress,
-                style: TextStyle(color: MyColors.darkCardBG),
-                decoration: InputDecoration(
-                    prefixIcon: Container(
-                        width: 48,
-                        child: Icon(
-                          Icons.email,
-                          size: 18,
-                          color: Colors.grey.shade400,
-                        )),
-                    hintText: 'E-mail',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: InputBorder.none,
-                    fillColor: Color(0xfff3f3f4),
-                    filled: true)),
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      color: switchColor(context, Colors.black, Colors.white),
+                      width: 1)),
+              child: TextFormField(
+                  controller: _emailController,
+                  // onChanged: (value) {
+                  //   _email = value;
+                  // },
+                  keyboardType: TextInputType.emailAddress,
+                  style: TextStyle(color: MyColors.darkCardBG),
+                  decoration: InputDecoration(
+                      prefixIcon: Container(
+                          width: 48,
+                          child: Icon(
+                            Icons.email,
+                            size: 18,
+                            color: Colors.grey.shade400,
+                          )),
+                      hintText: 'E-mail',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      border: InputBorder.none,
+                      fillColor: Color(0xfff3f3f4),
+                      filled: true)),
+            ),
           )
         ],
       ),
@@ -148,7 +156,8 @@ class PasswordResetScreen extends StatelessWidget {
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
-              child: Icon(Icons.arrow_back, color: Colors.white),
+              child: Icon(Icons.arrow_back,
+                  color: switchColor(context, kPrimary, Colors.white)),
             ),
           ],
         ),

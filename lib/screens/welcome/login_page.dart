@@ -64,75 +64,81 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Expanded(
-            child: TextFormField(
-                onChanged: (value) {
-                  isPassword ? _password = value : _email = value;
-                },
-                keyboardType: !isPassword
-                    ? TextInputType.emailAddress
-                    : TextInputType.text,
-                textInputAction:
-                    isPassword ? TextInputAction.done : TextInputAction.next,
-                onFieldSubmitted: (v) {
-                  if (!isPassword) {
-                    FocusScope.of(context).requestFocus(focus);
-                  } else {
-                    _checkFields();
-                  }
-                },
-                focusNode: isPassword ? focus : null,
-                style: TextStyle(color: MyColors.darkCardBG),
-                obscureText: _isObscure && (isPassword),
-                decoration: InputDecoration(
-                    prefixIcon: Container(
-                      width: 48,
-                      child: !isPassword
-                          ? Icon(
-                              Icons.email,
-                              size: 18,
-                              color: Colors.grey.shade400,
-                            )
-                          : Icon(
-                              Icons.lock,
-                              size: 18,
-                              color: Colors.grey.shade400,
-                            ),
-                    ),
-                    suffixIcon: Container(
-                      width: 48,
-                      child: _isObscure && isPassword
-                          ? IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _isObscure = !_isObscure;
-                                });
-                              },
-                              icon: Icon(
-                                Icons.remove_red_eye,
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      color: switchColor(context, Colors.black, Colors.white),
+                      width: 1)),
+              child: TextFormField(
+                  onChanged: (value) {
+                    isPassword ? _password = value : _email = value;
+                  },
+                  keyboardType: !isPassword
+                      ? TextInputType.emailAddress
+                      : TextInputType.text,
+                  textInputAction:
+                      isPassword ? TextInputAction.done : TextInputAction.next,
+                  onFieldSubmitted: (v) {
+                    if (!isPassword) {
+                      FocusScope.of(context).requestFocus(focus);
+                    } else {
+                      _checkFields();
+                    }
+                  },
+                  focusNode: isPassword ? focus : null,
+                  style: TextStyle(color: MyColors.darkCardBG),
+                  obscureText: _isObscure && (isPassword),
+                  decoration: InputDecoration(
+                      prefixIcon: Container(
+                        width: 48,
+                        child: !isPassword
+                            ? Icon(
+                                Icons.email,
                                 size: 18,
+                                color: Colors.grey.shade400,
+                              )
+                            : Icon(
+                                Icons.lock,
+                                size: 18,
+                                color: Colors.grey.shade400,
                               ),
-                              color: Colors.grey.shade400,
-                            )
-                          : isPassword
-                              ? IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _isObscure = !_isObscure;
-                                    });
-                                  },
-                                  icon: Icon(
-                                    Icons.visibility_off,
-                                    size: 18,
-                                  ),
-                                  color: Colors.grey.shade400,
-                                )
-                              : Container(),
-                    ),
-                    hintText: isPassword ? 'Password' : 'E-mail',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: InputBorder.none,
-                    fillColor: Color(0xfff3f3f4),
-                    filled: true)),
+                      ),
+                      suffixIcon: Container(
+                        width: 48,
+                        child: _isObscure && isPassword
+                            ? IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isObscure = !_isObscure;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.remove_red_eye,
+                                  size: 18,
+                                ),
+                                color: Colors.grey.shade400,
+                              )
+                            : isPassword
+                                ? IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _isObscure = !_isObscure;
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.visibility_off,
+                                      size: 18,
+                                    ),
+                                    color: Colors.grey.shade400,
+                                  )
+                                : Container(),
+                      ),
+                      hintText: isPassword ? 'Password' : 'E-mail',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      border: InputBorder.none,
+                      fillColor: Color(0xfff3f3f4),
+                      filled: true)),
+            ),
           )
         ],
       ),

@@ -6,6 +6,7 @@ import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/auth_provider.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/utils/app_util.dart';
+import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/custom_loader.dart';
 import 'package:glitcher/widgets/gradient_appbar.dart';
 
@@ -66,81 +67,88 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Expanded(
-            child: TextFormField(
-                focusNode: focusNode,
-                onChanged: (value) {
-                  if (isCurrentPassword) {
-                    setState(() {
-                      _currentPassword = value;
-                    });
-                  } else if (isNewPassword) {
-                    setState(() {
-                      _newPassword = value;
-                    });
-                  } else if (isConfirmPassword) {
-                    _confirmPassword = value;
-                  }
-                },
-                onFieldSubmitted: (v) {
-                  if (isCurrentPassword) {
-                    FocusScope.of(context).requestFocus(myFocusNodeNewPassword);
-                  } else if (isNewPassword) {
-                    FocusScope.of(context)
-                        .requestFocus(myFocusNodeConfirmPassword);
-                  } else if (isConfirmPassword) {
-                    _changePassword();
-                  }
-                },
-                textInputAction: isConfirmPassword
-                    ? TextInputAction.done
-                    : TextInputAction.next,
-                style: TextStyle(color: MyColors.darkCardBG),
-                obscureText: _isObscure,
-                decoration: InputDecoration(
-                    hintText: title,
-                    hintStyle: TextStyle(color: Colors.grey),
-                    prefixIcon: Container(
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      color: switchColor(context, Colors.black, Colors.white),
+                      width: 1)),
+              child: TextFormField(
+                  focusNode: focusNode,
+                  onChanged: (value) {
+                    if (isCurrentPassword) {
+                      setState(() {
+                        _currentPassword = value;
+                      });
+                    } else if (isNewPassword) {
+                      setState(() {
+                        _newPassword = value;
+                      });
+                    } else if (isConfirmPassword) {
+                      _confirmPassword = value;
+                    }
+                  },
+                  onFieldSubmitted: (v) {
+                    if (isCurrentPassword) {
+                      FocusScope.of(context)
+                          .requestFocus(myFocusNodeNewPassword);
+                    } else if (isNewPassword) {
+                      FocusScope.of(context)
+                          .requestFocus(myFocusNodeConfirmPassword);
+                    } else if (isConfirmPassword) {
+                      _changePassword();
+                    }
+                  },
+                  textInputAction: isConfirmPassword
+                      ? TextInputAction.done
+                      : TextInputAction.next,
+                  style: TextStyle(color: MyColors.darkCardBG),
+                  obscureText: _isObscure,
+                  decoration: InputDecoration(
+                      hintText: title,
+                      hintStyle: TextStyle(color: Colors.grey),
+                      prefixIcon: Container(
+                          width: 48,
+                          child: Icon(
+                            Icons.lock,
+                            size: 18,
+                            color: Colors.grey.shade400,
+                          )),
+                      suffixIcon: Container(
                         width: 48,
-                        child: Icon(
-                          Icons.lock,
-                          size: 18,
-                          color: Colors.grey.shade400,
-                        )),
-                    suffixIcon: Container(
-                      width: 48,
-                      child: _isObscure
-                          ? IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _isObscure = !_isObscure;
-                                });
-                              },
-                              icon: Icon(
-                                Icons.remove_red_eye,
-                                size: 18,
-                              ),
-                              color: Colors.grey.shade400,
-                            )
-                          : isCurrentPassword ||
-                                  isNewPassword ||
-                                  isConfirmPassword
-                              ? IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _isObscure = !_isObscure;
-                                    });
-                                  },
-                                  icon: Icon(
-                                    Icons.visibility_off,
-                                    size: 18,
-                                  ),
-                                  color: Colors.grey.shade400,
-                                )
-                              : Container(),
-                    ),
-                    border: InputBorder.none,
-                    fillColor: Color(0xfff3f3f4),
-                    filled: true)),
+                        child: _isObscure
+                            ? IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isObscure = !_isObscure;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.remove_red_eye,
+                                  size: 18,
+                                ),
+                                color: Colors.grey.shade400,
+                              )
+                            : isCurrentPassword ||
+                                    isNewPassword ||
+                                    isConfirmPassword
+                                ? IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _isObscure = !_isObscure;
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.visibility_off,
+                                      size: 18,
+                                    ),
+                                    color: Colors.grey.shade400,
+                                  )
+                                : Container(),
+                      ),
+                      border: InputBorder.none,
+                      fillColor: Color(0xfff3f3f4),
+                      filled: true)),
+            ),
           )
         ],
       ),

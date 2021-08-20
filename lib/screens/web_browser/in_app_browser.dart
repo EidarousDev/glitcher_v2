@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glitcher/widgets/gradient_appbar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewScreen extends StatefulWidget {
@@ -22,6 +23,7 @@ class _StateWebViewScreen extends State<WebViewScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.url),
+        flexibleSpace: gradientAppBar(context),
       ),
       body: WebView(
         javascriptMode: JavascriptMode.unrestricted,
