@@ -616,16 +616,19 @@ class _ComposeTweet extends WidgetView<CreatePost, _CreatePostReplyPageState> {
               onSaved: (value) => viewState.widget.selectedGame = value,
             ),
           ),
-          Flexible(
-            child: Stack(
-              children: <Widget>[
-                CreatePostImage(
-                  image: viewState._image,
-                  onCrossIconPressed: viewState._onCrossIconPressed,
+          viewState._image == null
+              ? Container()
+              : Flexible(
+                  fit: FlexFit.loose,
+                  child: Stack(
+                    children: <Widget>[
+                      CreatePostImage(
+                        image: viewState._image,
+                        onCrossIconPressed: viewState._onCrossIconPressed,
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
           viewState._video != null ? viewState.createPostVideo : Container(),
         ],
       ),
