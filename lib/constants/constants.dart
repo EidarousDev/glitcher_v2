@@ -5,7 +5,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:glitcher/models/hashtag_model.dart';
 import 'package:glitcher/models/notification_model.dart';
 import 'package:glitcher/models/user_model.dart' as user;
-import 'package:glitcher/screens/chats/chats.dart';
 
 /// Firebase Constants
 final firebaseAuth = FirebaseAuth.instance;
@@ -56,9 +55,6 @@ class Constants {
 
   static ConnectivityResult connectionState;
   static String country;
-
-  //screens
-  static Chats chats = Chats();
 
   static int endPositionOffsetInMilliSeconds = 10;
 }

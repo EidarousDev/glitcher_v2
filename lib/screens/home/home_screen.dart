@@ -292,13 +292,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 icon: FontAwesome.image,
                                 text: "Image",
                                 color: Colors.transparent,
-                                ccolor: kPrimary),
+                                ccolor: Colors.blue),
                             CardIconText(
                               tStyle: TextStyle(fontWeight: FontWeight.bold),
                               icon: FontAwesome.file_video_o,
                               text: "Video",
                               color: Colors.transparent,
-                              ccolor: kPrimary,
+                              ccolor: Colors.green,
                             ),
                             CardIconText(
                               tStyle: TextStyle(fontWeight: FontWeight.bold),
@@ -412,7 +412,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   didChangeDependencies() {
     super.didChangeDependencies();
-
     RateApp(context).rateGlitcher();
   }
 

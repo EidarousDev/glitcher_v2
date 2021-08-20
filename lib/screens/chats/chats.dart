@@ -268,6 +268,11 @@ class _ChatsState extends State<Chats>
             : null,
         body: PageView(
           controller: _pageController,
+          onPageChanged: (index) {
+            setState(() {
+              _tabController.index = index;
+            });
+          },
           children: <Widget>[
             chats.length > 0
                 ? ListView.separated(

@@ -34,7 +34,7 @@ class _GamesScreenState extends State<GamesScreen> {
         child: Icon(
           //Icons.lightbulb_outline,
           MaterialCommunityIcons.lightbulb_on,
-          color: Theme.of(context).iconTheme.color,
+          color: Colors.white,
         ),
         onPressed: () async {
           Navigator.of(context).pushNamed(RouteList.suggestion, arguments: {

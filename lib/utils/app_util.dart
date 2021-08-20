@@ -68,14 +68,6 @@ class AppUtil {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Navigator.of(context).pushNamed(RouteList.interests);
       });
-      // twoButtonsDialog(context, () {
-      //   Navigator.of(context).pushNamed(RouteList.interests);
-      // },
-      //     bodyText: 'You still have no interests, want to follow some games?',
-      //     headerText: 'New to Glitcher?',
-      //     isBarrierDismissible: true,
-      //     yestBtn: 'OK',
-      //     cancelFunction: null);
       hasInterests = false;
     } else {
       hasInterests = true;

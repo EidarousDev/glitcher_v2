@@ -88,7 +88,7 @@ const ColorScheme kColorScheme = ColorScheme(
 
 ThemeData buildLightTheme(String language, [String fontFamily = 'Roboto']) {
   final base = ThemeData.light().copyWith(
-    iconTheme: IconThemeData(color: kDarkBG),
+    iconTheme: IconThemeData(color: Colors.white),
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: {
         TargetPlatform.android: FadeThroughPageTransitionsBuilder(),
@@ -128,8 +128,7 @@ ThemeData buildLightTheme(String language, [String fontFamily = 'Roboto']) {
     primaryColor: kLightPrimary,
     accentColor: kLightAccent,
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: kPrimary, foregroundColor: Colors.black),
-
+        backgroundColor: kPrimary, foregroundColor: Colors.white),
     scaffoldBackgroundColor: kLightBG,
     appBarTheme: const AppBarTheme(
       elevation: 0,
@@ -141,7 +140,7 @@ ThemeData buildLightTheme(String language, [String fontFamily = 'Roboto']) {
         ),
       ),
       iconTheme: IconThemeData(
-        color: kLightAccent,
+        color: kPrimary,
       ),
     ),
     pageTransitionsTheme: const PageTransitionsTheme(builders: {

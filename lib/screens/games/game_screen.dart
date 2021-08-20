@@ -13,6 +13,7 @@ import 'package:glitcher/models/user_model.dart' as user;
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/services/share_link.dart';
+import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/caching_image.dart';
 import 'package:glitcher/widgets/drawer.dart';
@@ -61,7 +62,7 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
               },
               icon: Icon(
                 MaterialCommunityIcons.lightbulb_on,
-                color: Colors.white,
+                color: switchColor(context, kPrimary, Colors.white),
               ),
             ),
             IconButton(
@@ -71,7 +72,7 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
               },
               icon: Icon(
                 Icons.share,
-                color: Colors.white,
+                color: switchColor(context, kPrimary, Colors.white),
               ),
             )
           ],
@@ -84,7 +85,7 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                 child: IconButton(
                   icon: Icon(
                     Icons.arrow_back,
-                    color: Colors.white,
+                    color: switchColor(context, kPrimary, Colors.white),
                   ),
                   onPressed: () => _onBackPressed(),
                 ),
@@ -122,13 +123,16 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                         padding: EdgeInsets.all(5),
                         child: Text(
                           widget.game.fullName,
-                          style: TextStyle(fontSize: 22, shadows: [
-                            Shadow(
-                              blurRadius: 5.0,
-                              color: Colors.black,
-                              offset: Offset(2.0, 2.0),
-                            ),
-                          ]),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              shadows: [
+                                Shadow(
+                                  blurRadius: 5.0,
+                                  color: Colors.black,
+                                  offset: Offset(2.0, 2.0),
+                                ),
+                              ]),
                         ),
                       ),
                     ),
@@ -258,6 +262,7 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
         floatingActionButton: FloatingActionButton(
           child: Icon(
             Icons.add,
+            color: Colors.white,
           ),
           onPressed: () {
             Navigator.of(context).pushNamed(RouteList.newPost,

@@ -52,6 +52,8 @@ class _AppPageState extends State<AppPage> {
 
   int _unseenNotifications = 0;
 
+  var chats = Chats();
+  var home = HomeScreen();
   @override
   Widget build(BuildContext context) {
     //print('currentUser = ${Constants.currentUser}');
@@ -62,8 +64,8 @@ class _AppPageState extends State<AppPage> {
         controller: _pageController,
         onPageChanged: onPageChanged,
         children: <Widget>[
-          HomeScreen(),
-          Constants.chats,
+          home,
+          chats,
           SearchScreen(),
           NotificationsScreen(),
           ProfileScreen(Constants.currentUserID),
@@ -143,14 +145,12 @@ class _AppPageState extends State<AppPage> {
   void initState() {
     super.initState();
     initDynamicLinks();
-    //setPackageInfo();
     //print('Constants.loggedInUser: ${Constants.currentUser}');
     _pageController = PageController(initialPage: 0);
     //_retrieveDynamicLink();
     userListener();
     _saveDeviceToken();
     setHashtags();
-    Constants.chats = Chats();
 
     this._getFavouriteFilter();
     NotificationHandler.receiveNotification(context, _scaffoldKey);
