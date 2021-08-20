@@ -107,7 +107,7 @@ class _AppPageState extends State<AppPage> {
             ),
             BottomNavigationBarItem(
               // ignore: null_aware_before_operator
-              icon: Constants.currentUser?.notificationsNumber > 0
+              icon: (Constants.currentUser?.notificationsNumber ?? 0) > 0
                   ? Badge(
                       badgeContent: Text(
                           Constants.currentUser.notificationsNumber < 9

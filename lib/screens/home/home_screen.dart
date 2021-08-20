@@ -1,5 +1,4 @@
 //eidarous
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,7 +10,6 @@ import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/constants/sizes.dart';
 import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/list_items/post_item.dart';
-import 'package:glitcher/models/app_model.dart';
 import 'package:glitcher/models/post_model.dart';
 import 'package:glitcher/models/user_model.dart' as user;
 import 'package:glitcher/services/database_service.dart';
@@ -24,7 +22,6 @@ import 'package:glitcher/widgets/drawer.dart';
 import 'package:glitcher/widgets/gradient_appbar.dart';
 import 'package:glitcher/widgets/rate_app.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 //import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -62,12 +59,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   user.User loggedInUser;
   String username;
-  //String profileImageUrl = '';
   List<Post> _posts = [];
   User currentFirebaseUser;
   Timestamp lastVisiblePostSnapShot;
   bool _noMorePosts = false;
-  int _feedFilter = 0;
+  int _feedFilter;
 
   ScrollController _scrollController = ScrollController();
 
@@ -348,19 +344,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Future<List<Post>> _setupFeed() async {
     List<Post> posts;
 
-    if (isFiltering) {
-      AppUtil.showGlitcherLoader(context);
-
-      if (Constants.followedGamesNames.length == 0) {
-        await DatabaseService.getAllFollowedGames(Constants.currentUserID);
-      }
-      if (Constants.followingIds.length == 0) {
-        await DatabaseService.getAllMyFollowing();
-      }
-
-      Navigator.pop(context); // Dismiss the loader dialog
+    if (Constants.followedGamesNames.length == 0) {
+      await DatabaseService.getAllFollowedGames(Constants.currentUserID);
     }
-
+    if (Constants.followingIds.length == 0) {
+      await DatabaseService.getAllMyFollowing();
+    }
     //print('Home Filter: $_feedFilter');
 
     if (_feedFilter == 0) {
@@ -393,30 +382,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     WidgetsBinding.instance.addObserver(this);
 
-    if (mounted) {
-      if (Provider.of<AppModel>(context, listen: false).newUpdateExists) {
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          bool isMandatory =
-              Provider.of<AppModel>(context, listen: false).isUpdateMandatory;
-          twoButtonsDialog(context, () async {
-            // AppUpdateInfo appUpdateInfo = await InAppUpdate.checkForUpdate();
-            // if (appUpdateInfo?.updateAvailability ==
-            //     UpdateAvailability.updateAvailable)
-            //   InAppUpdate.performImmediateUpdate();
-            if (Platform.isAndroid) {
-              AppUtil.launchURL(Strings.playStoreUrl);
-            }
-          },
-              bodyText: isMandatory
-                  ? 'New critical update available, you must update in order to continue use'
-                  : 'New update available, want to update?',
-              headerText: 'New Update',
-              isBarrierDismissible: isMandatory ? false : true,
-              yestBtn: 'UPDATE',
-              cancelFunction: isMandatory ? () => exit(0) : null);
-        });
-      }
+    bool hasInterests = AppUtil.checkForInterests(context);
+    if (hasInterests) {
+      _feedFilter = 2;
+    } else {
+      _feedFilter = 0;
     }
+    setState(() {});
+    AppUtil.checkForUpdates(context);
 
     ///Set up listener here
     _scrollController
@@ -434,7 +407,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       });
     loadUserData();
     loadUserFavoriteFilter();
-    _setupFeed();
   }
 
   @override
@@ -445,7 +417,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   loadUserFavoriteFilter() async {
-    _feedFilter = await getFavouriteFilter();
+    var filter = await getFavouriteFilter();
+    if (filter != null) _feedFilter = filter;
+    await _setupFeed();
   }
 
   @override

@@ -76,7 +76,7 @@ void setFavouriteFilter(BuildContext context, int favouriteFilter) async {
 
 Future getFavouriteFilter() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  return preferences.getInt('favouriteFilter') ?? 0;
+  return preferences.getInt('favouriteFilter');
 }
 
 Future<List> getHashtags() async {

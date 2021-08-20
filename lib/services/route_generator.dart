@@ -17,6 +17,7 @@ import 'package:glitcher/screens/chats/group_members.dart';
 import 'package:glitcher/screens/chats/new_group.dart';
 import 'package:glitcher/screens/games/followed_games.dart';
 import 'package:glitcher/screens/games/game_screen.dart';
+import 'package:glitcher/screens/games/interests.dart';
 import 'package:glitcher/screens/hashtag_posts_screen.dart';
 import 'package:glitcher/screens/posts/comments/add_comment.dart';
 import 'package:glitcher/screens/posts/comments/add_reply.dart';
@@ -234,6 +235,9 @@ class RouteGenerator {
                   userId: args['userId'],
                 ));
 
+      case RouteList.interests:
+        return MaterialPageRoute(builder: (_) => InterestsScreen());
+
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();
@@ -292,4 +296,5 @@ class RouteList {
   static const String setUsername = '/set-username';
   static const String passwordChange = '/password-change';
   static const String followedGames = '/followed-games';
+  static const String interests = '/interests';
 }

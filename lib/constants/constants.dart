@@ -25,6 +25,7 @@ final rawgAPIkey = '36dc737518c546498e79fa986a4ff53d';
 String appTempDirectoryPath;
 const int kMaxImageSizedInMegaBytes = 3;
 const int kMaxVideoSizedInMegaBytes = 10;
+const int kMinInterests = 3;
 
 /// User Authentication Constants
 enum AuthStatus {

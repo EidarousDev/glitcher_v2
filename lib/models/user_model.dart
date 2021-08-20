@@ -128,4 +128,9 @@ class User with ChangeNotifier {
     isFriend = user.isFriend;
     notifyListeners();
   }
+
+  void setFollowingGames(int value) {
+    followedGames = value;
+    notifyListeners();
+  }
 }

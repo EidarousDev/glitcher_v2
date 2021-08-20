@@ -484,7 +484,7 @@ class DatabaseService {
     return followers;
   }
 
-  static getAllFollowedGames(String userId) async {
+  static Future<List<Game>> getAllFollowedGames(String userId) async {
     QuerySnapshot followedGamesSnapshot =
         await usersRef.doc(userId).collection('followedGames').get();
 

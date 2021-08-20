@@ -4,19 +4,26 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
+import 'package:glitcher/constants/strings.dart';
+import 'package:glitcher/models/app_model.dart';
 import 'package:glitcher/models/hashtag_model.dart';
 import 'package:glitcher/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/widgets/fluttertoast.dart';
 import 'package:glitcher/widgets/logo_widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'functions.dart';
 
 class AppUtil {
   static final AppUtil _instance = new AppUtil.internal();
@@ -26,6 +33,55 @@ class AppUtil {
 
   factory AppUtil() {
     return _instance;
+  }
+
+  static checkForUpdates(BuildContext context) {
+    if (Provider.of<AppModel>(context, listen: false).newUpdateExists) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        bool isMandatory =
+            Provider.of<AppModel>(context, listen: false).isUpdateMandatory;
+        twoButtonsDialog(context, () async {
+          // AppUpdateInfo appUpdateInfo = await InAppUpdate.checkForUpdate();
+          // if (appUpdateInfo?.updateAvailability ==
+          //     UpdateAvailability.updateAvailable)
+          //   InAppUpdate.performImmediateUpdate();
+          if (Platform.isAndroid) {
+            AppUtil.launchURL(Strings.playStoreUrl);
+          }
+        },
+            bodyText: isMandatory
+                ? 'New critical update available, you must update in order to continue use'
+                : 'New update available, want to update?',
+            headerText: 'New Update',
+            isBarrierDismissible: isMandatory ? false : true,
+            yestBtn: 'UPDATE',
+            cancelFunction: isMandatory ? () => exit(0) : null);
+      });
+    }
+  }
+
+  static bool checkForInterests(BuildContext context) {
+    bool hasInterests;
+
+    if (Provider.of<User>(context, listen: false).followedGames <
+        kMinInterests) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        Navigator.of(context).pushNamed(RouteList.interests);
+      });
+      // twoButtonsDialog(context, () {
+      //   Navigator.of(context).pushNamed(RouteList.interests);
+      // },
+      //     bodyText: 'You still have no interests, want to follow some games?',
+      //     headerText: 'New to Glitcher?',
+      //     isBarrierDismissible: true,
+      //     yestBtn: 'OK',
+      //     cancelFunction: null);
+      hasInterests = false;
+    } else {
+      hasInterests = true;
+    }
+
+    return hasInterests;
   }
 
   static createAppDirectory() async {

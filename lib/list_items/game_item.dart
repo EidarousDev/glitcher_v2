@@ -1,20 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:glitcher/constants/constants.dart';
-import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/models/game_model.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/route_generator.dart';
+import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/widgets/caching_image.dart';
 import 'package:glitcher/widgets/custom_loader.dart';
 
 class GameItem extends StatefulWidget {
   final Game game;
-
-  GameItem({
-    Key key,
-    @required this.game,
-  }) : super(key: key);
+  final Function onFollow;
+  GameItem({Key key, @required this.game, this.onFollow}) : super(key: key);
 
   @override
   _GameItemState createState() => _GameItemState();
@@ -74,6 +71,8 @@ class _GameItemState extends State<GameItem> {
                     ),
                     Text(
                       "${widget.game.genres}",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                       style: TextStyle(
                         fontWeight: FontWeight.w300,
                         fontSize: 11,
@@ -94,7 +93,7 @@ class _GameItemState extends State<GameItem> {
                   followUnfollow();
                 },
                 textColor: Colors.white,
-                color: MyColors.badgeColor,
+                color: kPrimary,
                 child: Text(followBtnText == null ? '' : followBtnText),
               ),
             )
@@ -111,7 +110,7 @@ class _GameItemState extends State<GameItem> {
 
   followUnfollow() async {
     Navigator.of(context).push(CustomScreenLoader());
-
+    bool isFollowing = false;
     DocumentSnapshot game = await usersRef
         .doc(Constants.currentUserID)
         .collection('followedGames')
@@ -136,10 +135,13 @@ class _GameItemState extends State<GameItem> {
         followBtnText = 'Unfollow';
       });
       Constants.followedGamesNames.add(widget.game.fullName);
-      //AppUtil.showSnackBar(context, _scaffoldKey, 'Game followed');
+      isFollowing = true;
     }
     Navigator.of(context).pop();
     //DatabaseService.getFollowedGames();
+    if (widget.onFollow != null) {
+      widget.onFollow(isFollowing);
+    }
   }
 
   checkStates() async {

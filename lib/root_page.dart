@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:glitcher/constants/constants.dart';
+import 'package:glitcher/models/game_model.dart';
 import 'package:glitcher/models/user_model.dart' as user;
 import 'package:glitcher/screens/app_page.dart';
 import 'package:glitcher/screens/welcome/login_page.dart';
@@ -72,11 +73,20 @@ class _RootPageState extends State<RootPage> {
       user.User loggedInUser = await DatabaseService.getUserWithId(
           firebaseUser?.uid,
           checkLocal: false);
+
+      setState(() {
+        Constants.currentFirebaseUser = firebaseUser;
+        Constants.currentUserID = firebaseUser?.uid;
+      });
+
+      List<Game> interests =
+          await DatabaseService.getAllFollowedGames(firebaseUser?.uid);
+      loggedInUser.followedGames = interests.length;
       setState(() {
         Constants.currentUser = loggedInUser;
         Provider.of<user.User>(context, listen: false).setData(loggedInUser);
-        Constants.currentFirebaseUser = firebaseUser;
-        Constants.currentUserID = firebaseUser?.uid;
+        // print(
+        //     'interests: ${Provider.of<user.User>(context, listen: false).followedGames}');
         authStatus = AuthStatus.LOGGED_IN;
       });
     } else if (firebaseUser?.uid != null && !(firebaseUser.emailVerified)) {
