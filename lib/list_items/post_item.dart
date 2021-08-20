@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,6 +19,7 @@ import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/services/share_link.dart';
+import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/bottom_sheets/post_bottom_sheet.dart';
 import 'package:glitcher/widgets/caching_image.dart';
@@ -35,7 +36,7 @@ class PostItem extends StatefulWidget {
   final User author;
   final bool isLoading;
   final Widget youtubePlayer;
-
+  final bool loadVideo;
   final bool isClickable;
   PostItem(
       {Key key,
@@ -43,7 +44,8 @@ class PostItem extends StatefulWidget {
       @required this.author,
       this.youtubePlayer,
       this.isClickable = true,
-      this.isLoading = false})
+      this.isLoading = false,
+      this.loadVideo = false})
       : super(key: key);
   @override
   _PostItemState createState() => _PostItemState();
@@ -51,11 +53,7 @@ class PostItem extends StatefulWidget {
 
 class _PostItemState extends State<PostItem> {
   /// On-the-fly audio data for the second card.
-  int _spawnedAudioCount = 0;
-  ByteData _likeSFX;
-  ByteData _dislikeSFX;
   //YoutubePlayerController _youtubeController;
-  bool _isPlaying;
   VideoPlayerController videoPlayerController;
   ChewieController chewieController;
   Chewie playerWidget;
@@ -324,14 +322,53 @@ class _PostItemState extends State<PostItem> {
                                                     ))),
                                           ),
                                   ),
-                                  Container(
-                                    child: post.video == null
-                                        ? null
-                                        : AspectRatio(
-                                            aspectRatio: videoPlayerController
-                                                .value.aspectRatio,
-                                            child: playerWidget),
-                                  ),
+                                  widget.post.video != null
+                                      ? widget.loadVideo
+                                          ? Container(
+                                              child: post.video == null
+                                                  ? null
+                                                  : AspectRatio(
+                                                      aspectRatio:
+                                                          videoPlayerController
+                                                              .value
+                                                              .aspectRatio,
+                                                      child: playerWidget),
+                                            )
+                                          : _videoThumbnail != null
+                                              ? Center(
+                                                  child: Stack(
+                                                    children: [
+                                                      Image.file(
+                                                        File(_videoThumbnail),
+                                                        fit: BoxFit.fitWidth,
+                                                        width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
+                                                        height: 200,
+                                                      ),
+                                                      Positioned.fill(
+                                                          child: Align(
+                                                        child: Icon(
+                                                          Icons.play_arrow,
+                                                          size: 50,
+                                                        ),
+                                                      ))
+                                                    ],
+                                                  ),
+                                                )
+                                              : Center(
+                                                  child: Image.asset(
+                                                    Strings.default_post_image,
+                                                    fit: BoxFit.fitWidth,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    height: 200,
+                                                  ),
+                                                )
+                                      : Container(),
                                   post.youtubeId != null &&
                                           post.imageUrl == null
                                       ? widget.youtubePlayer != null
@@ -567,11 +604,6 @@ class _PostItemState extends State<PostItem> {
     //print('Check out: $postText : $postLink');
   }
 
-  void _loadAudioByteData() async {
-    _likeSFX = await rootBundle.load(Strings.like_sound);
-    _dislikeSFX = await rootBundle.load(Strings.dislike_sound);
-  }
-
   @override
   void dispose() {
     videoPlayerController?.dispose();
@@ -579,10 +611,21 @@ class _PostItemState extends State<PostItem> {
     super.dispose();
   }
 
+  String _videoThumbnail;
+  createVideoThumbnail() async {
+    String thumbnail;
+    if (!widget.loadVideo && widget.post.video != null) {
+      thumbnail = await AppUtil.createVideoThumbnail(widget.post.video);
+    }
+    setState(() {
+      _videoThumbnail = thumbnail;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-
+    createVideoThumbnail();
     checkIfContainsHashtag();
     checkIfContainsMention();
 

@@ -72,7 +72,7 @@ dependencies:
   record: ^3.0.0
   just_audio: ^0.7.1
   stack: ^0.2.1
-  #video_thumbnail: ^0.4.3
+  video_thumbnail: ^0.4.3
   firebase_remote_config: ^0.10.0+3
   webview_flutter: 2.0.4
   #in_app_update: ^2.0.0

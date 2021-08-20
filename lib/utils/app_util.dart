@@ -22,6 +22,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 import 'functions.dart';
 
@@ -74,6 +75,19 @@ class AppUtil {
     }
 
     return hasInterests;
+  }
+
+  static createVideoThumbnail(String url) async {
+    final fileName = await VideoThumbnail.thumbnailFile(
+      video: url,
+      thumbnailPath: (await getTemporaryDirectory()).path,
+      imageFormat: ImageFormat.WEBP,
+      maxHeight:
+          600, // specify the height of the thumbnail, let the width auto-scaled to keep the source aspect ratio
+      quality: 85,
+    );
+
+    return fileName;
   }
 
   static createAppDirectory() async {

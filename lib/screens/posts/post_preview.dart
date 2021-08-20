@@ -235,6 +235,7 @@ class _PostPreviewState extends State<PostPreview>
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               PostItem(
+                loadVideo: true,
                 post: _currentPost,
                 author: _author,
                 youtubePlayer: player,
