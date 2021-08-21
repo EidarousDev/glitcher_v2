@@ -351,6 +351,7 @@ class _PostItemState extends State<PostItem> {
                                                           child: Align(
                                                         child: Icon(
                                                           Icons.play_arrow,
+                                                          color: Colors.white,
                                                           size: 50,
                                                         ),
                                                       ))

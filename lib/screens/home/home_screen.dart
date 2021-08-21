@@ -431,7 +431,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    updateOnlineUserState(state);
+    //updateOnlineUserState(state);
     if (state == AppLifecycleState.resumed) {
       // user returned to our app
       //print('resumed');

@@ -32,7 +32,8 @@ class _StateWebViewScreen extends State<WebViewScreen> {
           await controller.loadUrl(widget.url, headers: widget.headers);
         },
         onPageFinished: (s) async {
-          await _controller.evaluateJavascript(widget.javaScript);
+          if (widget.javaScript != null)
+            await _controller.evaluateJavascript(widget.javaScript);
         },
       ),
     );

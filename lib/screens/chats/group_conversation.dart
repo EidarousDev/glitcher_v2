@@ -137,16 +137,10 @@ class _GroupConversationState extends State<GroupConversation>
       querySnapshot.docChanges.forEach((change) {
         if (change.type == DocumentChangeType.added) {
           if (_messages != null) {
-            List<Message> sameMessages = _messages
-                .where((element) =>
-                    element.timestamp ==
-                        Message.fromDoc(change.doc).timestamp &&
-                    element.timestamp != null)
-                .toList();
-            if (sameMessages.length > 0) return;
             if (this.mounted) {
               setState(() {
-                _messages.insert(0, Message.fromDoc(change.doc));
+                if (!(_messages ?? []).contains(Message.fromDoc(change.doc)))
+                  _messages.insert(0, Message.fromDoc(change.doc));
               });
             }
           }

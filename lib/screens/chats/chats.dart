@@ -155,9 +155,9 @@ class _ChatsState extends State<Chats>
   void updateOnlineUserState(AppLifecycleState state) async {
     if (state == AppLifecycleState.inactive ||
         state == AppLifecycleState.paused) {
-      DatabaseService.makeUserOffline();
+      await DatabaseService.makeUserOffline();
     } else if (state == AppLifecycleState.resumed) {
-      DatabaseService.makeUserOnline();
+      await DatabaseService.makeUserOnline();
     }
   }
 
