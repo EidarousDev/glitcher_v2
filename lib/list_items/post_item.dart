@@ -359,10 +359,18 @@ class _PostItemState extends State<PostItem> {
                                                         ),
                                                   Positioned.fill(
                                                       child: Align(
-                                                    child: Icon(
-                                                      Icons.play_arrow,
-                                                      color: Colors.white,
-                                                      size: 50,
+                                                    child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(5),
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.black54,
+                                                          shape:
+                                                              BoxShape.circle),
+                                                      child: Icon(
+                                                        Icons.play_arrow,
+                                                        color: Colors.white,
+                                                        size: 50,
+                                                      ),
                                                     ),
                                                   ))
                                                 ],
