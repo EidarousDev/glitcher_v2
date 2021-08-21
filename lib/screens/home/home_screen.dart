@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -71,6 +72,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  String _pullUpToLoad = 'Pull up to load';
+
   getFollowedGames() async {}
 
   RefreshController _refreshController =
@@ -127,12 +130,32 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       body: SmartRefresher(
         onRefresh: _onRefresh,
         onLoading: _onLoading,
+        footer: CustomFooter(
+          builder: (BuildContext context, LoadStatus mode) {
+            Widget body;
+            if (mode == LoadStatus.idle) {
+              body = Text(_pullUpToLoad);
+            } else if (mode == LoadStatus.loading) {
+              body = CupertinoActivityIndicator();
+            } else if (mode == LoadStatus.failed) {
+              body = Text("Load Failed!Click retry!");
+            } else if (mode == LoadStatus.canLoading) {
+              body = Text("release to load more");
+            } else {
+              body = Text("No more Data");
+            }
+            return Container(
+              height: 55.0,
+              child: Center(child: body),
+            );
+          },
+        ),
         controller: _refreshController,
+        scrollController: _scrollController,
         enablePullDown: true,
-        enablePullUp: false,
+        enablePullUp: true,
         header: WaterDropMaterialHeader(),
         child: SingleChildScrollView(
-          controller: _scrollController,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -491,6 +514,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       setState(() {
         posts.forEach((element) => _posts.add(element));
         this.lastVisiblePostSnapShot = posts.last.timestamp;
+        _pullUpToLoad = 'Pull up to load';
+      });
+    } else {
+      setState(() {
+        _pullUpToLoad = 'Nothing more to show';
       });
     }
 
