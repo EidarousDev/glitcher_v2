@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/constants/sizes.dart';
@@ -50,8 +49,8 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
       child: Scaffold(
         appBar: AppBar(
           actions: [
-            IconButton(
-              onPressed: () {
+            InkWell(
+              onTap: () {
                 Navigator.of(context)
                     .pushNamed(RouteList.suggestion, arguments: {
                   'initial_title': '${widget.game.fullName} edit suggestion',
@@ -60,9 +59,34 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                   'game_id': widget.game.id
                 });
               },
-              icon: Icon(
-                MaterialCommunityIcons.lightbulb_on,
-                color: switchColor(context, kPrimary, Colors.white),
+              child: MediaQuery.removePadding(
+                context: context,
+                removeTop: true,
+                removeBottom: true,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Suggest',
+                        style: TextStyle(
+                            color:
+                                switchColor(context, kPrimary, Colors.white)),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Icon(
+                        Icons.edit,
+                        size: 17,
+                        color: switchColor(context, kPrimary, Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
             IconButton(
@@ -72,6 +96,7 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
               },
               icon: Icon(
                 Icons.share,
+                size: 20,
                 color: switchColor(context, kPrimary, Colors.white),
               ),
             )
@@ -259,10 +284,20 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
+        floatingActionButton: FloatingActionButton.extended(
+          label: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('New post'),
+              SizedBox(
+                width: 5,
+              ),
+              Icon(
+                Icons.add,
+                color: Colors.white,
+                size: 20,
+              ),
+            ],
           ),
           onPressed: () {
             Navigator.of(context).pushNamed(RouteList.newPost,

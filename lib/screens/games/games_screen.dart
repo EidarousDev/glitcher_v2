@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/list_items/game_item.dart';
 import 'package:glitcher/models/game_model.dart';
@@ -30,11 +29,20 @@ class _GamesScreenState extends State<GamesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          //Icons.lightbulb_outline,
-          MaterialCommunityIcons.lightbulb_on,
-          color: Colors.white,
+      floatingActionButton: FloatingActionButton.extended(
+        label: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Suggest'),
+            SizedBox(
+              width: 5,
+            ),
+            Icon(
+              //Icons.lightbulb_outline,
+              Icons.add,
+              color: Colors.white, size: 20,
+            ),
+          ],
         ),
         onPressed: () async {
           Navigator.of(context).pushNamed(RouteList.suggestion, arguments: {

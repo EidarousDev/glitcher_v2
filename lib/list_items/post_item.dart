@@ -334,41 +334,40 @@ class _PostItemState extends State<PostItem> {
                                                               .aspectRatio,
                                                       child: playerWidget),
                                             )
-                                          : _videoThumbnail != null
-                                              ? Center(
-                                                  child: Stack(
-                                                    children: [
-                                                      Image.file(
-                                                        File(_videoThumbnail),
-                                                        fit: BoxFit.fitWidth,
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        height: 200,
-                                                      ),
-                                                      Positioned.fill(
-                                                          child: Align(
-                                                        child: Icon(
-                                                          Icons.play_arrow,
-                                                          color: Colors.white,
-                                                          size: 50,
+                                          : Center(
+                                              child: Stack(
+                                                children: [
+                                                  _videoThumbnail != null
+                                                      ? Image.file(
+                                                          File(_videoThumbnail),
+                                                          fit: BoxFit.fitWidth,
+                                                          width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width,
+                                                          height: 200,
+                                                        )
+                                                      : Image.asset(
+                                                          Strings
+                                                              .default_post_image,
+                                                          fit: BoxFit.fitWidth,
+                                                          width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width,
+                                                          height: 200,
                                                         ),
-                                                      ))
-                                                    ],
-                                                  ),
-                                                )
-                                              : Center(
-                                                  child: Image.asset(
-                                                    Strings.default_post_image,
-                                                    fit: BoxFit.fitWidth,
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    height: 200,
-                                                  ),
-                                                )
+                                                  Positioned.fill(
+                                                      child: Align(
+                                                    child: Icon(
+                                                      Icons.play_arrow,
+                                                      color: Colors.white,
+                                                      size: 50,
+                                                    ),
+                                                  ))
+                                                ],
+                                              ),
+                                            )
                                       : Container(),
                                   post.youtubeId != null &&
                                           post.imageUrl == null
