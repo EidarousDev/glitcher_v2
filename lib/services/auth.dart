@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import 'package:glitcher/models/user_model.dart' as user_model;
 import 'package:glitcher/services/database_service.dart';
 
@@ -57,34 +56,32 @@ class Auth implements BaseAuth {
     return null;
   }
 
-  // ignore: missing_return
   Future<String> signUp(String username, String email, String password) async {
     User user;
     try {
       user = (await _firebaseAuth.createUserWithEmailAndPassword(
               email: email, password: password))
           .user;
-    } catch (signUpError) {
-      if (signUpError is PlatformException) {
-        //print('Sign up error: ${signUpError.code}');
-        if (signUpError.code == 'ERROR_EMAIL_ALREADY_IN_USE') {
-          return 'Email is already in use';
-        } else if (signUpError.code == 'ERROR_WEAK_PASSWORD') {
-          return 'Weak Password';
-        } else if (signUpError.code == 'ERROR_INVALID_EMAIL') {
-          return 'Invalid Email';
-        } else {
-          return 'sign_up_error';
-        }
+    } on FirebaseAuthException catch (signUpError) {
+      print('Sign up error: ${signUpError.code}');
+      if (signUpError.code == 'email-already-in-use') {
+        return 'Email is already in use';
+      } else if (signUpError.code == 'weak-password') {
+        return 'Weak Password';
+      } else if (signUpError.code == 'error-invalid-email') {
+        return 'Invalid Email';
+      } else {
+        return 'sign_up_error';
       }
     }
 
     try {
+      print('Sending Email Verification');
       await user.sendEmailVerification();
       return user.uid;
     } catch (e) {
-      //print("An error occurred while trying to send verification email");
-      //print(e.message);
+      print("An error occurred while trying to send verification email");
+      print(e);
     }
   }
 

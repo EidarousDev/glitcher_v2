@@ -32,6 +32,7 @@ import 'package:glitcher/screens/settings.dart';
 import 'package:glitcher/screens/suggestion_screen.dart';
 import 'package:glitcher/screens/users/users_screen.dart';
 import 'package:glitcher/screens/web_browser/in_app_browser.dart';
+import 'package:glitcher/screens/welcome/activate_page.dart';
 import 'package:glitcher/screens/welcome/login_page.dart';
 import 'package:glitcher/screens/welcome/password_change.dart';
 import 'package:glitcher/screens/welcome/password_reset.dart';
@@ -220,6 +221,12 @@ class RouteGenerator {
       case RouteList.passwordReset:
         return MaterialPageRoute(builder: (_) => PasswordResetScreen());
 
+      case RouteList.activate:
+        return MaterialPageRoute(
+            builder: (_) => ActivatePage(
+                  email: args['email'],
+                  user: args['user'],
+                ));
       case RouteList.setUsername:
         return MaterialPageRoute(
             builder: (_) => SetUsernameScreen(
@@ -292,6 +299,7 @@ class RouteList {
   static const String suggestion = '/suggestion';
   static const String signUp = '/sign-up';
   static const String login = '/login';
+  static const String activate = '/activate';
   static const String passwordReset = '/password-reset';
   static const String setUsername = '/set-username';
   static const String passwordChange = '/password-change';

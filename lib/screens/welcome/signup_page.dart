@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,15 +9,12 @@ import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
-import 'package:glitcher/widgets/custom_loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'widgets/bezier_container.dart';
 
 class SignUpPage extends StatefulWidget {
-  SignUpPage({Key key, this.title}) : super(key: key);
-
-  final String title;
+  SignUpPage({Key key}) : super(key: key);
 
   @override
   _SignUpPageState createState() => _SignUpPageState();
@@ -24,19 +22,13 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   bool _isObscure = true;
-
   String _errorMsgUsername = '';
-
   String _errorMsgEmail = '';
 
-  String _username = '';
-
-  String _password = '';
-
   String _email = '';
-
+  String _username = '';
+  String _password = '';
   String _confirmPassword = '';
-
   String userId = "";
 
   final FocusNode myFocusNodePassword = FocusNode();
@@ -44,7 +36,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final FocusNode myFocusNodeName = FocusNode();
   final FocusNode myFocusNodeConfirmPassword = FocusNode();
 
-  bool _isTermsOfTermsAgreed = false;
+  bool _isTermsChecked = false;
 
   Widget _entryField(String title,
       {FocusNode focusNode,
@@ -59,111 +51,99 @@ class _SignUpPageState extends State<SignUpPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  border: Border.all(
-                      color: switchColor(context, Colors.black, Colors.white),
-                      width: 1)),
-              child: TextFormField(
-                  focusNode: focusNode,
-                  onChanged: (value) {
-                    if (isEmail) {
-                      setState(() {
-                        _email = value;
-                      });
-                    } else if (isUsername) {
-                      setState(() {
-                        _username = value;
-                      });
-                    } else if (isPassword) {
-                      setState(() {
-                        _password = value;
-                      });
-                    } else if (isConfirmPassword) {
-                      _confirmPassword = value;
+            child: TextFormField(
+                focusNode: focusNode,
+                onChanged: (value) {
+                  if (isEmail) {
+                    _email = value;
+                  } else if (isUsername) {
+                    _username = value;
+                  } else if (isPassword) {
+                    _password = value;
+                  } else if (isConfirmPassword) {
+                    _confirmPassword = value;
+                  }
+                },
+                keyboardType:
+                    isEmail ? TextInputType.emailAddress : TextInputType.text,
+                onFieldSubmitted: (v) async {
+                  if (isUsername) {
+                    FocusScope.of(context).requestFocus(myFocusNodeEmail);
+                  } else if (isEmail) {
+                    FocusScope.of(context).requestFocus(myFocusNodePassword);
+                  } else if (isPassword) {
+                    FocusScope.of(context)
+                        .requestFocus(myFocusNodeConfirmPassword);
+                  } else if (isConfirmPassword) {
+                    if (!_isTermsChecked) {
+                      AppUtil.showSnackBar(
+                          context, 'Please agree to terms of use.');
+                      return;
                     }
-                  },
-                  keyboardType:
-                      isEmail ? TextInputType.emailAddress : TextInputType.text,
-                  onFieldSubmitted: (v) async {
-                    if (isUsername) {
-                      FocusScope.of(context).requestFocus(myFocusNodeEmail);
-                    } else if (isEmail) {
-                      FocusScope.of(context).requestFocus(myFocusNodePassword);
-                    } else if (isPassword) {
-                      FocusScope.of(context)
-                          .requestFocus(myFocusNodeConfirmPassword);
-                    } else if (isConfirmPassword) {
-                      if (!_isTermsOfTermsAgreed) {
-                        AppUtil.showSnackBar(
-                            context, 'Please agree to terms of use.');
-                        return;
-                      }
-                      await _submit();
-                    }
-                  },
-                  textInputAction: isConfirmPassword
-                      ? TextInputAction.done
-                      : TextInputAction.next,
-                  style: TextStyle(color: MyColors.darkCardBG),
-                  obscureText: _isObscure && (isPassword || isConfirmPassword),
-                  decoration: InputDecoration(
-                      hintText: title,
-                      hintStyle: TextStyle(color: Colors.grey),
-                      prefixIcon: Container(
-                        width: 48,
-                        child: isEmail
-                            ? Icon(
-                                Icons.email,
-                                size: 18,
-                                color: Colors.grey.shade400,
-                              )
-                            : isPassword || isConfirmPassword
-                                ? Icon(
-                                    Icons.lock,
-                                    size: 18,
-                                    color: Colors.grey.shade400,
-                                  )
-                                : Icon(
-                                    Icons.person,
-                                    size: 18,
-                                    color: Colors.grey.shade400,
-                                  ),
-                      ),
-                      suffixIcon: Container(
-                        width: 48,
-                        child: _isObscure && (isPassword || isConfirmPassword)
-                            ? IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _isObscure = !_isObscure;
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.remove_red_eye,
+                    await _submit();
+                  }
+                },
+                textInputAction: isConfirmPassword
+                    ? TextInputAction.done
+                    : TextInputAction.next,
+                style: TextStyle(color: MyColors.darkCardBG),
+                obscureText: _isObscure && (isPassword || isConfirmPassword),
+                decoration: InputDecoration(
+                    hintText: title,
+                    hintStyle: TextStyle(color: Colors.grey),
+                    prefixIcon: Container(
+                      width: 48,
+                      child: isEmail
+                          ? Icon(
+                              Icons.email,
+                              size: 18,
+                              color: Colors.grey.shade400,
+                            )
+                          : isPassword || isConfirmPassword
+                              ? Icon(
+                                  Icons.lock,
                                   size: 18,
+                                  color: Colors.grey.shade400,
+                                )
+                              : Icon(
+                                  Icons.person,
+                                  size: 18,
+                                  color: Colors.grey.shade400,
                                 ),
-                                color: Colors.grey.shade400,
-                              )
-                            : isPassword || isConfirmPassword
-                                ? IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _isObscure = !_isObscure;
-                                      });
-                                    },
-                                    icon: Icon(
-                                      Icons.visibility_off,
-                                      size: 18,
-                                    ),
-                                    color: Colors.grey.shade400,
-                                  )
-                                : Container(),
-                      ),
-                      border: InputBorder.none,
-                      fillColor: Color(0xfff3f3f4),
-                      filled: true)),
-            ),
+                    ),
+                    suffixIcon: Container(
+                      width: 48,
+                      child: _isObscure && (isPassword || isConfirmPassword)
+                          ? IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _isObscure = !_isObscure;
+                                });
+                              },
+                              icon: Icon(
+                                Icons.remove_red_eye,
+                                size: 18,
+                              ),
+                              color: Colors.grey.shade400,
+                            )
+                          : isPassword || isConfirmPassword
+                              ? IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _isObscure = !_isObscure;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.visibility_off,
+                                    size: 18,
+                                  ),
+                                  color: Colors.grey.shade400,
+                                )
+                              : Container(),
+                    ),
+                    border: InputBorder.none,
+                    fillColor: Color(0xfff3f3f4),
+                    filled: true)),
           )
         ],
       ),
@@ -179,12 +159,12 @@ class _SignUpPageState extends State<SignUpPage> {
               end: Alignment.centerRight,
               colors: [
                 MyColors.darkCardBG,
-                _isTermsOfTermsAgreed ? MyColors.darkPrimary : Colors.blueGrey
+                _isTermsChecked ? MyColors.darkPrimary : Colors.blueGrey
               ])),
       child: InkWell(
         splashColor: Colors.yellow,
         onTap: () async {
-          if (!_isTermsOfTermsAgreed) {
+          if (!_isTermsChecked) {
             AppUtil.showSnackBar(context, 'Please agree to terms of use.');
             return;
           }
@@ -198,7 +178,7 @@ class _SignUpPageState extends State<SignUpPage> {
             'Register now',
             style: TextStyle(
                 fontSize: 20,
-                color: _isTermsOfTermsAgreed ? Colors.white : Colors.grey,
+                color: _isTermsChecked ? Colors.white : Colors.grey,
                 fontWeight: FontWeight.bold),
           ),
         ),
@@ -296,10 +276,10 @@ class _SignUpPageState extends State<SignUpPage> {
                         Checkbox(
                           onChanged: (value) {
                             setState(() {
-                              _isTermsOfTermsAgreed = !_isTermsOfTermsAgreed;
+                              _isTermsChecked = !_isTermsChecked;
                             });
                           },
-                          value: _isTermsOfTermsAgreed,
+                          value: _isTermsChecked,
                           activeColor: MyColors.darkPrimary,
                         ),
                         Expanded(
@@ -387,7 +367,7 @@ class _SignUpPageState extends State<SignUpPage> {
     final BaseAuth auth = AuthProvider.of(context).auth;
 
     ////print(_email + ' : ' + _password);
-    Navigator.of(context).push(CustomScreenLoader());
+    AppUtil.showGlitcherLoader(context);
 
     String validEmail = validateEmail(_email);
     String validUsername = validateUsername(_username);
@@ -398,12 +378,14 @@ class _SignUpPageState extends State<SignUpPage> {
     final valid = await DatabaseService.isUsernameTaken(_username);
 
     if (!valid) {
+      Navigator.pop(context); // Dismiss the loader dialog
       // username exists
       AppUtil.showSnackBar(context,
           '$_username is already in use. Please choose a different username.');
       _setFocusNode(myFocusNodeName);
       return;
     } else {
+      Navigator.pop(context); // Dismiss the loader dialog
       if (validEmail == null &&
           validUsername == null &&
           _password == _confirmPassword) {
@@ -437,12 +419,11 @@ class _SignUpPageState extends State<SignUpPage> {
 //          await FirebaseAuth.instance.signOut();
 //          ////
 
-        // await auth.sendEmailVerification(); // It's already implemented in the auth.signUp method
+        final User user = await auth.getCurrentUser();
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('username', _username);
-        Navigator.of(context).pop();
-        Navigator.of(context).pushReplacementNamed(RouteList.login,
-            arguments: {'on_sign_up_callback': true});
+        Navigator.of(context).pushReplacementNamed(RouteList.activate,
+            arguments: {'email': _email, 'user': user});
       } else {
         if (_password != _confirmPassword) {
           AppUtil.showSnackBar(context, "Passwords don't match");
@@ -481,6 +462,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
   void _setFocusNode(FocusNode focusNode) {
     FocusScope.of(context).requestFocus(focusNode);
-    Navigator.of(context).pop();
+    //Navigator.of(context).pop();
   }
 }

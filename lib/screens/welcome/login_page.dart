@@ -357,7 +357,9 @@ class _LoginPageState extends State<LoginPage> {
 
         Navigator.of(context).pushReplacementNamed(RouteList.initialRoute);
       } else if (!user.emailVerified) {
-        await auth.signOut();
+        //await auth.signOut();
+        Navigator.of(context).pushReplacementNamed(RouteList.activate,
+            arguments: {'email': _email, 'user': user});
         //await showVerifyEmailSentDialog(context);
       } else {
         //saveToken(); // We don't want to saveToken for non-verified users
@@ -485,7 +487,7 @@ class _LoginPageState extends State<LoginPage> {
     assert(!user.isAnonymous);
     assert(await user.getIdToken() != null);
 
-    final User currentUser = await _auth.currentUser;
+    final User currentUser = _auth.currentUser;
     assert(user.uid == currentUser.uid);
 
     return user;

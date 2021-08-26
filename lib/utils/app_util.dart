@@ -338,7 +338,8 @@ class AppUtil {
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context); // Dismiss the dialog
+                  Navigator.of(context, rootNavigator: true).pop();
+                  //Navigator.of(context).pop(); // Dismiss the dialog
                   onSuccess(); // Execute what happens after dismissing the alertDialog
                 },
                 child: Text(okBtn),
