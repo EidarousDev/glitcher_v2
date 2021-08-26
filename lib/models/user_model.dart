@@ -16,6 +16,7 @@ class User with ChangeNotifier {
   int friends;
   int followedGames;
   bool isAccountPrivate;
+  bool isVerified;
   int notificationsNumber;
   int messagesNumber;
   List search;
@@ -38,6 +39,7 @@ class User with ChangeNotifier {
       this.friends,
       this.followedGames,
       this.isAccountPrivate,
+      this.isVerified,
       this.notificationsNumber,
       this.messagesNumber,
       this.search,
@@ -63,8 +65,9 @@ class User with ChangeNotifier {
         friends: data['friends'],
         followedGames: data['followed_games'],
         isAccountPrivate: data['is_account_private'],
-        notificationsNumber: data['notificationsNumber'],
-        messagesNumber: data['messagesNumber'],
+        notificationsNumber: data['notificationsNumber'] ?? 0,
+        messagesNumber: data['messagesNumber'] ?? 0,
+        isVerified: data['is_verified'] ?? false,
         search: data['search']);
   }
 
@@ -79,6 +82,7 @@ class User with ChangeNotifier {
       'following': this.following,
       'followers': this.followers,
       'friends': this.friends,
+      'is_verified': this.isVerified ?? 0,
       'followed_games': this.followedGames,
       'is_follower': this.isFollower ?? 0,
       'is_following': this.isFollowing ?? 0,
@@ -89,20 +93,20 @@ class User with ChangeNotifier {
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map['id'],
-      name: map['name'],
-      username: map['username'],
-      profileImageUrl: map['profile_url'],
-      coverImageUrl: map['cover_url'],
-      description: map['description'],
-      following: map['following'],
-      followers: map['followers'],
-      friends: map['friends'],
-      followedGames: map['followed_games'],
-      isFollower: map['is_follower'],
-      isFollowing: map['is_following'],
-      isFriend: map['is_friend'],
-    );
+        id: map['id'],
+        name: map['name'],
+        username: map['username'],
+        profileImageUrl: map['profile_url'],
+        coverImageUrl: map['cover_url'],
+        description: map['description'],
+        following: map['following'],
+        followers: map['followers'],
+        friends: map['friends'],
+        followedGames: map['followed_games'],
+        isFollower: map['is_follower'],
+        isFollowing: map['is_following'],
+        isFriend: map['is_friend'],
+        isVerified: map['is_verified'] == 1);
   }
 
   void setData(User user) {
@@ -126,6 +130,7 @@ class User with ChangeNotifier {
     isFollower = user.isFollower;
     isFollowing = user.isFollowing;
     isFriend = user.isFriend;
+    isVerified = user.isVerified;
     notifyListeners();
   }
 

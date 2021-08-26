@@ -91,8 +91,8 @@ class _SearchScreenState extends State<SearchScreen> {
               builder: (context) => Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: InkWell(
-                      onTap: () => Scaffold.of(context).openDrawer(),
-                      child: Icon(Icons.menu),
+                      onTap: () => Navigator.of(context).pop(),
+                      child: Icon(Icons.arrow_back),
                     ),
                   )),
         ),

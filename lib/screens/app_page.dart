@@ -11,10 +11,10 @@ import 'package:glitcher/models/game_model.dart';
 import 'package:glitcher/models/hashtag_model.dart';
 import 'package:glitcher/models/post_model.dart';
 import 'package:glitcher/models/user_model.dart';
+import 'package:glitcher/screens/games/games_screen.dart';
 import 'package:glitcher/screens/home/home_screen.dart';
 import 'package:glitcher/screens/notifications/notifications_screen.dart';
 import 'package:glitcher/screens/profile/profile_screen.dart';
-import 'package:glitcher/screens/users/search_screen.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/services/route_generator.dart';
@@ -66,7 +66,7 @@ class _AppPageState extends State<AppPage> {
         children: <Widget>[
           home,
           chats,
-          SearchScreen(),
+          GamesScreen(),
           NotificationsScreen(),
           ProfileScreen(Constants.currentUserID),
         ],
@@ -90,10 +90,12 @@ class _AppPageState extends State<AppPage> {
               icon: (Constants.currentUser?.messagesNumber ?? 0) > 0
                   ? Badge(
                       badgeContent: Text(
-                          (Constants.currentUser?.messagesNumber ?? 0) < 9
-                              ? (Constants.currentUser?.messagesNumber ?? 0)
-                                  .toString()
-                              : '+9'),
+                        (Constants.currentUser?.messagesNumber ?? 0) < 9
+                            ? (Constants.currentUser?.messagesNumber ?? 0)
+                                .toString()
+                            : '+9',
+                        style: TextStyle(color: Colors.white),
+                      ),
                       child: Icon(Icons.message),
                       toAnimate: true,
                       animationType: BadgeAnimationType.scale,
@@ -103,7 +105,7 @@ class _AppPageState extends State<AppPage> {
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.search,
+                Icons.games,
               ),
               title: Container(height: 0.0),
             ),
@@ -112,10 +114,12 @@ class _AppPageState extends State<AppPage> {
               icon: (Constants.currentUser?.notificationsNumber ?? 0) > 0
                   ? Badge(
                       badgeContent: Text(
-                          Constants.currentUser.notificationsNumber < 9
-                              ? Constants.currentUser?.notificationsNumber
-                                  .toString()
-                              : '+9'),
+                        Constants.currentUser.notificationsNumber < 9
+                            ? Constants.currentUser?.notificationsNumber
+                                .toString()
+                            : '+9',
+                        style: TextStyle(color: Colors.white),
+                      ),
                       child: Icon(Icons.notifications),
                       toAnimate: true,
                       animationType: BadgeAnimationType.scale,

@@ -19,6 +19,7 @@ import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/services/share_link.dart';
+import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/bottom_sheets/post_bottom_sheet.dart';
@@ -146,6 +147,24 @@ class _PostItemState extends State<PostItem> {
                                 });
                               },
                             ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            widget.author.isVerified ?? false
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: kPrimary,
+                                    ),
+                                    child: Icon(
+                                      Icons.done,
+                                      size: 10,
+                                      color: Colors.white,
+                                    ),
+                                    width: 13,
+                                    height: 13,
+                                  )
+                                : Container()
                           ],
                         ),
                   subtitle: widget.isLoading
@@ -587,7 +606,7 @@ class _PostItemState extends State<PostItem> {
               ),
             ),
             SizedBox(
-              height: 14.0,
+              height: 5.0,
               width: double.infinity,
               child: DecoratedBox(
                 decoration:

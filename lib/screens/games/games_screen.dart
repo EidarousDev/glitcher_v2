@@ -5,6 +5,7 @@ import 'package:glitcher/models/game_model.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/utils/app_util.dart';
+import 'package:glitcher/widgets/drawer.dart';
 import 'package:glitcher/widgets/gradient_appbar.dart';
 
 class GamesScreen extends StatefulWidget {
@@ -55,13 +56,14 @@ class _GamesScreenState extends State<GamesScreen> {
       ),
       appBar: AppBar(
         leading: Builder(
-            builder: (context) => Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: Icon(Icons.arrow_back),
-                  ),
-                )),
+          builder: (context) => Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () => Scaffold.of(context).openDrawer(),
+              child: Icon(Icons.menu),
+            ),
+          ),
+        ),
         title: Text("Games"),
         flexibleSpace: gradientAppBar(context),
         centerTitle: true,
@@ -153,6 +155,7 @@ class _GamesScreenState extends State<GamesScreen> {
           ),
         ],
       ),
+      drawer: BuildDrawer(),
     );
   }
 

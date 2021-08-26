@@ -314,6 +314,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ),
                 ),
               ),
+              Divider(
+                thickness: 5,
+                height: 5,
+              ),
               ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,

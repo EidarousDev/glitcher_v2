@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/models/user_model.dart';
-import 'package:glitcher/screens/games/games_screen.dart';
 import 'package:glitcher/screens/profile/profile_screen.dart';
+import 'package:glitcher/screens/users/search_screen.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/widgets/rate_app.dart';
@@ -75,13 +75,13 @@ class _BuildDrawerState extends State<BuildDrawer> {
             ListTile(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => GamesScreen()));
+                    MaterialPageRoute(builder: (context) => SearchScreen()));
               },
               title: Text(
-                'Games',
+                'Search users',
               ),
               leading: Icon(
-                Icons.games,
+                Icons.search,
               ),
             ),
             ListTile(

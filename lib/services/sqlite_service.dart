@@ -10,7 +10,7 @@ class UserSqlite {
     String initPath = await getDatabasesPath();
     String path = join(initPath, 'glitcher.db');
 
-    //Uncomment this line if you want to recreate table
+    ///Uncomment this line if you want to recreate table
     //await deleteDatabase(path);
 
     db = await openDatabase(
@@ -31,6 +31,7 @@ class UserSqlite {
             followed_games integer,
             is_following integer,
             is_friend integer,
+            is_verified integer,
             is_follower integer)
           ''');
       },
@@ -63,6 +64,7 @@ class UserSqlite {
           'followed_games',
           'is_following',
           'is_friend',
+          'is_verified',
           'is_follower'
         ],
         where: 'id = ?',
@@ -106,6 +108,7 @@ class UserSqlite {
           'followed_games',
           'is_following',
           'is_friend',
+          'is_verified',
           'is_follower'
         ],
         where: where,
