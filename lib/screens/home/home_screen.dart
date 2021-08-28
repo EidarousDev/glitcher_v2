@@ -82,16 +82,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       key: _scaffoldKey,
       // floatingActionButton: FloatingActionButton(
       //   onPressed: () async {
+      //     String emails = '';
       //     Navigator.of(context).push(CustomScreenLoader());
       //     QuerySnapshot usersSnapshot = await usersRef.get();
-      //
-      //     int docsDeleted = 0;
       //     for (var doc in usersSnapshot.docs) {
-      //       if ((doc.data() as Map)['username'] == null) {
-      //         await usersRef.doc(doc.id).delete();
-      //         print('Docs deleted${docsDeleted++}');
-      //       }
+      //       emails += (doc.data() as Map)['email'];
+      //       emails += '\n';
       //     }
+      //     File file = File('/storage/emulated/0/Download/emails.txt');
+      //     await file.writeAsString(emails);
       //     Navigator.of(context).pop();
       //     AppUtil.showSnackBar(context, 'DONE!!!');
       //     print('DONE!!!');

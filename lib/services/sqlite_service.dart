@@ -43,35 +43,49 @@ class UserSqlite {
       await open();
     }
     Map userMap = user.toMap();
-    return await db.insert(tableName, userMap);
+    try {
+      return await db.insert(tableName, userMap);
+    } catch (ex) {
+      String initPath = await getDatabasesPath();
+      String path = join(initPath, 'glitcher.db');
+      await deleteDatabase(path);
+    }
+    return null;
   }
 
   static Future<User> getUserWithId(String id) async {
     if (db == null || !db.isOpen) {
       await open();
     }
-    List<Map> maps = await db.query(tableName,
-        columns: [
-          'id',
-          'name',
-          'username',
-          'profile_url',
-          'cover_url',
-          'description',
-          'following',
-          'followers',
-          'friends',
-          'followed_games',
-          'is_following',
-          'is_friend',
-          'is_verified',
-          'is_follower'
-        ],
-        where: 'id = ?',
-        whereArgs: [id]);
-    if (maps.length > 0) {
-      return User.fromMap(maps.first);
+    try {
+      List<Map> maps = await db.query(tableName,
+          columns: [
+            'id',
+            'name',
+            'username',
+            'profile_url',
+            'cover_url',
+            'description',
+            'following',
+            'followers',
+            'friends',
+            'followed_games',
+            'is_following',
+            'is_friend',
+            'is_verified',
+            'is_follower'
+          ],
+          where: 'id = ?',
+          whereArgs: [id]);
+      if (maps.length > 0) {
+        return User.fromMap(maps.first);
+      }
+    } catch (ex) {
+      String initPath = await getDatabasesPath();
+      String path = join(initPath, 'glitcher.db');
+      await deleteDatabase(path);
     }
+
     return null;
   }
 
@@ -94,29 +108,35 @@ class UserSqlite {
         break;
     }
 
-    List<Map> maps = await db.query(tableName,
-        columns: [
-          'id',
-          'name',
-          'username',
-          'profile_url',
-          'cover_url',
-          'description',
-          'following',
-          'followers',
-          'friends',
-          'followed_games',
-          'is_following',
-          'is_friend',
-          'is_verified',
-          'is_follower'
-        ],
-        where: where,
-        whereArgs: [1]);
+    try {
+      List<Map> maps = await db.query(tableName,
+          columns: [
+            'id',
+            'name',
+            'username',
+            'profile_url',
+            'cover_url',
+            'description',
+            'following',
+            'followers',
+            'friends',
+            'followed_games',
+            'is_following',
+            'is_friend',
+            'is_verified',
+            'is_follower'
+          ],
+          where: where,
+          whereArgs: [1]);
 
-    if (maps.length > 0) {
-      List<User> friends = maps.map((map) => User.fromMap(map)).toList();
-      return friends;
+      if (maps.length > 0) {
+        List<User> friends = maps.map((map) => User.fromMap(map)).toList();
+        return friends;
+      }
+    } catch (ex) {
+      String initPath = await getDatabasesPath();
+      String path = join(initPath, 'glitcher.db');
+      await deleteDatabase(path);
     }
 
     await close();
@@ -135,8 +155,15 @@ class UserSqlite {
     if (db == null || !db.isOpen) {
       await open();
     }
-    return await db
-        .update(tableName, user.toMap(), where: 'id = ?', whereArgs: [user.id]);
+    try {
+      return await db.update(tableName, user.toMap(),
+          where: 'id = ?', whereArgs: [user.id]);
+    } catch (ex) {
+      String initPath = await getDatabasesPath();
+      String path = join(initPath, 'glitcher.db');
+      await deleteDatabase(path);
+    }
+    return null;
   }
 
   static Future close() async => db.close();
