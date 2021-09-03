@@ -106,9 +106,11 @@ class _UsersScreenState extends State<UsersScreen> {
                     itemBuilder: (context, index) {
                       return !_searching
                           ? UserItem(
+                              key: Key(_users[index].id),
                               user: _users[index],
                             )
                           : UserItem(
+                              key: Key(filteredUsers[index].id),
                               user: filteredUsers[index],
                             );
                     })

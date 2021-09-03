@@ -276,7 +276,10 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                                 return SizedBox.shrink();
                               }
                               user.User author = snapshot.data;
-                              return PostItem(post: post, author: author);
+                              return PostItem(
+                                  key: Key(post.id),
+                                  post: post,
+                                  author: author);
                             });
                       },
                     )

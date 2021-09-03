@@ -193,6 +193,7 @@ class _PostPreviewState extends State<PostPreview>
                         User commenter = snapshot.data;
                         ////print('commenter: $commenter and comment: $comment');
                         return CommentItem(
+                          key: Key(comment.id),
                           post: widget.post,
                           comment: comment,
                           commenter: commenter,

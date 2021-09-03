@@ -61,7 +61,8 @@ class _HashtagPostsScreenState extends State<HashtagPostsScreen>
                     return SizedBox.shrink();
                   }
                   user_model.User author = snapshot.data;
-                  return PostItem(post: post, author: author);
+                  return PostItem(
+                      key: Key(post.id), post: post, author: author);
                 });
           },
         ),

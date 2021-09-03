@@ -71,6 +71,7 @@ class _BookmarksScreenState extends State<BookmarksScreen>
                               }
                               user_model.User author = snapshot.data;
                               return PostItem(
+                                key: Key(post.id),
                                 post: post,
                                 author: author,
                               );

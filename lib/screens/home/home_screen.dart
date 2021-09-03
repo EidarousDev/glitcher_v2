@@ -355,7 +355,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           return SizedBox.shrink();
                         }
                         user.User author = snapshot.data;
-                        return PostItem(post: post, author: author);
+                        return PostItem(
+                            key: Key(post.id), post: post, author: author);
                       });
                 },
               )
@@ -380,15 +381,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     if (_feedFilter == 0) {
       posts = await DatabaseService.getPosts();
-      _posts = posts;
       this.lastVisiblePostSnapShot = posts.last.timestamp;
     } else if (_feedFilter == 1) {
       posts = await DatabaseService.getPostsFilteredByFollowing();
-      _posts = posts;
       this.lastVisiblePostSnapShot = posts.last.timestamp;
     } else if (_feedFilter == 2) {
       posts = await DatabaseService.getPostsFilteredByFollowedGames();
-      _posts = posts;
       if (_posts.length > 0)
         this.lastVisiblePostSnapShot = posts.last.timestamp;
     }
@@ -400,6 +398,35 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 //    setState(() {
 //      Cache.homePosts = _posts;
 //    });
+  }
+
+  void nextPosts() async {
+    var posts;
+    if (_feedFilter == 0) {
+      posts = await DatabaseService.getNextPosts(lastVisiblePostSnapShot);
+    } else if (_feedFilter == 1) {
+      posts = await DatabaseService.getNextPostsFilteredByFollowing(
+          lastVisiblePostSnapShot);
+    } else if (_feedFilter == 2) {
+      posts = await DatabaseService.getNextPostsFilteredByFollowedGames(
+          lastVisiblePostSnapShot);
+    }
+    if (posts.length > 0) {
+      setState(() {
+        posts.forEach((element) => _posts.add(element));
+        this.lastVisiblePostSnapShot = posts.last.timestamp;
+        _pullUpToLoad = 'Pull up to load';
+      });
+    } else {
+      setState(() {
+        _pullUpToLoad = 'Nothing more to show';
+      });
+    }
+
+//    setState(() {
+//      Cache.homePosts = _posts;
+//    });
+//    //print('cache posts length: ${Cache.homePosts}');
   }
 
   @override
@@ -497,35 +524,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 //            'profileImageUrl = ${loggedInProfileImageURL} and username = $username');
       });
     }
-  }
-
-  void nextPosts() async {
-    var posts;
-    if (_feedFilter == 0) {
-      posts = await DatabaseService.getNextPosts(lastVisiblePostSnapShot);
-    } else if (_feedFilter == 1) {
-      posts = await DatabaseService.getNextPostsFilteredByFollowing(
-          lastVisiblePostSnapShot);
-    } else if (_feedFilter == 2) {
-      posts = await DatabaseService.getNextPostsFilteredByFollowedGames(
-          lastVisiblePostSnapShot);
-    }
-    if (posts.length > 0) {
-      setState(() {
-        posts.forEach((element) => _posts.add(element));
-        this.lastVisiblePostSnapShot = posts.last.timestamp;
-        _pullUpToLoad = 'Pull up to load';
-      });
-    } else {
-      setState(() {
-        _pullUpToLoad = 'Nothing more to show';
-      });
-    }
-
-//    setState(() {
-//      Cache.homePosts = _posts;
-//    });
-//    //print('cache posts length: ${Cache.homePosts}');
   }
 
   AudioPlayer audioPlayer = AudioPlayer();

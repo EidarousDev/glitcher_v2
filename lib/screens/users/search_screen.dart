@@ -112,6 +112,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 padding: EdgeInsets.all(10),
                 itemBuilder: (context, index) {
                   return UserItem(
+                    key: Key(filteredUsers[index].id),
                     user: filteredUsers[index],
                   );
                 })
