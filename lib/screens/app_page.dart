@@ -51,9 +51,6 @@ class _AppPageState extends State<AppPage> {
   StreamSubscription<ConnectivityResult> connectivitySubscription;
 
   int _unseenNotifications = 0;
-
-  var chats = Chats();
-  var home = HomeScreen();
   @override
   Widget build(BuildContext context) {
     //print('currentUser = ${Constants.currentUser}');
@@ -64,8 +61,8 @@ class _AppPageState extends State<AppPage> {
         controller: _pageController,
         onPageChanged: onPageChanged,
         children: <Widget>[
-          home,
-          chats,
+          HomeScreen(),
+          Chats(),
           GamesScreen(),
           NotificationsScreen(),
           ProfileScreen(Constants.currentUserID),

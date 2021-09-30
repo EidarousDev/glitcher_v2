@@ -15,6 +15,7 @@ import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/bottom_sheets/comment_bottom_sheet.dart';
 import 'package:glitcher/widgets/caching_image.dart';
+import 'package:glitcher/widgets/common/verifiend_badge.dart';
 import 'package:just_audio/just_audio.dart';
 
 class CommentItem extends StatefulWidget {
@@ -96,39 +97,33 @@ class _CommentItemState extends State<CommentItem> {
                     'userId': widget.comment.commenterID,
                   });
                 }),
-            title: InkWell(
-              child: widget.commenter.username == null
-                  ? Text('')
-                  : RichText(
-                      text: TextSpan(
-                        // Note: Styles for TextSpans must be explicitly defined.
-                        // Child text spans will inherit styles from parent
-                        style: TextStyle(
-                          fontSize: 15.0,
-                          color: MyColors.darkPrimary,
-                        ),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: ' @${widget.commenter.username}',
-                              style: TextStyle(
-                                  color: switchColor(
-                                      context,
-                                      MyColors.lightPrimary,
-                                      MyColors.darkPrimary))),
-                          TextSpan(
-                              text:
-                                  ' - ${Functions.formatCommentsTimestamp(widget.comment.timestamp)}',
-                              style: TextStyle(
-                                  color: switchColor(context, MyColors.darkGrey,
-                                      MyColors.darkGrey))),
-                        ],
-                      ),
-                    ),
-              onTap: () {
-                Navigator.of(context).pushNamed(RouteList.profile, arguments: {
-                  'userId': widget.comment.commenterID,
-                });
-              },
+            title: Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context)
+                        .pushNamed(RouteList.profile, arguments: {
+                      'userId': widget.comment.commenterID,
+                    });
+                  },
+                  child: Text(' @${widget.commenter.username}',
+                      style: TextStyle(
+                          color: switchColor(context, MyColors.lightPrimary,
+                              MyColors.darkPrimary))),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                widget.commenter.isVerified ?? false
+                    ? VerifiendBadge()
+                    : Container(),
+                Text(
+                    ' - ${Functions.formatCommentsTimestamp(widget.comment.timestamp)}',
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: switchColor(
+                            context, MyColors.darkGrey, MyColors.darkGrey))),
+              ],
             ),
             subtitle: widget.comment.text == null
                 ? Text('')

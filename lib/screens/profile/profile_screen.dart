@@ -23,7 +23,6 @@ import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/bottom_sheets/profile_image_edit_bottom_sheet.dart';
 import 'package:glitcher/widgets/caching_image.dart';
-import 'package:glitcher/widgets/circular_clipper.dart';
 import 'package:glitcher/widgets/custom_loader.dart';
 import 'package:glitcher/widgets/custom_widgets.dart';
 import 'package:glitcher/widgets/drawer.dart';
@@ -31,6 +30,8 @@ import 'package:glitcher/widgets/image_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 import 'package:share/share.dart';
+
+import '../../widgets/common/circular_clipper.dart';
 
 enum ScreenState { to_edit, to_follow, to_save, to_unfollow }
 

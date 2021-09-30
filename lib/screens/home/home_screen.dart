@@ -19,6 +19,7 @@ import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/caching_image.dart';
+import 'package:glitcher/widgets/common/scroll_to_top.dart';
 import 'package:glitcher/widgets/drawer.dart';
 import 'package:glitcher/widgets/gradient_appbar.dart';
 import 'package:glitcher/widgets/rate_app.dart';
@@ -78,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
-
+  bool _showScrollToTop = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,243 +128,264 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           ),
         ],
       ),
-      body: SmartRefresher(
-        onRefresh: _onRefresh,
-        onLoading: _onLoading,
-        footer: CustomFooter(
-          builder: (BuildContext context, LoadStatus mode) {
-            Widget body;
-            if (mode == LoadStatus.idle) {
-              body = Text(_pullUpToLoad);
-            } else if (mode == LoadStatus.loading) {
-              body = CupertinoActivityIndicator();
-            } else if (mode == LoadStatus.failed) {
-              body = Text("Load Failed!Click retry!");
-            } else if (mode == LoadStatus.canLoading) {
-              body = Text("release to load more");
-            } else {
-              body = Text("No more Data");
-            }
-            return Container(
-              height: 55.0,
-              child: Center(child: body),
-            );
-          },
-        ),
-        controller: _refreshController,
-        scrollController: _scrollController,
-        enablePullDown: true,
-        enablePullUp: true,
-        header: WaterDropMaterialHeader(),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Flexible(
-                fit: FlexFit.loose,
-                child: Container(
-                  color:
-                      switchColor(context, MyColors.lightBG, MyColors.darkBG),
-                  child: Column(
-                    children: <Widget>[
-                      isFiltering
-                          ? Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 10, top: 2, right: 10),
-                              child: Container(
-                                child: Column(
-                                  children: <Widget>[
-                                    Text(
-                                      'Filter by:',
-                                      style: TextStyle(fontSize: 18),
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Radio(
-                                            activeColor: MyColors.darkPrimary,
-                                            value: 0,
-                                            groupValue: _feedFilter,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                //arePostsFilteredByFollowedGames = false;
-                                                _feedFilter = value;
-                                              });
-                                            }),
-                                        Text(
-                                          'Recent Posts',
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Radio(
-                                            activeColor: MyColors.darkPrimary,
-                                            value: 1,
-                                            groupValue: _feedFilter,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                //arePostsFilteredByFollowedGames = false;
-                                                _feedFilter = value;
-                                              });
-                                            }),
-                                        Text(
-                                          'Followed Gamers',
-                                        ),
-                                        Radio(
-                                            activeColor: MyColors.darkPrimary,
-                                            value: 2,
-                                            groupValue: _feedFilter,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                //arePostsFilteredByFollowedGames = true;
-                                                _feedFilter = value;
-                                              });
-                                            }),
-                                        Text(
-                                          'Followed Games',
-                                        ),
-                                      ],
-                                    ),
-                                    Align(
-                                      alignment: Alignment.bottomRight,
-                                      child: MaterialButton(
-                                        color: MyColors.darkPrimary,
-                                        child: Text('Filter'),
-                                        onPressed: () async {
-                                          await _setupFeed();
-                                          setState(() {
-                                            isFiltering = false;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0),
-                                      child: Divider(
-                                        height: 1,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                          : Container(),
-                      Row(
-                        children: <Widget>[
-                          Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: CacheThisImage(
-                                imageUrl: loggedInProfileImageURL,
-                                imageShape: BoxShape.circle,
-                                width: Sizes.sm_profile_image_w,
-                                height: Sizes.sm_profile_image_h,
-                                defaultAssetImage:
-                                    Strings.default_profile_image,
-                              )),
-                          Expanded(
-                            child: InkWell(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+      body: Stack(children: [
+        SmartRefresher(
+          onRefresh: _onRefresh,
+          onLoading: _onLoading,
+          footer: CustomFooter(
+            builder: (BuildContext context, LoadStatus mode) {
+              Widget body;
+              if (mode == LoadStatus.idle) {
+                body = Text(_pullUpToLoad);
+              } else if (mode == LoadStatus.loading) {
+                body = CupertinoActivityIndicator();
+              } else if (mode == LoadStatus.failed) {
+                body = Text("Load Failed!Click retry!");
+              } else if (mode == LoadStatus.canLoading) {
+                body = Text("release to load more");
+              } else {
+                body = Text("No more Data");
+              }
+              return Container(
+                height: 55.0,
+                child: Center(child: body),
+              );
+            },
+          ),
+          controller: _refreshController,
+          scrollController: _scrollController,
+          enablePullDown: true,
+          enablePullUp: true,
+          header: WaterDropMaterialHeader(),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: Container(
+                    color:
+                        switchColor(context, MyColors.lightBG, MyColors.darkBG),
+                    child: Column(
+                      children: <Widget>[
+                        isFiltering
+                            ? Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10, top: 2, right: 10),
                                 child: Container(
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20)),
-                                    border: Border.all(
-                                        color: switchColor(
-                                            context,
-                                            MyColors.lightPrimary,
-                                            MyColors.darkPrimary),
-                                        width: 1),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Text(
+                                        'Filter by:',
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      Row(
+                                        children: <Widget>[
+                                          Radio(
+                                              activeColor: MyColors.darkPrimary,
+                                              value: 0,
+                                              groupValue: _feedFilter,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  //arePostsFilteredByFollowedGames = false;
+                                                  _feedFilter = value;
+                                                });
+                                              }),
+                                          Text(
+                                            'Recent Posts',
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: <Widget>[
+                                          Radio(
+                                              activeColor: MyColors.darkPrimary,
+                                              value: 1,
+                                              groupValue: _feedFilter,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  //arePostsFilteredByFollowedGames = false;
+                                                  _feedFilter = value;
+                                                });
+                                              }),
+                                          Text(
+                                            'Followed Gamers',
+                                          ),
+                                          Radio(
+                                              activeColor: MyColors.darkPrimary,
+                                              value: 2,
+                                              groupValue: _feedFilter,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  //arePostsFilteredByFollowedGames = true;
+                                                  _feedFilter = value;
+                                                });
+                                              }),
+                                          Text(
+                                            'Followed Games',
+                                          ),
+                                        ],
+                                      ),
+                                      Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: MaterialButton(
+                                          color: MyColors.darkPrimary,
+                                          child: Text('Filter'),
+                                          onPressed: () async {
+                                            await _setupFeed();
+                                            setState(() {
+                                              isFiltering = false;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0),
+                                        child: Divider(
+                                          height: 1,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 22.0),
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: "Any thoughts?",
-                                          enabled: false,
-                                          hintStyle: TextStyle(
-                                              fontWeight: FontWeight.w400,
-                                              color: Theme.of(context)
-                                                  .primaryColor)),
+                                ),
+                              )
+                            : Container(),
+                        Row(
+                          children: <Widget>[
+                            Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: CacheThisImage(
+                                  imageUrl: loggedInProfileImageURL,
+                                  imageShape: BoxShape.circle,
+                                  width: Sizes.sm_profile_image_w,
+                                  height: Sizes.sm_profile_image_h,
+                                  defaultAssetImage:
+                                      Strings.default_profile_image,
+                                )),
+                            Expanded(
+                              child: InkWell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20)),
+                                      border: Border.all(
+                                          color: switchColor(
+                                              context,
+                                              MyColors.lightPrimary,
+                                              MyColors.darkPrimary),
+                                          width: 1),
+                                    ),
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 22.0),
+                                      child: TextField(
+                                        decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText: "Any thoughts?",
+                                            enabled: false,
+                                            hintStyle: TextStyle(
+                                                fontWeight: FontWeight.w400,
+                                                color: Theme.of(context)
+                                                    .primaryColor)),
+                                      ),
                                     ),
                                   ),
                                 ),
+                                onTap: () {
+                                  Navigator.of(context).pushNamed(
+                                      RouteList.newPost,
+                                      arguments: {'selectedGame': ''});
+                                },
                               ),
-                              onTap: () {
-                                Navigator.of(context).pushNamed(
-                                    RouteList.newPost,
-                                    arguments: {'selectedGame': ''});
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            CardIconText(
-                                tStyle: TextStyle(fontWeight: FontWeight.bold),
-                                icon: FontAwesome.image,
-                                text: "Image",
-                                color: Colors.transparent,
-                                ccolor: Colors.blue),
-                            CardIconText(
-                              tStyle: TextStyle(fontWeight: FontWeight.bold),
-                              icon: FontAwesome.file_video_o,
-                              text: "Video",
-                              color: Colors.transparent,
-                              ccolor: Colors.green,
-                            ),
-                            CardIconText(
-                              tStyle: TextStyle(fontWeight: FontWeight.bold),
-                              icon: FontAwesome.youtube,
-                              text: "YouTube",
-                              color: Colors.transparent,
-                              ccolor: Colors.red,
                             ),
                           ],
                         ),
-                      ),
-                    ],
+                        Container(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              CardIconText(
+                                  tStyle:
+                                      TextStyle(fontWeight: FontWeight.bold),
+                                  icon: FontAwesome.image,
+                                  text: "Image",
+                                  color: Colors.transparent,
+                                  ccolor: Colors.blue),
+                              CardIconText(
+                                tStyle: TextStyle(fontWeight: FontWeight.bold),
+                                icon: FontAwesome.file_video_o,
+                                text: "Video",
+                                color: Colors.transparent,
+                                ccolor: Colors.green,
+                              ),
+                              CardIconText(
+                                tStyle: TextStyle(fontWeight: FontWeight.bold),
+                                icon: FontAwesome.youtube,
+                                text: "YouTube",
+                                color: Colors.transparent,
+                                ccolor: Colors.red,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Divider(
-                thickness: 5,
-                height: 5,
-              ),
-              ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                itemCount: _posts.length,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  Post post = _posts[index];
-                  return FutureBuilder(
-                      future: DatabaseService.getUserWithId(post.authorId,
-                          checkLocal: _feedFilter == 1),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (!snapshot.hasData) {
-                          return SizedBox.shrink();
-                        }
-                        user.User author = snapshot.data;
-                        return PostItem(
-                            key: Key(post.id), post: post, author: author);
-                      });
-                },
-              )
-            ],
+                Divider(
+                  thickness: 5,
+                  height: 5,
+                ),
+                ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  itemCount: _posts.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    Post post = _posts[index];
+                    return FutureBuilder(
+                        future: DatabaseService.getUserWithId(post.authorId,
+                            checkLocal: _feedFilter == 1),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (!snapshot.hasData) {
+                            return SizedBox.shrink();
+                          }
+                          user.User author = snapshot.data;
+                          return PostItem(
+                              key: Key(post.id), post: post, author: author);
+                        });
+                  },
+                )
+              ],
+            ),
           ),
         ),
-      ),
+        Positioned.fill(
+            child: Align(
+          child: _showScrollToTop
+              ? InkWell(
+                  onTap: () {
+                    setState(() {
+                      _scrollController.animateTo(0,
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.easeOut);
+                      _showScrollToTop = false;
+                    });
+                  },
+                  child: ScrollToTop())
+              : Container(),
+          alignment: Alignment.bottomCenter,
+        ))
+      ]),
       drawer: BuildDrawer(),
     );
   }
@@ -447,6 +469,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     ///Set up listener here
     _scrollController
       ..addListener(() {
+        if (_scrollController.offset > 1200) {
+          setState(() {
+            _showScrollToTop = true;
+          });
+        }
         if (_scrollController.offset >=
                 _scrollController.position.maxScrollExtent &&
             !_scrollController.position.outOfRange) {
@@ -460,12 +487,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       });
     loadUserData();
     loadUserFavoriteFilter();
-  }
-
-  @override
-  didChangeDependencies() {
-    super.didChangeDependencies();
-    RateApp(context).rateGlitcher();
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      RateApp(context).rateGlitcher();
+    });
   }
 
   loadUserFavoriteFilter() async {

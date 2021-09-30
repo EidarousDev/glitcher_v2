@@ -19,11 +19,11 @@ import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/services/share_link.dart';
-import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/widgets/bottom_sheets/post_bottom_sheet.dart';
 import 'package:glitcher/widgets/caching_image.dart';
+import 'package:glitcher/widgets/common/verifiend_badge.dart';
 import 'package:glitcher/widgets/custom_url_text.dart';
 import 'package:glitcher/widgets/image_overlay.dart';
 import 'package:just_audio/just_audio.dart';
@@ -151,19 +151,7 @@ class _PostItemState extends State<PostItem> {
                               width: 5,
                             ),
                             widget.author.isVerified ?? false
-                                ? Container(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: kPrimary,
-                                    ),
-                                    child: Icon(
-                                      Icons.done,
-                                      size: 10,
-                                      color: Colors.white,
-                                    ),
-                                    width: 13,
-                                    height: 13,
-                                  )
+                                ? VerifiendBadge()
                                 : Container()
                           ],
                         ),
