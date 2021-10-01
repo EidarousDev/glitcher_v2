@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:glitcher/constants/constants.dart';
+import 'package:glitcher/data/repositories/posts_repo.dart';
 import 'package:glitcher/services/route_generator.dart';
 
 import 'database_service.dart';
@@ -135,7 +136,7 @@ class NotificationHandler {
 
       default:
         Navigator.of(context).pushNamed(RouteList.post,
-            arguments: {'post': await DatabaseService.getPostWithId(objectId)});
+            arguments: {'post': await PostsRepo.getPostWithId(objectId)});
         break;
     }
   }

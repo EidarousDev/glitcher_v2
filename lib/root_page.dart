@@ -1,15 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:glitcher/constants/constants.dart';
-import 'package:glitcher/models/game_model.dart';
-import 'package:glitcher/models/user_model.dart' as user;
-import 'package:glitcher/screens/app_page.dart';
-import 'package:glitcher/screens/welcome/login_page.dart';
+import 'package:glitcher/data/models/game_model.dart';
+import 'package:glitcher/data/models/user_model.dart' as user;
+import 'package:glitcher/data/repositories/games_repo.dart';
+import 'package:glitcher/ui/screens/app_page.dart';
+import 'package:glitcher/ui/screens/welcome/login_page.dart';
 import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/utils/functions.dart';
-import 'package:glitcher/widgets/glitcher_loader.dart';
+import 'package:glitcher/ui/widgets/glitcher_loader.dart';
 import 'package:provider/provider.dart';
 
 class RootPage extends StatefulWidget {
@@ -80,7 +81,7 @@ class _RootPageState extends State<RootPage> {
       });
 
       List<Game> interests =
-          await DatabaseService.getAllFollowedGames(firebaseUser?.uid);
+          await GamesRepo.getAllFollowedGames(firebaseUser?.uid);
       loggedInUser.followedGames = interests.length;
       setState(() {
         Constants.currentUser = loggedInUser;

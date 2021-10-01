@@ -1,4 +1,4 @@
-import 'package:glitcher/models/user_model.dart';
+import 'package:glitcher/data/models/user_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

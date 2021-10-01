@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:glitcher/models/hashtag_model.dart';
-import 'package:glitcher/models/notification_model.dart';
-import 'package:glitcher/models/user_model.dart' as user;
+import 'package:glitcher/data/models/hashtag_model.dart';
+import 'package:glitcher/data/models/notification_model.dart';
+import 'package:glitcher/data/models/user_model.dart' as user;
 
 /// Firebase Constants
 final firebaseAuth = FirebaseAuth.instance;

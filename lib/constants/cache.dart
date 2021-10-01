@@ -1,6 +1,6 @@
-import 'package:glitcher/models/notification_model.dart';
-import 'package:glitcher/models/post_model.dart';
-import 'package:glitcher/models/user_model.dart';
+import 'package:glitcher/data/models/notification_model.dart';
+import 'package:glitcher/data/models/post_model.dart';
+import 'package:glitcher/data/models/user_model.dart';
 
 class Cache {
   static Map<String, Post> postsMap;

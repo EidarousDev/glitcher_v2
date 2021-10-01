@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:glitcher/constants/constants.dart';
-import 'package:glitcher/models/comment_model.dart';
-import 'package:glitcher/models/game_model.dart';
-import 'package:glitcher/models/group_model.dart';
-import 'package:glitcher/models/hashtag_model.dart';
-import 'package:glitcher/models/message_model.dart';
-import 'package:glitcher/models/notification_model.dart' as notification;
-import 'package:glitcher/models/post_model.dart';
-import 'package:glitcher/models/user_model.dart';
+import 'package:glitcher/data/models/comment_model.dart';
+import 'package:glitcher/data/models/game_model.dart';
+import 'package:glitcher/data/models/group_model.dart';
+import 'package:glitcher/data/models/hashtag_model.dart';
+import 'package:glitcher/data/models/message_model.dart';
+import 'package:glitcher/data/models/notification_model.dart' as notification;
+import 'package:glitcher/data/models/post_model.dart';
+import 'package:glitcher/data/models/user_model.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
@@ -19,63 +19,11 @@ import 'package:http/http.dart' as http;
 import 'sqlite_service.dart';
 
 class DatabaseService {
-  // This function is used to get the recent posts (unfiltered)
-  static Future<List<Post>> getPosts() async {
-    QuerySnapshot postSnapshot =
-        await postsRef.orderBy('timestamp', descending: true).limit(20).get();
-    List<Post> posts =
-        postSnapshot.docs.map((doc) => Post.fromDoc(doc)).toList();
-    return posts;
-  }
-
-  //Gets the posts of a certain user
-  static Future<List<Post>> getUserPosts(String authorId) async {
-    QuerySnapshot postSnapshot = await postsRef
-        .where('author', isEqualTo: authorId)
-        .orderBy('timestamp', descending: true)
-        .limit(20)
-        .get();
-    List<Post> posts =
-        postSnapshot.docs.map((doc) => Post.fromDoc(doc)).toList();
-    return posts;
-  }
-
   static updateUserCountry() async {
     usersRef
         .doc(Constants.currentUserID)
         .update({'country': Constants.country});
   }
-
-  // This function is used to get the recent posts of a certain user
-  static Future<List<Post>> getNextUserPosts(
-      String authorId, Timestamp lastVisiblePostSnapShot) async {
-    QuerySnapshot postSnapshot = await postsRef
-        .where('author', isEqualTo: authorId)
-        .orderBy('timestamp', descending: true)
-        .startAfter([lastVisiblePostSnapShot])
-        .limit(20)
-        .get();
-    List<Post> posts =
-        postSnapshot.docs.map((doc) => Post.fromDoc(doc)).toList();
-    return posts;
-  }
-
-  static Future<Post> getUserLastPost(String authorId) async {
-    QuerySnapshot postSnapshot = await postsRef
-        .where('author', isEqualTo: authorId)
-        .orderBy('timestamp', descending: true)
-        .limit(1)
-        .get();
-    List<Post> posts =
-        postSnapshot.docs.map((doc) => Post.fromDoc(doc)).toList();
-
-    if (posts == null || posts.isEmpty) {
-      return null;
-    } else {
-      return posts[0];
-    }
-  }
-
   /// Check Username availability
   static Future<bool> isUsernameTaken(String name) async {
     final QuerySnapshot result = await FirebaseFirestore.instance
@@ -84,27 +32,6 @@ class DatabaseService {
         .limit(1)
         .get();
     return result.docs.isEmpty;
-  }
-
-  // Get Post info of a specific post
-  static Future<Post> getPostWithId(String postId) async {
-    DocumentSnapshot postDocSnapshot = await postsRef.doc(postId).get();
-    if (postDocSnapshot.exists) {
-      return Post.fromDoc(postDocSnapshot);
-    }
-    return Post();
-  }
-
-  // Get Post Meta Info of a specific post
-  static Future<Map> getPostMeta(String postId) async {
-    var postMeta = Map();
-    DocumentSnapshot postDocSnapshot = await postsRef.doc(postId).get();
-    if (postDocSnapshot.exists) {
-      postMeta['likes'] = postDocSnapshot['likes'];
-      postMeta['dislikes'] = postDocSnapshot['dislikes'];
-      postMeta['comments'] = postDocSnapshot['comments'];
-    }
-    return postMeta;
   }
 
   // Get Post Meta Info of a specific post
@@ -137,33 +64,6 @@ class DatabaseService {
       replyMeta['dislikes'] = replyDocSnapshot['dislikes'];
     }
     return replyMeta;
-  }
-
-  // This function is used to get the recent posts (unfiltered)
-  static Future<List<Post>> getNextPosts(
-      Timestamp lastVisiblePostSnapShot) async {
-    QuerySnapshot postSnapshot = await postsRef
-        .orderBy('timestamp', descending: true)
-        .startAfter([lastVisiblePostSnapShot])
-        .limit(20)
-        .get();
-    List<Post> posts =
-        postSnapshot.docs.map((doc) => Post.fromDoc(doc)).toList();
-    return posts;
-  }
-
-  // This function is used to get the recent user posts (unfiltered)
-  static Future<List<Post>> getUserNextPosts(
-      Timestamp lastVisiblePostSnapShot, String authorId) async {
-    QuerySnapshot postSnapshot = await postsRef
-        .where('author', isEqualTo: authorId)
-        .orderBy('timestamp', descending: true)
-        .startAfter([lastVisiblePostSnapShot])
-        .limit(20)
-        .get();
-    List<Post> posts =
-        postSnapshot.docs.map((doc) => Post.fromDoc(doc)).toList();
-    return posts;
   }
 
   static deletePost(String postId) async {
@@ -340,48 +240,6 @@ class DatabaseService {
     }
   }
 
-  // This function is used to get the recent posts (filtered by followed games)
-  static Future<List<Post>> getNextPostsFilteredByFollowedGames(
-      Timestamp lastVisiblePostSnapShot) async {
-    List list = List();
-    if (Constants.followedGamesNames.length > 10) {
-      list = AppUtil.randomIndices(Constants.followedGamesNames);
-    } else {
-      list = Constants.followedGamesNames;
-    }
-
-    QuerySnapshot postSnapshot = await postsRef
-        .where('game', whereIn: list)
-        .orderBy('timestamp', descending: true)
-        .startAfter([lastVisiblePostSnapShot])
-        .limit(20)
-        .get();
-    List<Post> posts =
-        postSnapshot.docs.map((doc) => Post.fromDoc(doc)).toList();
-    return posts;
-  }
-
-  // This function is used to get the recent posts (filtered by followed gamers)
-  static Future<List<Post>> getNextPostsFilteredByFollowing(
-      Timestamp lastVisiblePostSnapShot) async {
-    List list = List();
-    if (Constants.followingIds.length > 10) {
-      list = AppUtil.randomIndices(Constants.followingIds);
-    } else {
-      list = Constants.followedGamesNames;
-    }
-
-    QuerySnapshot postSnapshot = await postsRef
-        .where('author', whereIn: list)
-        .orderBy('timestamp', descending: true)
-        .startAfter([lastVisiblePostSnapShot])
-        .limit(20)
-        .get();
-    List<Post> posts =
-        postSnapshot.docs.map((doc) => Post.fromDoc(doc)).toList();
-    return posts;
-  }
-
   static getAllMyFriends() async {
     List<User> friends = await UserSqlite.getByCategory('friends');
     if (friends == null || friends.length != Constants.currentUser.friends) {
@@ -484,24 +342,6 @@ class DatabaseService {
     return followers;
   }
 
-  static Future<List<Game>> getAllFollowedGames(String userId) async {
-    QuerySnapshot followedGamesSnapshot =
-        await usersRef.doc(userId).collection('followedGames').get();
-
-    List<Game> followedGames = [];
-    Constants.followedGamesNames = [];
-
-    for (DocumentSnapshot doc in followedGamesSnapshot.docs) {
-      Game game = await getGameWithId(doc.id);
-      followedGames.add(game);
-      if (userId == Constants.currentUserID) {
-        Constants.followedGamesNames.add(game.fullName);
-      }
-    }
-
-    return followedGames;
-  }
-
   static getAllFriends(String userId) async {
     QuerySnapshot friendsSnapshot =
         await usersRef.doc(userId).collection('friends').get();
@@ -547,65 +387,7 @@ class DatabaseService {
     return followers;
   }
 
-  // This function is used to get the recent posts (filtered by a certain game)
-  static Future<List<Post>> getGamePosts(String gameName) async {
-    QuerySnapshot postSnapshot = await postsRef
-        .where('game', isEqualTo: gameName)
-        .orderBy('timestamp', descending: true)
-        .limit(20)
-        .get();
-    List<Post> posts =
-        postSnapshot.docs.map((doc) => Post.fromDoc(doc)).toList();
-    return posts;
-  }
 
-  // This function is used to get the recent posts (filtered by a certain game)
-  static Future<List<Post>> getNextGamePosts(
-      Timestamp lastVisiblePostSnapShot, String gameName) async {
-    QuerySnapshot postSnapshot = await postsRef
-        .where('game', isEqualTo: gameName)
-        .orderBy('timestamp', descending: true)
-        .startAfter([lastVisiblePostSnapShot])
-        .limit(20)
-        .get();
-    List<Post> posts =
-        postSnapshot.docs.map((doc) => Post.fromDoc(doc)).toList();
-    return posts;
-  }
-
-  static Future<List<Post>> getPostsFilteredByFollowedGames() async {
-    List list = List();
-    if (Constants.followedGamesNames.length > 10) {
-      list = AppUtil.randomIndices(Constants.followedGamesNames);
-    } else {
-      list = Constants.followedGamesNames;
-    }
-    QuerySnapshot postSnapshot = await postsRef
-        .where('game', whereIn: list)
-        .orderBy('timestamp', descending: true)
-        .limit(20)
-        .get();
-    List<Post> posts =
-        postSnapshot.docs.map((doc) => Post.fromDoc(doc)).toList();
-    return posts;
-  }
-
-  static Future<List<Post>> getPostsFilteredByFollowing() async {
-    List list = List();
-    if (Constants.followingIds.length > 10) {
-      list = AppUtil.randomIndices(Constants.followingIds);
-    } else {
-      list = Constants.followingIds;
-    }
-    QuerySnapshot postSnapshot = await postsRef
-        .where('author', whereIn: list)
-        .orderBy('timestamp', descending: true)
-        .limit(20)
-        .get();
-    List<Post> posts =
-        postSnapshot.docs.map((doc) => Post.fromDoc(doc)).toList();
-    return posts;
-  }
 
   static Future<List<notification.Notification>> getNotifications() async {
     QuerySnapshot notificationSnapshot = await usersRef
@@ -796,14 +578,14 @@ class DatabaseService {
   }
 
   static Future<List<Message>> getPrevMessages(
-      Timestamp firstVisibleGameSnapShot, String otherUserId) async {
+      Timestamp firstVisibleMessageSnapShot, String otherUserId) async {
     QuerySnapshot msgSnapshot = await chatsRef
         .doc(Constants.currentUserID)
         .collection('conversations')
         .doc(otherUserId)
         .collection('messages')
         .orderBy('timestamp', descending: true)
-        .startAfter([firstVisibleGameSnapShot])
+        .startAfter([firstVisibleMessageSnapShot])
         .limit(20)
         .get();
     List<Message> messages =
@@ -812,12 +594,12 @@ class DatabaseService {
   }
 
   static Future<List<Message>> getPrevGroupMessages(
-      Timestamp firstVisibleGameSnapShot, String groupId) async {
+      Timestamp firstVisibleMessageSnapShot, String groupId) async {
     QuerySnapshot msgSnapshot = await chatGroupsRef
         .doc(groupId)
         .collection('messages')
         .orderBy('timestamp', descending: true)
-        .startAfter([firstVisibleGameSnapShot])
+        .startAfter([firstVisibleMessageSnapShot])
         .limit(20)
         .get();
     List<Message> messages =
@@ -916,96 +698,6 @@ class DatabaseService {
     return comments;
   }
 
-  // This function is used to get the author info of each post
-  static Future<Game> getGameWithId(String gameId) async {
-    DocumentSnapshot gameDocSnapshot = await gamesRef.doc(gameId).get();
-    if (gameDocSnapshot.exists) {
-      return Game.fromDoc(gameDocSnapshot);
-    }
-    return Game();
-  }
-
-  static getGames() async {
-    QuerySnapshot gameSnapshot = await gamesRef
-        .where('frequency', isGreaterThan: 0)
-        .orderBy(
-          'frequency',
-          descending: true,
-        )
-        .limit(20)
-        .get();
-    List<Game> games =
-        gameSnapshot.docs.map((doc) => Game.fromDoc(doc)).toList();
-    return games;
-  }
-
-//  static getGameNames() async {
-//    Constants.games = [];
-//    QuerySnapshot gameSnapshot =
-//        await gamesRef.orderBy('fullName', descending: true).get();
-//    List<Game> games =
-//        gameSnapshot.docs.map((doc) => Game.fromDoc(doc)).toList();
-//
-//    for (var game in games) {
-//      Constants.games.add(game.fullName);
-//    }
-//  }
-
-  static Future<List<Game>> getNextGames(String lastVisibleGameSnapShot) async {
-    QuerySnapshot gameSnapshot = await gamesRef
-        .where('frequency', isGreaterThan: 0)
-        .orderBy(
-          'frequency',
-          descending: true,
-        )
-        .startAfter([lastVisibleGameSnapShot])
-        .limit(20)
-        .get();
-    List<Game> games =
-        gameSnapshot.docs.map((doc) => Game.fromDoc(doc)).toList();
-    return games;
-  }
-
-  static Future<List> searchGames(text) async {
-    QuerySnapshot gameSnapshot = await gamesRef
-        .where('search', arrayContains: text)
-        .orderBy('fullName', descending: false)
-        .limit(20)
-        .get();
-    List<Game> games =
-        gameSnapshot.docs.map((doc) => Game.fromDoc(doc)).toList();
-    if (games.length == 0) {
-      String url =
-          'https://api.rawg.io/api/games?search=$text&search_precise=1&key=$rawgAPIkey';
-      try {
-        var response = await http.get(
-          Uri.parse(url),
-        );
-        var body = jsonDecode(response.body);
-        (body['results'] as List).forEach((gameData) {
-          games.add(Game.fromMap(gameData));
-        });
-      } catch (e) {
-        //print('fetching games error $e');
-      }
-    }
-
-    return games;
-  }
-
-  static Future<List> nextSearchGames(
-      String lastVisiblePostSnapShot, String text) async {
-    QuerySnapshot gameSnapshot = await gamesRef
-        .where('search', arrayContains: text)
-        .orderBy('fullName', descending: false)
-        .startAfter([lastVisiblePostSnapShot])
-        .limit(20)
-        .get();
-    List<Game> games =
-        gameSnapshot.docs.map((doc) => Game.fromDoc(doc)).toList();
-    return games;
-  }
-
   static Future<List> searchUsers(text) async {
     QuerySnapshot usersSnapshot = await usersRef
         .where('search', arrayContains: text)
@@ -1076,53 +768,6 @@ class DatabaseService {
         .update({'text': replyText, 'timestamp': FieldValue.serverTimestamp()});
   }
 
-  static followGame(String gameId) async {
-    DocumentSnapshot gameDocSnapshot = await usersRef
-        .doc(Constants.currentUserID)
-        .collection('followedGames')
-        .doc(gameId)
-        .get();
-    if (!gameDocSnapshot.exists) {
-      await usersRef
-          .doc(Constants.currentUserID)
-          .collection('followedGames')
-          .doc(gameId)
-          .set({'followedAt': FieldValue.serverTimestamp()});
-    }
-
-    await usersRef
-        .doc(Constants.currentUserID)
-        .update({'followed_games': FieldValue.increment(1)});
-  }
-
-  static unFollowGame(String gameId) async {
-    DocumentSnapshot gameDocSnapshot = await usersRef
-        .doc(Constants.currentUserID)
-        .collection('followedGames')
-        .doc(gameId)
-        .get();
-    if (gameDocSnapshot.exists) {
-      await usersRef
-          .doc(Constants.currentUserID)
-          .collection('followedGames')
-          .doc(gameId)
-          .delete();
-    }
-
-    await usersRef
-        .doc(Constants.currentUserID)
-        .update({'followed_games': FieldValue.increment(-1)});
-  }
-
-  static Future<Game> getGameWithGameName(String gameName) async {
-    QuerySnapshot gameDocSnapshot =
-        await gamesRef.where('fullName', isEqualTo: gameName).get();
-    Game game =
-        gameDocSnapshot.docs.map((doc) => Game.fromDoc(doc)).toList()[0];
-
-    return game;
-  }
-
   static getHashtags() async {
     QuerySnapshot hashtagsSnapshot = await hashtagsRef.get();
 
@@ -1147,113 +792,6 @@ class DatabaseService {
     }
   }
 
-  // This function is used to get the recent posts for a certain tag
-  static Future<List<Post>> getHashtagPosts(String hashtagId) async {
-    QuerySnapshot postSnapshot = await hashtagsRef
-        .doc(hashtagId)
-        .collection('posts')
-        .orderBy('timestamp', descending: true)
-        .limit(20)
-        .get();
-
-    List<Post> posts = [];
-
-    for (DocumentSnapshot doc in postSnapshot.docs) {
-      DocumentSnapshot postDoc = await postsRef.doc(doc.id).get();
-
-      if (postDoc.exists) {
-        posts.add(await getPostWithId(doc.id));
-      } else {
-        hashtagsRef.doc(hashtagId).collection('posts').doc(doc.id).delete();
-      }
-    }
-
-    return posts;
-  }
-
-  // This function is used to get the recent posts (filtered by a certain game)
-  static Future<List<Post>> getNextHashtagPosts(
-      Timestamp lastVisiblePostSnapShot, String hashtagId) async {
-    QuerySnapshot postSnapshot = await hashtagsRef
-        .doc(hashtagId)
-        .collection('posts')
-        .orderBy('timestamp', descending: true)
-        .startAfter([lastVisiblePostSnapShot])
-        .limit(20)
-        .get();
-
-    List<Post> posts = [];
-
-    for (DocumentSnapshot doc in postSnapshot.docs) {
-      DocumentSnapshot postDoc = await postsRef.doc(doc.id).get();
-
-      if (postDoc.exists) {
-        posts.add(await getPostWithId(doc.id));
-      } else {
-        hashtagsRef.doc(hashtagId).collection('posts').doc(doc.id).delete();
-      }
-    }
-
-    return posts;
-  }
-
-  static Future<List<Post>> getBookmarksPosts() async {
-    QuerySnapshot postSnapshot = await usersRef
-        .doc(Constants.currentUserID)
-        .collection('bookmarks')
-        .orderBy('timestamp', descending: true)
-        .limit(20)
-        .get();
-
-    List<Post> posts = [];
-
-    for (DocumentSnapshot doc in postSnapshot.docs) {
-      DocumentSnapshot postDoc = await postsRef.doc(doc.id).get();
-
-      if (postDoc.exists) {
-        Post post = await getPostWithId(doc.id);
-
-        posts.add(post);
-      } else {
-        posts.add(Post(id: doc.id, authorId: 'deleted'));
-//        usersRef
-//            .doc(Constants.currentUserID)
-//            .collection('bookmarks')
-//            .doc(doc.id)
-//            .delete();
-      }
-    }
-    return posts;
-  }
-
-  static Future<List<Post>> getNextBookmarksPosts(
-      Timestamp lastVisiblePostSnapShot) async {
-    QuerySnapshot postsSnapshot = await usersRef
-        .doc(Constants.currentUserID)
-        .collection('bookmarks')
-        .orderBy('timestamp', descending: true)
-        .startAfter([lastVisiblePostSnapShot])
-        .limit(20)
-        .get();
-
-    List<Post> posts = [];
-
-    for (DocumentSnapshot doc in postsSnapshot.docs) {
-      DocumentSnapshot postDoc = await postsRef.doc(doc.id).get();
-
-      if (postDoc.exists) {
-        posts.add(await getPostWithId(doc.id));
-      } else {
-        usersRef
-            .doc(Constants.currentUserID)
-            .collection('bookmarks')
-            .doc(doc.id)
-            .delete();
-      }
-    }
-
-    return posts;
-  }
 
   static addPostToBookmarks(String postId) async {
     await usersRef
