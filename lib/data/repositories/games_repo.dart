@@ -114,6 +114,15 @@ class GamesRepo {
     return followedGames;
   }
 
+  static Future<bool> checkIsFollowing(String gameId) async {
+    DocumentSnapshot game = await usersRef
+        .doc(Constants.currentUserID)
+        .collection('followedGames')
+        .doc(gameId)
+        .get();
+    return game.exists;
+  }
+
   static followGame(String gameId) async {
     DocumentSnapshot gameDocSnapshot = await usersRef
         .doc(Constants.currentUserID)

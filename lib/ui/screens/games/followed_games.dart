@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glitcher/data/models/game_model.dart';
 import 'package:glitcher/data/repositories/games_repo.dart';
+import 'package:glitcher/logic/blocs/game_bloc.dart';
+import 'package:glitcher/logic/states/game_state.dart';
 import 'package:glitcher/ui/list_items/game_item.dart';
 import 'package:glitcher/ui/widgets/gradient_appbar.dart';
 
@@ -94,7 +97,12 @@ class _FollowedGamesState extends State<FollowedGames> {
                           (BuildContext context, AsyncSnapshot snapshot) {
                         return Column(
                           children: <Widget>[
-                            GameItem(key: ValueKey(game.id), game: game),
+                            BlocProvider<GameBloc>(
+                                create: (context) =>
+                                    GameBloc(GameState(game)),
+                                child: GameItem(
+                                  key: ValueKey(game.id),
+                                )),
                             Divider(height: .5, color: Colors.grey)
                           ],
                         );

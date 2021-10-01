@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/data/models/game_model.dart';
+import 'package:glitcher/logic/blocs/game_bloc.dart';
 import 'package:glitcher/logic/blocs/games_bloc.dart';
+import 'package:glitcher/logic/states/game_state.dart';
 import 'package:glitcher/logic/states/games_state.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/ui/list_items/game_item.dart';
@@ -117,7 +119,12 @@ class _GamesScreenState extends State<GamesScreen> {
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                   return Column(
                     children: <Widget>[
-                      GameItem(key: ValueKey(game.id), game: game),
+                      BlocProvider<GameBloc>(
+                          create: (context) =>
+                              GameBloc(GameState(game)),
+                          child: GameItem(
+                            key: ValueKey(game.id),
+                          )),
                       Divider(height: .5, color: Colors.grey)
                     ],
                   );

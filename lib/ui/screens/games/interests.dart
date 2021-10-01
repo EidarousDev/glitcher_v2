@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/data/models/game_model.dart';
 import 'package:glitcher/data/models/user_model.dart';
 import 'package:glitcher/data/repositories/games_repo.dart';
+import 'package:glitcher/logic/blocs/game_bloc.dart';
+import 'package:glitcher/logic/states/game_state.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/ui/list_items/game_item.dart';
@@ -105,14 +108,19 @@ class _InterestsScreenState extends State<InterestsScreen> {
                                 (BuildContext context, AsyncSnapshot snapshot) {
                               return Column(
                                 children: <Widget>[
-                                  GameItem(
-                                    key: ValueKey(game.id),
-                                    game: game,
-                                    onFollow: (isFollowing) {
-                                      setState(() {
-                                        isFollowing ? interests++ : interests--;
-                                      });
-                                    },
+                                  BlocProvider<GameBloc>(
+                                    create: (context) =>
+                                        GameBloc(GameState(game)),
+                                    child: GameItem(
+                                      key: ValueKey(game.id),
+                                      onFollow: (isFollowing) {
+                                        setState(() {
+                                          isFollowing
+                                              ? interests++
+                                              : interests--;
+                                        });
+                                      },
+                                    ),
                                   ),
                                   Divider(height: .5, color: Colors.grey)
                                 ],
@@ -132,7 +140,13 @@ class _InterestsScreenState extends State<InterestsScreen> {
                                 (BuildContext context, AsyncSnapshot snapshot) {
                               return Column(
                                 children: <Widget>[
-                                  GameItem(key: ValueKey(game?.id), game: game),
+                                  BlocProvider<GameBloc>(
+                                    create: (context) =>
+                                        GameBloc(GameState(game)),
+                                    child: GameItem(
+                                      key: ValueKey(game.id),
+                                    ),
+                                  ),
                                   Divider(height: .5, color: Colors.grey)
                                 ],
                               );
