@@ -1,18 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:glitcher/constants/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glitcher/data/models/hashtag_model.dart';
 import 'package:glitcher/data/models/post_model.dart';
 import 'package:glitcher/data/models/user_model.dart' as user_model;
-import 'package:glitcher/data/repositories/posts_repo.dart';
+import 'package:glitcher/logic/blocs/posts_bloc.dart';
+import 'package:glitcher/logic/states/posts_state.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/ui/list_items/post_item.dart';
 import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
 
 class HashtagPostsScreen extends StatefulWidget {
   final Hashtag hashtag;
-
   const HashtagPostsScreen(this.hashtag);
   @override
   _HashtagPostsScreenState createState() => _HashtagPostsScreenState();
@@ -20,15 +18,7 @@ class HashtagPostsScreen extends StatefulWidget {
 
 class _HashtagPostsScreenState extends State<HashtagPostsScreen>
     with WidgetsBindingObserver {
-  user_model.User loggedInUser;
-  String username;
-  String profileImageUrl = '';
-  var _posts = [];
-  User currentUser;
-  Timestamp lastVisiblePostSnapShot;
-
   ScrollController _scrollController = ScrollController();
-
   _HashtagPostsScreenState();
 
   @override
@@ -47,25 +37,27 @@ class _HashtagPostsScreenState extends State<HashtagPostsScreen>
       ),
       body: SingleChildScrollView(
         controller: _scrollController,
-        child: ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          scrollDirection: Axis.vertical,
-          itemCount: _posts.length,
-          shrinkWrap: true,
-          itemBuilder: (BuildContext context, int index) {
-            Post post = _posts[index];
-            return FutureBuilder(
-                future: DatabaseService.getUserWithId(post.authorId,
-                    checkLocal: false),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (!snapshot.hasData) {
-                    return SizedBox.shrink();
-                  }
-                  user_model.User author = snapshot.data;
-                  return PostItem(
-                      key: Key(post.id), post: post, author: author);
-                });
-          },
+        child: BlocBuilder<PostsBloc, PostsState>(
+          builder: (context, postsState) => ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            itemCount: postsState.posts.length,
+            shrinkWrap: true,
+            itemBuilder: (BuildContext context, int index) {
+              Post post = postsState.posts[index];
+              return FutureBuilder(
+                  future: DatabaseService.getUserWithId(post.authorId,
+                      checkLocal: false),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (!snapshot.hasData) {
+                      return SizedBox.shrink();
+                    }
+                    user_model.User author = snapshot.data;
+                    return PostItem(
+                        key: Key(post.id), post: post, author: author);
+                  });
+            },
+          ),
         ),
       ),
     );
@@ -76,19 +68,13 @@ class _HashtagPostsScreenState extends State<HashtagPostsScreen>
   }
 
   _setupFeed() async {
-    ////print('what\'s happening?');
-    List<Post> posts = await PostsRepo.getHashtagPosts(widget.hashtag.id);
-    setState(() {
-      _posts = posts;
-      this.lastVisiblePostSnapShot = posts.last.timestamp;
-    });
+    BlocProvider.of<PostsBloc>(context).getHashtagPosts(widget.hashtag.id);
   }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    //print('hashtag: ${widget.hashtag.text}');
 
     ///Set up listener here
     _scrollController
@@ -97,14 +83,13 @@ class _HashtagPostsScreenState extends State<HashtagPostsScreen>
                 _scrollController.position.maxScrollExtent &&
             !_scrollController.position.outOfRange) {
           //print('reached the bottom');
-          nextHashtagPosts();
+          _nextHashtagPosts();
         } else if (_scrollController.offset <=
                 _scrollController.position.minScrollExtent &&
             !_scrollController.position.outOfRange) {
           //print("reached the top");
         } else {}
       });
-    loadUserData();
     _setupFeed();
   }
 
@@ -132,28 +117,7 @@ class _HashtagPostsScreenState extends State<HashtagPostsScreen>
     }
   }
 
-  void loadUserData() async {
-    currentUser = firebaseAuth.currentUser;
-    ////print('currentUserID: ${currentUser.uid}');
-    // here you write the codes to input the data into firestore
-    loggedInUser =
-        await DatabaseService.getUserWithId(currentUser.uid, checkLocal: false);
-
-    setState(() {
-      profileImageUrl = loggedInUser.profileImageUrl;
-      username = loggedInUser.username;
-      ////print('profileImageUrl = $profileImageUrl and username = $username');
-    });
-  }
-
-  void nextHashtagPosts() async {
-    var posts = await PostsRepo.getNextHashtagPosts(
-        lastVisiblePostSnapShot, widget.hashtag.id);
-    if (posts.length > 0) {
-      setState(() {
-        posts.forEach((element) => _posts.add(element));
-        this.lastVisiblePostSnapShot = posts.last.timestamp;
-      });
-    }
+  void _nextHashtagPosts() async {
+    BlocProvider.of<PostsBloc>(context).getMoreHashtagPosts(widget.hashtag.id);
   }
 }

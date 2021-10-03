@@ -6,6 +6,7 @@ import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/data/models/app_model.dart';
 import 'package:glitcher/data/models/user_model.dart';
 import 'package:glitcher/logic/blocs/games_bloc.dart';
+import 'package:glitcher/logic/blocs/posts_bloc.dart';
 import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/auth_provider.dart';
 import 'package:glitcher/services/route_generator.dart';
@@ -15,6 +16,7 @@ import 'package:glitcher/style/light_theme.dart';
 import 'package:provider/provider.dart';
 
 import 'logic/states/games_state.dart';
+import 'logic/states/posts_state.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,7 +59,15 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<GamesBloc>(
-            create: (context) => GamesBloc(GamesState.initialState()))
+          create: (context) => GamesBloc(
+            GamesState.initialState(),
+          ),
+        ),
+        BlocProvider<PostsBloc>(
+          create: (context) => PostsBloc(
+            PostsState.initialState(),
+          ),
+        ),
       ],
       child: MultiProvider(
         providers: [

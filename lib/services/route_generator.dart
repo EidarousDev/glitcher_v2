@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glitcher/logic/blocs/game_bloc.dart';
+import 'package:glitcher/logic/blocs/posts_bloc.dart';
+import 'package:glitcher/logic/states/posts_state.dart';
 import 'package:glitcher/root_page.dart';
 import 'package:glitcher/ui/screens/about/about_us.dart';
 import 'package:glitcher/ui/screens/about/cookie_use.dart';
@@ -9,7 +11,6 @@ import 'package:glitcher/ui/screens/about/legal_notices.dart';
 import 'package:glitcher/ui/screens/about/privacy_policy.dart';
 import 'package:glitcher/ui/screens/about/terms_of_service.dart';
 import 'package:glitcher/ui/screens/app_page.dart';
-import 'package:glitcher/ui/screens/bookmarks.dart';
 import 'package:glitcher/ui/screens/chats/add_members_to_group.dart';
 import 'package:glitcher/ui/screens/chats/chats.dart';
 import 'package:glitcher/ui/screens/chats/conversation.dart';
@@ -20,7 +21,6 @@ import 'package:glitcher/ui/screens/chats/new_group.dart';
 import 'package:glitcher/ui/screens/games/followed_games.dart';
 import 'package:glitcher/ui/screens/games/game_screen.dart';
 import 'package:glitcher/ui/screens/games/interests.dart';
-import 'package:glitcher/ui/screens/hashtag_posts_screen.dart';
 import 'package:glitcher/ui/screens/posts/comments/add_comment.dart';
 import 'package:glitcher/ui/screens/posts/comments/add_reply.dart';
 import 'package:glitcher/ui/screens/posts/comments/edit_comment.dart';
@@ -41,6 +41,9 @@ import 'package:glitcher/ui/screens/welcome/password_reset.dart';
 import 'package:glitcher/ui/screens/welcome/set_username.dart';
 import 'package:glitcher/ui/screens/welcome/signup_page.dart';
 import 'package:page_transition/page_transition.dart';
+
+import '../ui/screens/posts/bookmarks.dart';
+import '../ui/screens/posts/hashtag_posts_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -161,7 +164,9 @@ class RouteGenerator {
                 ));
       case RouteList.hashtag:
         return MaterialPageRoute(
-            builder: (_) => HashtagPostsScreen(args['hashtag']));
+            builder: (_) => BlocProvider<PostsBloc>.value(
+                value: PostsBloc(PostsState.initialState()),
+                child: HashtagPostsScreen(args['hashtag'])));
       case RouteList.settings:
         return MaterialPageRoute(builder: (_) => SettingsScreen());
 
@@ -188,7 +193,10 @@ class RouteGenerator {
         );
 
       case RouteList.bookmarks:
-        return MaterialPageRoute(builder: (_) => BookmarksScreen());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+                value: PostsBloc(PostsState.initialState()),
+                child: BookmarksScreen()));
 
       case RouteList.users:
         return MaterialPageRoute(

@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
@@ -13,7 +14,8 @@ import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/data/models/post_model.dart';
 import 'package:glitcher/data/models/user_model.dart' as user;
 import 'package:glitcher/data/repositories/games_repo.dart';
-import 'package:glitcher/data/repositories/posts_repo.dart';
+import 'package:glitcher/logic/blocs/posts_bloc.dart';
+import 'package:glitcher/logic/states/posts_state.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/style/colors.dart';
@@ -63,11 +65,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   user.User loggedInUser;
   String username;
-  List<Post> _posts = [];
   User currentFirebaseUser;
   Timestamp lastVisiblePostSnapShot;
   bool _noMorePosts = false;
-  int _feedFilter;
 
   ScrollController _scrollController = ScrollController();
 
@@ -120,7 +120,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           IconButton(
             icon: Icon(
               Icons.tune,
-              color: [1, 2].contains(_feedFilter) ? kPrimary : null,
+              color: [1, 2]
+                      .contains(BlocProvider.of<PostsBloc>(context).feedFilter)
+                  ? kPrimary
+                  : null,
             ),
             onPressed: () async {
               setState(() {
@@ -188,11 +191,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                           Radio(
                                               activeColor: MyColors.darkPrimary,
                                               value: 0,
-                                              groupValue: _feedFilter,
+                                              groupValue:
+                                                  BlocProvider.of<PostsBloc>(
+                                                          context)
+                                                      .feedFilter,
                                               onChanged: (value) {
                                                 setState(() {
-                                                  //arePostsFilteredByFollowedGames = false;
-                                                  _feedFilter = value;
+                                                  BlocProvider.of<PostsBloc>(
+                                                          context)
+                                                      .setFilter(value);
                                                 });
                                               }),
                                           Text(
@@ -205,11 +212,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                           Radio(
                                               activeColor: MyColors.darkPrimary,
                                               value: 1,
-                                              groupValue: _feedFilter,
+                                              groupValue:
+                                                  BlocProvider.of<PostsBloc>(
+                                                          context)
+                                                      .feedFilter,
                                               onChanged: (value) {
                                                 setState(() {
-                                                  //arePostsFilteredByFollowedGames = false;
-                                                  _feedFilter = value;
+                                                  BlocProvider.of<PostsBloc>(
+                                                          context)
+                                                      .setFilter(value);
                                                 });
                                               }),
                                           Text(
@@ -218,12 +229,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                           Radio(
                                               activeColor: MyColors.darkPrimary,
                                               value: 2,
-                                              groupValue: _feedFilter,
+                                              groupValue:
+                                                  BlocProvider.of<PostsBloc>(
+                                                          context)
+                                                      .feedFilter,
                                               onChanged: (value) {
-                                                setState(() {
-                                                  //arePostsFilteredByFollowedGames = true;
-                                                  _feedFilter = value;
-                                                });
+                                                BlocProvider.of<PostsBloc>(
+                                                        context)
+                                                    .setFilter(value);
                                               }),
                                           Text(
                                             'Followed Games',
@@ -236,7 +249,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                           color: MyColors.darkPrimary,
                                           child: Text('Filter'),
                                           onPressed: () async {
-                                            await _setupFeed();
+                                            _setupFeed();
                                             setState(() {
                                               isFiltering = false;
                                             });
@@ -346,26 +359,30 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   thickness: 5,
                   height: 5,
                 ),
-                ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  itemCount: _posts.length,
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    Post post = _posts[index];
-                    return FutureBuilder(
-                        future: DatabaseService.getUserWithId(post.authorId,
-                            checkLocal: _feedFilter == 1),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          if (!snapshot.hasData) {
-                            return SizedBox.shrink();
-                          }
-                          user.User author = snapshot.data;
-                          return PostItem(
-                              key: Key(post.id), post: post, author: author);
-                        });
-                  },
+                BlocBuilder<PostsBloc, PostsState>(
+                  builder: (context, postsState) => ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    itemCount: postsState.posts.length,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      Post post = postsState.posts[index];
+                      return FutureBuilder(
+                          future: DatabaseService.getUserWithId(post.authorId,
+                              checkLocal: BlocProvider.of<PostsBloc>(context)
+                                      .feedFilter ==
+                                  1),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (!snapshot.hasData) {
+                              return SizedBox.shrink();
+                            }
+                            user.User author = snapshot.data;
+                            return PostItem(
+                                key: Key(post.id), post: post, author: author);
+                          });
+                    },
+                  ),
                 )
               ],
             ),
@@ -392,53 +409,21 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
-  Future<List<Post>> _setupFeed() async {
-    List<Post> posts;
-
+  void _setupFeed() async {
     if (Constants.followedGamesNames.length == 0) {
       await GamesRepo.getAllFollowedGames(Constants.currentUserID);
     }
     if (Constants.followingIds.length == 0) {
       await DatabaseService.getAllMyFollowing();
     }
-    //print('Home Filter: $_feedFilter');
-
-    if (_feedFilter == 0) {
-      posts = await PostsRepo.getPosts();
-      this.lastVisiblePostSnapShot = posts.last.timestamp;
-    } else if (_feedFilter == 1) {
-      posts = await PostsRepo.getPostsFilteredByFollowing();
-      this.lastVisiblePostSnapShot = posts.last.timestamp;
-    } else if (_feedFilter == 2) {
-      posts = await PostsRepo.getPostsFilteredByFollowedGames();
-      if (_posts.length > 0)
-        this.lastVisiblePostSnapShot = posts.last.timestamp;
-    }
-    setState(() {
-      _posts = posts;
-    });
-    return posts;
-
-//    setState(() {
-//      Cache.homePosts = _posts;
-//    });
+    BlocProvider.of<PostsBloc>(context).getPosts();
   }
 
-  void nextPosts() async {
-    var posts;
-    if (_feedFilter == 0) {
-      posts = await PostsRepo.getNextPosts(lastVisiblePostSnapShot);
-    } else if (_feedFilter == 1) {
-      posts = await PostsRepo.getNextPostsFilteredByFollowing(
-          lastVisiblePostSnapShot);
-    } else if (_feedFilter == 2) {
-      posts = await PostsRepo.getNextPostsFilteredByFollowedGames(
-          lastVisiblePostSnapShot);
-    }
-    if (posts.length > 0) {
+  void _nextPosts() async {
+    BlocProvider.of<PostsBloc>(context).getMorePosts();
+
+    if (BlocProvider.of<PostsBloc>(context).posts.length > 0) {
       setState(() {
-        posts.forEach((element) => _posts.add(element));
-        this.lastVisiblePostSnapShot = posts.last.timestamp;
         _pullUpToLoad = 'Pull up to load';
       });
     } else {
@@ -450,7 +435,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 //    setState(() {
 //      Cache.homePosts = _posts;
 //    });
-//    //print('cache posts length: ${Cache.homePosts}');
   }
 
   @override
@@ -461,9 +445,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     bool hasInterests = AppUtil.checkForInterests(context);
     if (hasInterests) {
-      _feedFilter = 2;
+      BlocProvider.of<PostsBloc>(context).filterByFollowedGames();
     } else {
-      _feedFilter = 0;
+      BlocProvider.of<PostsBloc>(context).clearFilter();
     }
     setState(() {});
     AppUtil.checkForUpdates(context);
@@ -475,12 +459,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           setState(() {
             _showScrollToTop = true;
           });
+        } else {
+          setState(() {
+            _showScrollToTop = false;
+          });
         }
         if (_scrollController.offset >=
                 _scrollController.position.maxScrollExtent &&
             !_scrollController.position.outOfRange) {
           //print('reached the bottom');
-          nextPosts();
+          _nextPosts();
         } else if (_scrollController.offset <=
                 _scrollController.position.minScrollExtent &&
             !_scrollController.position.outOfRange) {
@@ -496,8 +484,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   loadUserFavoriteFilter() async {
     var filter = await getFavouriteFilter();
-    if (filter != null) _feedFilter = filter;
-    await _setupFeed();
+    if (filter != null) BlocProvider.of<PostsBloc>(context).setFilter(filter);
+    _setupFeed();
   }
 
   @override
@@ -557,12 +545,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     audioPlayer
         .setAsset(Strings.swipe_up_to_reload)
         .then((value) => audioPlayer.play());
-    await _setupFeed();
+    if (_refreshController.isRefresh)
+      _setupFeed();
+    else
+      _nextPosts();
     _refreshController.refreshCompleted();
   }
 
   void _onLoading() async {
-    //if (mounted) setState(() {});
     _refreshController.loadComplete();
   }
 }
