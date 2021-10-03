@@ -8,6 +8,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   GameState initialState;
   GameBloc(GameState initialState) : super(initialState) {
     this.initialState = initialState;
+    checkIsFollowing();
   }
 
   getGame() {

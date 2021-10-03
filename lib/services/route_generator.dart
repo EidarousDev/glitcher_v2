@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:glitcher/logic/blocs/game_bloc.dart';
 import 'package:glitcher/root_page.dart';
 import 'package:glitcher/ui/screens/about/about_us.dart';
 import 'package:glitcher/ui/screens/about/cookie_use.dart';
@@ -98,8 +100,9 @@ class RouteGenerator {
 
       case RouteList.game:
         return MaterialPageRoute(
-          builder: (_) => GameScreen(
-            game: args['game'],
+          builder: (_) => BlocProvider<GameBloc>.value(
+            value: args['gameBloc'],
+            child: GameScreen(),
           ),
         );
 

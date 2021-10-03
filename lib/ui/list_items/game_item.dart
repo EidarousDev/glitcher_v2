@@ -17,8 +17,6 @@ class GameItem extends StatefulWidget {
 }
 
 class _GameItemState extends State<GameItem> {
-  String snackbarText;
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -96,9 +94,8 @@ class _GameItemState extends State<GameItem> {
             ],
           ),
           onTap: () {
-            Navigator.of(context).pushNamed(RouteList.game, arguments: {
-              'game': gameState.game,
-            });
+            Navigator.of(context).pushNamed(RouteList.game,
+                arguments: {'gameBloc': BlocProvider.of<GameBloc>(context)});
           },
         ),
       ),
@@ -116,13 +113,8 @@ class _GameItemState extends State<GameItem> {
     }
   }
 
-  checkStates() async {
-    BlocProvider.of<GameBloc>(context).checkIsFollowing();
-  }
-
   @override
   void initState() {
-    checkStates();
     super.initState();
   }
 }

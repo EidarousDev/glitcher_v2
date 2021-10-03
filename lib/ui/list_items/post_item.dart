@@ -16,6 +16,8 @@ import 'package:glitcher/data/models/post_model.dart';
 import 'package:glitcher/data/models/user_model.dart';
 import 'package:glitcher/data/repositories/games_repo.dart';
 import 'package:glitcher/data/repositories/posts_repo.dart';
+import 'package:glitcher/logic/blocs/game_bloc.dart';
+import 'package:glitcher/logic/states/game_state.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/services/route_generator.dart';
@@ -179,7 +181,9 @@ class _PostItemState extends State<PostItem> {
                             //print('currentGame : ${currentGame.id}');
                             Navigator.of(context)
                                 .pushNamed(RouteList.game, arguments: {
-                              'game': currentGame,
+                              'gameBloc': GameBloc(
+                                GameState(currentGame),
+                              )
                             });
                           },
                         ),

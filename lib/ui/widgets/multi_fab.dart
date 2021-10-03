@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:glitcher/style/colors.dart';
 
 class MultiFab extends StatefulWidget {
-  final onTap1;
-  final onTap2;
+  final Function onTap1;
+  final Function onTap2;
+  final Color color1;
+  final IconData icons1;
 
-  const MultiFab({Key key, this.onTap1, this.onTap2}) : super(key: key);
+  const MultiFab({Key key, this.onTap1, this.onTap2, this.color1, this.icons1})
+      : super(key: key);
 
   @override
   _MultiFabState createState() => _MultiFabState();
@@ -60,8 +63,8 @@ class _MultiFabState extends State<MultiFab>
               onTap: widget.onTap1,
               child: CircularBtn(
                 key: Key('Follow'),
-                child: Icon(Icons.person_add_alt_1_rounded),
-                color: Colors.green,
+                child: Icon(widget.icons1),
+                color: widget.color1,
               ),
             ),
           ),
