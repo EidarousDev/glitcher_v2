@@ -3,7 +3,7 @@ import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/data/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/ui/list_items/user_item.dart';
-import 'package:glitcher/ui/widgets/gradient_appbar.dart';
+import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
 import 'package:glitcher/utils/functions.dart';
 
 class UsersScreen extends StatefulWidget {

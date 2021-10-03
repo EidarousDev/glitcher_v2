@@ -2,9 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/style/colors.dart';
-import 'package:glitcher/ui/widgets/gradient_appbar.dart';
-import 'package:glitcher/ui/widgets/logo_widgets.dart';
+import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
 import 'package:glitcher/utils/app_util.dart';
+
+import '../../widgets/common/logo_widgets.dart';
 
 class ActivatePage extends StatelessWidget {
   final String email;

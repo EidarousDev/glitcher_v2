@@ -4,14 +4,15 @@ import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/data/models/game_model.dart';
 import 'package:glitcher/data/models/user_model.dart' as user;
 import 'package:glitcher/data/repositories/games_repo.dart';
-import 'package:glitcher/ui/screens/app_page.dart';
-import 'package:glitcher/ui/screens/welcome/login_page.dart';
 import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/style/colors.dart';
+import 'package:glitcher/ui/screens/app_page.dart';
+import 'package:glitcher/ui/screens/welcome/login_page.dart';
 import 'package:glitcher/utils/functions.dart';
-import 'package:glitcher/ui/widgets/glitcher_loader.dart';
 import 'package:provider/provider.dart';
+
+import 'ui/widgets/common/glitcher_loader.dart';
 
 class RootPage extends StatefulWidget {
   @override

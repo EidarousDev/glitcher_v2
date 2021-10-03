@@ -21,16 +21,17 @@ import 'package:glitcher/ui/screens/posts/new_post/widget/create_bottom_icon.dar
 import 'package:glitcher/ui/screens/posts/new_post/widget/create_post_image.dart';
 import 'package:glitcher/ui/screens/posts/new_post/widget/create_post_video.dart';
 import 'package:glitcher/ui/screens/posts/new_post/widget/widget_view.dart';
-import 'package:glitcher/ui/widgets/caching_image.dart';
-import 'package:glitcher/ui/widgets/custom_loader.dart';
+import 'package:glitcher/ui/widgets/common/caching_image.dart';
+import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
 import 'package:glitcher/ui/widgets/custom_widgets.dart';
-import 'package:glitcher/ui/widgets/gradient_appbar.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:path/path.dart' as path;
 import 'package:random_string/random_string.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+import '../../../widgets/common/custom_loader.dart';
 
 class CreatePost extends StatefulWidget {
   String selectedGame;

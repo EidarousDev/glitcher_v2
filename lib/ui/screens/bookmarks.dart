@@ -9,7 +9,7 @@ import 'package:glitcher/data/models/user_model.dart' as user_model;
 import 'package:glitcher/data/repositories/posts_repo.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/ui/list_items/post_item.dart';
-import 'package:glitcher/ui/widgets/gradient_appbar.dart';
+import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
 
 class BookmarksScreen extends StatefulWidget {
   @override

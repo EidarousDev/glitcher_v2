@@ -18,10 +18,10 @@ import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/ui/list_items/post_item.dart';
-import 'package:glitcher/ui/widgets/caching_image.dart';
+import 'package:glitcher/ui/widgets/common/caching_image.dart';
+import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
 import 'package:glitcher/ui/widgets/common/scroll_to_top.dart';
 import 'package:glitcher/ui/widgets/drawer.dart';
-import 'package:glitcher/ui/widgets/gradient_appbar.dart';
 import 'package:glitcher/ui/widgets/rate_app.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
@@ -30,7 +30,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 //import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../widgets/card_icon_text.dart';
+import '../../widgets/common/card_icon_text.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

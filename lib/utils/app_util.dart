@@ -15,8 +15,7 @@ import 'package:glitcher/data/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/services/route_generator.dart';
-import 'package:glitcher/ui/widgets/fluttertoast.dart';
-import 'package:glitcher/ui/widgets/logo_widgets.dart';
+import 'package:glitcher/ui/widgets/common/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +23,7 @@ import 'package:random_string/random_string.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
+import '../ui/widgets/common/logo_widgets.dart';
 import 'functions.dart';
 
 class AppUtil {

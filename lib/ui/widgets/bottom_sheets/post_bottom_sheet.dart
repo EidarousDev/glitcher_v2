@@ -11,10 +11,11 @@ import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/services/share_link.dart';
-import 'package:glitcher/ui/widgets/custom_loader.dart';
 import 'package:glitcher/ui/widgets/custom_widgets.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:provider/provider.dart';
+
+import '../common/custom_loader.dart';
 
 class PostBottomSheet {
   bool showRemoveFromBookmarks = false;

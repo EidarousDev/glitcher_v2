@@ -16,13 +16,14 @@ import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/ui/screens/posts/new_post/widget/create_bottom_icon.dart';
 import 'package:glitcher/ui/screens/posts/new_post/widget/create_post_image.dart';
 import 'package:glitcher/ui/screens/posts/new_post/widget/widget_view.dart';
-import 'package:glitcher/ui/widgets/caching_image.dart';
-import 'package:glitcher/ui/widgets/custom_loader.dart';
-import 'package:glitcher/ui/widgets/custom_url_text.dart';
+import 'package:glitcher/ui/widgets/common/caching_image.dart';
+import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
 import 'package:glitcher/ui/widgets/custom_widgets.dart';
-import 'package:glitcher/ui/widgets/gradient_appbar.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
+
+import '../../../widgets/common/custom_loader.dart';
+import '../../../widgets/common/custom_url_text.dart';
 
 class EditReply extends StatefulWidget {
   final Post post;

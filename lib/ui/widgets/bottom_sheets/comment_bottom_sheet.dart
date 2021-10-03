@@ -9,10 +9,10 @@ import 'package:glitcher/data/repositories/posts_repo.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/services/route_generator.dart';
-import 'package:glitcher/utils/functions.dart';
 import 'package:glitcher/ui/widgets/custom_widgets.dart';
+import 'package:glitcher/utils/functions.dart';
 
-import '../custom_loader.dart';
+import '../common/custom_loader.dart';
 
 class CommentBottomSheet {
   Widget commentOptionIcon(
@@ -272,9 +272,7 @@ class CommentBottomSheet {
 
                 Navigator.of(context).pop();
                 Navigator.of(context).pushReplacementNamed(RouteList.post,
-                    arguments: {
-                      'post': await PostsRepo.getPostWithId(postId)
-                    });
+                    arguments: {'post': await PostsRepo.getPostWithId(postId)});
               },
               child: Padding(
                 padding: const EdgeInsets.all(16.0),

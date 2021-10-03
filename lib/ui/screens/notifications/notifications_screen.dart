@@ -4,11 +4,11 @@ import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/data/models/notification_model.dart'
     as notification_model;
 import 'package:glitcher/data/models/user_model.dart';
-import 'package:glitcher/ui/list_items/notification_item.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/route_generator.dart';
+import 'package:glitcher/ui/list_items/notification_item.dart';
+import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
 import 'package:glitcher/ui/widgets/drawer.dart';
-import 'package:glitcher/ui/widgets/gradient_appbar.dart';
 
 class NotificationsScreen extends StatefulWidget {
   @override

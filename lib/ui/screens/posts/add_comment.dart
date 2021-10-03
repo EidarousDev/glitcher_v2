@@ -9,7 +9,7 @@ import 'package:glitcher/data/repositories/posts_repo.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/services/route_generator.dart';
-import 'package:glitcher/ui/widgets/caching_image.dart';
+import 'package:glitcher/ui/widgets/common/caching_image.dart';
 
 class AddCommentScreen extends StatefulWidget {
   final String username;

@@ -4,8 +4,9 @@ import 'package:glitcher/logic/blocs/game_bloc.dart';
 import 'package:glitcher/logic/states/game_state.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/style/colors.dart';
-import 'package:glitcher/ui/widgets/caching_image.dart';
-import 'package:glitcher/ui/widgets/custom_loader.dart';
+import 'package:glitcher/ui/widgets/common/caching_image.dart';
+
+import '../widgets/common/custom_loader.dart';
 
 class GameItem extends StatefulWidget {
   final Function onFollow;

@@ -13,7 +13,7 @@ import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/ui/widgets/bottom_sheets/comment_bottom_sheet.dart';
-import 'package:glitcher/ui/widgets/caching_image.dart';
+import 'package:glitcher/ui/widgets/common/caching_image.dart';
 import 'package:glitcher/ui/widgets/common/verifiend_badge.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:just_audio/just_audio.dart';

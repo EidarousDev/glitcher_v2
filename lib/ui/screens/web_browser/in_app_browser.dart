@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glitcher/ui/widgets/gradient_appbar.dart';
+import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewScreen extends StatefulWidget {

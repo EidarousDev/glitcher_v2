@@ -22,9 +22,8 @@ import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/services/share_link.dart';
 import 'package:glitcher/ui/screens/home/home_screen.dart';
 import 'package:glitcher/ui/widgets/bottom_sheets/post_bottom_sheet.dart';
-import 'package:glitcher/ui/widgets/caching_image.dart';
+import 'package:glitcher/ui/widgets/common/caching_image.dart';
 import 'package:glitcher/ui/widgets/common/verifiend_badge.dart';
-import 'package:glitcher/ui/widgets/custom_url_text.dart';
 import 'package:glitcher/ui/widgets/image_overlay.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
@@ -33,6 +32,8 @@ import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:video_player/video_player.dart';
+
+import '../widgets/common/custom_url_text.dart';
 
 class PostItem extends StatefulWidget {
   final Post post;

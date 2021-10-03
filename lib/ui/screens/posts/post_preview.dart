@@ -13,7 +13,7 @@ import 'package:glitcher/data/repositories/posts_repo.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/ui/list_items/comment_item.dart';
 import 'package:glitcher/ui/list_items/post_item.dart';
-import 'package:glitcher/ui/widgets/gradient_appbar.dart';
+import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
 import 'package:just_audio/just_audio.dart';
 //import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:video_player/video_player.dart';

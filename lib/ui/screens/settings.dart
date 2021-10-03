@@ -6,11 +6,12 @@ import 'package:glitcher/data/models/app_model.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/style/colors.dart';
+import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
-import 'package:glitcher/ui/widgets/custom_loader.dart';
-import 'package:glitcher/ui/widgets/gradient_appbar.dart';
 import 'package:provider/provider.dart';
+
+import '../widgets/common/custom_loader.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override

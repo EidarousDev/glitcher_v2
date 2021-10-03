@@ -8,8 +8,8 @@ import 'package:glitcher/logic/states/game_state.dart';
 import 'package:glitcher/logic/states/games_state.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/ui/list_items/game_item.dart';
+import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
 import 'package:glitcher/ui/widgets/drawer.dart';
-import 'package:glitcher/ui/widgets/gradient_appbar.dart';
 import 'package:glitcher/utils/app_util.dart';
 
 class GamesScreen extends StatefulWidget {
@@ -120,8 +120,7 @@ class _GamesScreenState extends State<GamesScreen> {
                   return Column(
                     children: <Widget>[
                       BlocProvider<GameBloc>(
-                          create: (context) =>
-                              GameBloc(GameState(game)),
+                          create: (context) => GameBloc(GameState(game)),
                           child: GameItem(
                             key: ValueKey(game.id),
                           )),

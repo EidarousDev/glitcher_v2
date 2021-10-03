@@ -5,11 +5,11 @@ import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/auth_provider.dart';
 import 'package:glitcher/services/route_generator.dart';
-import 'package:glitcher/ui/widgets/custom_loader.dart';
-import 'package:glitcher/ui/widgets/gradient_appbar.dart';
+import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 
+import '../../widgets/common/custom_loader.dart';
 import 'widgets/bezier_container.dart';
 
 class PasswordChangeScreen extends StatefulWidget {

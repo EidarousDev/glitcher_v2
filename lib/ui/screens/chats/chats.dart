@@ -12,9 +12,9 @@ import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/ui/list_items/chat_item.dart';
-import 'package:glitcher/ui/widgets/caching_image.dart';
+import 'package:glitcher/ui/widgets/common/caching_image.dart';
+import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
 import 'package:glitcher/ui/widgets/drawer.dart';
-import 'package:glitcher/ui/widgets/gradient_appbar.dart';
 
 class Chats extends StatefulWidget {
   @override

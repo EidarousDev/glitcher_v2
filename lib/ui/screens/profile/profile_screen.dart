@@ -12,7 +12,6 @@ import 'package:glitcher/data/models/app_model.dart';
 import 'package:glitcher/data/models/post_model.dart';
 import 'package:glitcher/data/models/user_model.dart' as user_model;
 import 'package:glitcher/data/repositories/posts_repo.dart';
-import 'package:glitcher/ui/list_items/post_item.dart';
 import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
@@ -20,19 +19,20 @@ import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/services/share_link.dart';
 import 'package:glitcher/services/sqlite_service.dart';
 import 'package:glitcher/style/colors.dart';
-import 'package:glitcher/utils/app_util.dart';
-import 'package:glitcher/utils/functions.dart';
+import 'package:glitcher/ui/list_items/post_item.dart';
 import 'package:glitcher/ui/widgets/bottom_sheets/profile_image_edit_bottom_sheet.dart';
-import 'package:glitcher/ui/widgets/caching_image.dart';
-import 'package:glitcher/ui/widgets/custom_loader.dart';
+import 'package:glitcher/ui/widgets/common/caching_image.dart';
 import 'package:glitcher/ui/widgets/custom_widgets.dart';
 import 'package:glitcher/ui/widgets/drawer.dart';
 import 'package:glitcher/ui/widgets/image_overlay.dart';
+import 'package:glitcher/utils/app_util.dart';
+import 'package:glitcher/utils/functions.dart';
 import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 import 'package:share/share.dart';
 
 import '../../widgets/common/circular_clipper.dart';
+import '../../widgets/common/custom_loader.dart';
 
 enum ScreenState { to_edit, to_follow, to_save, to_unfollow }
 

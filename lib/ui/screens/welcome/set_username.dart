@@ -5,10 +5,10 @@ import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/auth_provider.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/route_generator.dart';
-import 'package:glitcher/ui/widgets/custom_loader.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 
+import '../../widgets/common/custom_loader.dart';
 import 'widgets/bezier_container.dart';
 
 class SetUsernameScreen extends StatefulWidget {

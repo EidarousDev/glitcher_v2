@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/data/models/message_model.dart';
 import 'package:glitcher/services/route_generator.dart';
-import 'package:glitcher/ui/widgets/caching_image.dart';
+import 'package:glitcher/ui/widgets/common/caching_image.dart';
 import 'package:glitcher/utils/functions.dart';
 
 class ChatItem extends StatefulWidget {

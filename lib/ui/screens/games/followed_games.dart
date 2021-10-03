@@ -5,7 +5,7 @@ import 'package:glitcher/data/repositories/games_repo.dart';
 import 'package:glitcher/logic/blocs/game_bloc.dart';
 import 'package:glitcher/logic/states/game_state.dart';
 import 'package:glitcher/ui/list_items/game_item.dart';
-import 'package:glitcher/ui/widgets/gradient_appbar.dart';
+import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
 
 class FollowedGames extends StatefulWidget {
   final String userId;
@@ -98,8 +98,7 @@ class _FollowedGamesState extends State<FollowedGames> {
                         return Column(
                           children: <Widget>[
                             BlocProvider<GameBloc>(
-                                create: (context) =>
-                                    GameBloc(GameState(game)),
+                                create: (context) => GameBloc(GameState(game)),
                                 child: GameItem(
                                   key: ValueKey(game.id),
                                 )),

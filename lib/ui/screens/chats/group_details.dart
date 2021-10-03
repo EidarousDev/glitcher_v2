@@ -12,11 +12,12 @@ import 'package:glitcher/data/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/ui/widgets/bottom_sheets/profile_image_edit_bottom_sheet.dart';
-import 'package:glitcher/ui/widgets/caching_image.dart';
-import 'package:glitcher/ui/widgets/custom_loader.dart';
-import 'package:glitcher/ui/widgets/gradient_appbar.dart';
+import 'package:glitcher/ui/widgets/common/caching_image.dart';
+import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
 import 'package:glitcher/ui/widgets/image_overlay.dart';
 import 'package:glitcher/utils/app_util.dart';
+
+import '../../widgets/common/custom_loader.dart';
 
 class GroupDetails extends StatefulWidget {
   final groupId;

@@ -4,7 +4,7 @@ import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/data/models/notification_model.dart'
     as notification_model;
 import 'package:glitcher/services/notification_handler.dart';
-import 'package:glitcher/ui/widgets/caching_image.dart';
+import 'package:glitcher/ui/widgets/common/caching_image.dart';
 import 'package:glitcher/utils/functions.dart';
 
 class NotificationItem extends StatefulWidget {

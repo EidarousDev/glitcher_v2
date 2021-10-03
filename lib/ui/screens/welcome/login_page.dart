@@ -4,17 +4,17 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/data/models/user_model.dart' as user_model;
-import 'package:glitcher/ui/screens/welcome/widgets/verify_email.dart';
 import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/auth_provider.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/route_generator.dart';
+import 'package:glitcher/ui/screens/welcome/widgets/verify_email.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
-import 'package:glitcher/ui/widgets/custom_loader.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../widgets/common/custom_loader.dart';
 import 'widgets/bezier_container.dart';
 
 class LoginPage extends StatefulWidget {

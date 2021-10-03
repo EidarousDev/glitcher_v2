@@ -14,23 +14,24 @@ import 'package:glitcher/data/models/game_model.dart';
 import 'package:glitcher/data/models/hashtag_model.dart';
 import 'package:glitcher/data/models/post_model.dart';
 import 'package:glitcher/data/repositories/games_repo.dart';
+import 'package:glitcher/services/database_service.dart';
+import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/ui/screens/posts/new_post/widget/create_bottom_icon.dart';
 import 'package:glitcher/ui/screens/posts/new_post/widget/create_post_image.dart';
 import 'package:glitcher/ui/screens/posts/new_post/widget/create_post_video.dart';
 import 'package:glitcher/ui/screens/posts/new_post/widget/widget_view.dart';
-import 'package:glitcher/services/database_service.dart';
-import 'package:glitcher/services/route_generator.dart';
+import 'package:glitcher/ui/widgets/common/caching_image.dart';
+import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
+import 'package:glitcher/ui/widgets/custom_widgets.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
-import 'package:glitcher/ui/widgets/caching_image.dart';
-import 'package:glitcher/ui/widgets/custom_loader.dart';
-import 'package:glitcher/ui/widgets/custom_widgets.dart';
-import 'package:glitcher/ui/widgets/gradient_appbar.dart';
 import 'package:http/http.dart' show get;
 import 'package:path_provider/path_provider.dart';
 import 'package:random_string/random_string.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+import '../../../widgets/common/custom_loader.dart';
 
 class EditPost extends StatefulWidget {
   final Post post;
