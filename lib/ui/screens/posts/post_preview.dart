@@ -264,7 +264,7 @@ class _PostPreviewState extends State<PostPreview>
 
   @override
   Widget build(BuildContext context) {
-    return _currentPost.youtubeId != null
+    return _currentPost?.youtubeId != null
         ? YoutubePlayerBuilder(
             // onExitFullScreen: () {
             //   SystemChrome.setPreferredOrientations(
