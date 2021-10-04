@@ -10,9 +10,9 @@ import 'package:glitcher/logic/blocs/posts_bloc.dart';
 import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/auth_provider.dart';
 import 'package:glitcher/services/route_generator.dart';
-import 'package:glitcher/style/colors.dart';
-import 'package:glitcher/style/dark_theme.dart';
-import 'package:glitcher/style/light_theme.dart';
+import 'package:glitcher/ui/style/colors.dart';
+import 'package:glitcher/ui/style/dark_theme.dart';
+import 'package:glitcher/ui/style/light_theme.dart';
 import 'package:provider/provider.dart';
 
 import 'logic/states/games_state.dart';

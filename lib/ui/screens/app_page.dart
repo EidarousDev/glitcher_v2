@@ -6,6 +6,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/data/models/game_model.dart';
 import 'package:glitcher/data/models/hashtag_model.dart';
@@ -14,15 +15,17 @@ import 'package:glitcher/data/models/user_model.dart';
 import 'package:glitcher/data/repositories/games_repo.dart';
 import 'package:glitcher/data/repositories/posts_repo.dart';
 import 'package:glitcher/logic/blocs/game_bloc.dart';
+import 'package:glitcher/logic/blocs/posts_bloc.dart';
 import 'package:glitcher/logic/states/game_state.dart';
+import 'package:glitcher/logic/states/posts_state.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/services/route_generator.dart';
-import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/ui/screens/games/games_screen.dart';
 import 'package:glitcher/ui/screens/home/home_screen.dart';
 import 'package:glitcher/ui/screens/notifications/notifications_screen.dart';
 import 'package:glitcher/ui/screens/profile/profile_screen.dart';
+import 'package:glitcher/ui/style/colors.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:package_info/package_info.dart';
@@ -54,7 +57,7 @@ class _AppPageState extends State<AppPage> {
 
   StreamSubscription<ConnectivityResult> connectivitySubscription;
 
-  int _unseenNotifications = 0;
+  //int _unseenNotifications = 0;
   @override
   Widget build(BuildContext context) {
     //print('currentUser = ${Constants.currentUser}');
@@ -69,7 +72,9 @@ class _AppPageState extends State<AppPage> {
           Chats(),
           GamesScreen(),
           NotificationsScreen(),
-          ProfileScreen(Constants.currentUserID),
+          BlocProvider.value(
+              value: PostsBloc(PostsState.initialState()),
+              child: ProfileScreen(Constants.currentUserID)),
         ],
       ),
       bottomNavigationBar: Theme(
@@ -81,59 +86,54 @@ class _AppPageState extends State<AppPage> {
           type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-              ),
-              title: Container(height: 0.0),
-            ),
+                icon: Icon(
+                  Icons.home,
+                ),
+                label: 'Home'),
             BottomNavigationBarItem(
-              // ignore: null_aware_before_operator
-              icon: (Constants.currentUser?.messagesNumber ?? 0) > 0
-                  ? Badge(
-                      badgeContent: Text(
-                        (Constants.currentUser?.messagesNumber ?? 0) < 9
-                            ? (Constants.currentUser?.messagesNumber ?? 0)
-                                .toString()
-                            : '+9',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      child: Icon(Icons.message),
-                      toAnimate: true,
-                      animationType: BadgeAnimationType.scale,
-                    )
-                  : Icon(Icons.message),
-              title: Container(height: 0.0),
-            ),
+                // ignore: null_aware_before_operator
+                icon: (Constants.currentUser?.messagesNumber ?? 0) > 0
+                    ? Badge(
+                        badgeContent: Text(
+                          (Constants.currentUser?.messagesNumber ?? 0) < 9
+                              ? (Constants.currentUser?.messagesNumber ?? 0)
+                                  .toString()
+                              : '+9',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        child: Icon(Icons.message),
+                        toAnimate: true,
+                        animationType: BadgeAnimationType.scale,
+                      )
+                    : Icon(Icons.message),
+                label: 'Chats'),
             BottomNavigationBarItem(
-              icon: Icon(
-                Icons.games,
-              ),
-              title: Container(height: 0.0),
-            ),
+                icon: Icon(
+                  Icons.games,
+                ),
+                label: 'Games'),
             BottomNavigationBarItem(
-              // ignore: null_aware_before_operator
-              icon: (Constants.currentUser?.notificationsNumber ?? 0) > 0
-                  ? Badge(
-                      badgeContent: Text(
-                        Constants.currentUser.notificationsNumber < 9
-                            ? Constants.currentUser?.notificationsNumber
-                                .toString()
-                            : '+9',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      child: Icon(Icons.notifications),
-                      toAnimate: true,
-                      animationType: BadgeAnimationType.scale,
-                    )
-                  : Icon(Icons.notifications),
-              title: Container(height: 0.0),
-            ),
+                // ignore: null_aware_before_operator
+                icon: (Constants.currentUser?.notificationsNumber ?? 0) > 0
+                    ? Badge(
+                        badgeContent: Text(
+                          Constants.currentUser.notificationsNumber < 9
+                              ? Constants.currentUser?.notificationsNumber
+                                  .toString()
+                              : '+9',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        child: Icon(Icons.notifications),
+                        toAnimate: true,
+                        animationType: BadgeAnimationType.scale,
+                      )
+                    : Icon(Icons.notifications),
+                label: 'Notifications'),
             BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person,
-              ),
-              title: Container(height: 0.0),
-            ),
+                icon: Icon(
+                  Icons.person,
+                ),
+                label: 'Profile'),
           ],
           onTap: navigationTapped,
           currentIndex: _page,
@@ -172,8 +172,8 @@ class _AppPageState extends State<AppPage> {
         //print('No internet');
         AppUtil.showFixedSnackBar(context, 'No internet connection.');
       } else {
-        _scaffoldKey.currentState.hideCurrentSnackBar();
-        //Scaffold.of(context).hideCurrentSnackBar();
+        //_scaffoldKey.currentState.hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
       }
     });
   }

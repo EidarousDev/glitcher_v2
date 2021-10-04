@@ -6,7 +6,6 @@ import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/data/models/user_model.dart';
 import 'package:glitcher/services/route_generator.dart';
-import 'package:glitcher/ui/screens/profile/profile_screen.dart';
 import 'package:glitcher/ui/screens/users/search_screen.dart';
 import 'package:glitcher/ui/widgets/rate_app.dart';
 import 'package:glitcher/utils/app_util.dart';
@@ -36,11 +35,8 @@ class _BuildDrawerState extends State<BuildDrawer> {
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  ProfileScreen(userModel.id)));
+                      Navigator.pushNamed(context, RouteList.profile,
+                          arguments: {'userId': userModel.id});
                     },
                     child: CircleAvatar(
                       radius: 35.0,

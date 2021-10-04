@@ -225,7 +225,9 @@ class PostsRepo {
 
   // This function is used to get the recent posts (filtered by a certain game)
   static Future<List<Post>> getNextGamePosts(
-      Timestamp lastVisiblePostSnapShot, String gameName) async {
+    String gameName,
+    Timestamp lastVisiblePostSnapShot,
+  ) async {
     QuerySnapshot postSnapshot = await postsRef
         .where('game', isEqualTo: gameName)
         .orderBy('timestamp', descending: true)
@@ -238,7 +240,7 @@ class PostsRepo {
   }
 
   static Future<List<Post>> getPostsFilteredByFollowedGames() async {
-    List list = List();
+    List list = [];
     if (Constants.followedGamesNames.length > 10) {
       list = AppUtil.randomIndices(Constants.followedGamesNames);
     } else {
@@ -255,7 +257,7 @@ class PostsRepo {
   }
 
   static Future<List<Post>> getPostsFilteredByFollowing() async {
-    List list = List();
+    List list = [];
     if (Constants.followingIds.length > 10) {
       list = AppUtil.randomIndices(Constants.followingIds);
     } else {
@@ -274,7 +276,7 @@ class PostsRepo {
   // This function is used to get the recent posts (filtered by followed games)
   static Future<List<Post>> getNextPostsFilteredByFollowedGames(
       Timestamp lastVisiblePostSnapShot) async {
-    List list = List();
+    List list = [];
     if (Constants.followedGamesNames.length > 10) {
       list = AppUtil.randomIndices(Constants.followedGamesNames);
     } else {
@@ -295,7 +297,7 @@ class PostsRepo {
   // This function is used to get the recent posts (filtered by followed gamers)
   static Future<List<Post>> getNextPostsFilteredByFollowing(
       Timestamp lastVisiblePostSnapShot) async {
-    List list = List();
+    List list = [];
     if (Constants.followingIds.length > 10) {
       list = AppUtil.randomIndices(Constants.followingIds);
     } else {

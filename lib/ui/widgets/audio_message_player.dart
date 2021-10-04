@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:glitcher/ui/screens/chats/audio_player.dart';
-import 'package:glitcher/style/colors.dart';
+import 'package:glitcher/ui/style/colors.dart';
 import 'package:provider/provider.dart';
 
 typedef void OnError(Exception exception);

@@ -8,8 +8,8 @@ import 'package:glitcher/data/repositories/games_repo.dart';
 import 'package:glitcher/logic/blocs/game_bloc.dart';
 import 'package:glitcher/logic/states/game_state.dart';
 import 'package:glitcher/services/route_generator.dart';
-import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/ui/list_items/game_item.dart';
+import 'package:glitcher/ui/style/colors.dart';
 import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
 import 'package:provider/provider.dart';
 

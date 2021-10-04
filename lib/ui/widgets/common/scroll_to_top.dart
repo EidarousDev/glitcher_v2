@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glitcher/style/colors.dart';
+import 'package:glitcher/ui/style/colors.dart';
 
 class ScrollToTop extends StatelessWidget {
   @override

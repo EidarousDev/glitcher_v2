@@ -53,6 +53,22 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
     );
   }
 
+  getUserPosts(String userId) {
+    this.add(PostsEvent(PostsEventType.getUserPosts, data: userId));
+  }
+
+  getMoreUserPosts(String userId) {
+    this.add(PostsEvent(PostsEventType.getMoreUserPosts, data: userId));
+  }
+
+  getGamePosts(String gameName) {
+    this.add(PostsEvent(PostsEventType.getGamePosts, data: gameName));
+  }
+
+  getMoreGamePosts(String gameName) {
+    this.add(PostsEvent(PostsEventType.getMoreGamePosts, data: gameName));
+  }
+
   @override
   Stream<PostsState> mapEventToState(PostsEvent event) async* {
     switch (event.type) {
@@ -122,6 +138,28 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
         break;
       case PostsEventType.setFilter:
         this.feedFilter = event.data;
+        break;
+      case PostsEventType.getUserPosts:
+        List<Post> posts = await PostsRepo.getUserPosts(event.data);
+        this.posts = posts;
+        yield PostsState(posts);
+        break;
+      case PostsEventType.getMoreUserPosts:
+        List<Post> posts = await PostsRepo.getNextUserPosts(
+            event.data, this.posts.last.timestamp);
+        this.posts.addAll(posts);
+        yield PostsState(this.posts);
+        break;
+      case PostsEventType.getGamePosts:
+        List<Post> posts = await PostsRepo.getGamePosts(event.data);
+        this.posts = posts;
+        yield PostsState(posts);
+        break;
+      case PostsEventType.getMoreGamePosts:
+        List<Post> posts = await PostsRepo.getNextGamePosts(
+            event.data, this.posts.last.timestamp);
+        this.posts.addAll(posts);
+        yield PostsState(this.posts);
         break;
     }
   }

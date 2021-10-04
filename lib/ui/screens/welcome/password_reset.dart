@@ -3,8 +3,8 @@ import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/data/models/user_model.dart';
 import 'package:glitcher/services/database_service.dart';
-import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/ui/screens/welcome/widgets/bezier_container.dart';
+import 'package:glitcher/ui/style/colors.dart';
 import 'package:glitcher/utils/app_util.dart';
 import 'package:glitcher/utils/functions.dart';
 

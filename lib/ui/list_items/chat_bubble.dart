@@ -7,7 +7,7 @@ import 'package:glitcher/ui/widgets/audio_message_player.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:random_string/random_string.dart';
 
-import 'image_overlay.dart';
+import '../widgets/image_overlay.dart';
 
 class ChatBubble extends StatefulWidget {
   final String message, time, username, type, replyText, replyName;

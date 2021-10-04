@@ -15,7 +15,6 @@ import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/permissions_service.dart';
 import 'package:glitcher/services/route_generator.dart';
 import 'package:glitcher/ui/widgets/bottom_sheets/profile_image_edit_bottom_sheet.dart';
-import 'package:glitcher/ui/widgets/chat_bubble.dart';
 import 'package:glitcher/ui/widgets/common/caching_image.dart';
 import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
 import 'package:glitcher/ui/widgets/image_overlay.dart';
@@ -24,6 +23,8 @@ import 'package:glitcher/utils/functions.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:random_string/random_string.dart';
+
+import '../../list_items/chat_bubble.dart';
 
 class GroupConversation extends StatefulWidget {
   final String groupId;
@@ -77,20 +78,20 @@ class _GroupConversationState extends State<GroupConversation>
 
   _GroupConversationState();
 
-  Future<String> _localPath() async {
-    final directory = await getApplicationDocumentsDirectory();
+  // Future<String> _localPath() async {
+  //   final directory = await getApplicationDocumentsDirectory();
+  //
+  //   return directory.path;
+  // }
 
-    return directory.path;
-  }
-
-  Future<File> _localFile() async {
-    final path = await _localPath();
-    //print('path $path');
-    var file = File('$path/glitcher_record.wav');
-
-    //await file.writeAsBytes(bytes);
-    return file;
-  }
+  // Future<File> _localFile() async {
+  //   final path = await _localPath();
+  //   //print('path $path');
+  //   var file = File('$path/glitcher_record.wav');
+  //
+  //   //await file.writeAsBytes(bytes);
+  //   return file;
+  // }
 
   void loadGroupData(String groupId) async {
     Group group;

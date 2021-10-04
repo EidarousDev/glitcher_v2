@@ -68,8 +68,11 @@ class RouteGenerator {
 
       case RouteList.profile:
         return MaterialPageRoute(
-          builder: (_) => ProfileScreen(
-            args['userId'],
+          builder: (_) => BlocProvider.value(
+            value: PostsBloc(PostsState.initialState()),
+            child: ProfileScreen(
+              args['userId'],
+            ),
           ),
         );
 
@@ -105,7 +108,9 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => BlocProvider<GameBloc>.value(
             value: args['gameBloc'],
-            child: GameScreen(),
+            child: BlocProvider.value(
+                value: PostsBloc(PostsState.initialState()),
+                child: GameScreen()),
           ),
         );
 

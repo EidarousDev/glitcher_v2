@@ -6,9 +6,9 @@ import 'package:glitcher/data/models/user_model.dart' as user;
 import 'package:glitcher/data/repositories/games_repo.dart';
 import 'package:glitcher/services/auth.dart';
 import 'package:glitcher/services/database_service.dart';
-import 'package:glitcher/style/colors.dart';
 import 'package:glitcher/ui/screens/app_page.dart';
 import 'package:glitcher/ui/screens/welcome/login_page.dart';
+import 'package:glitcher/ui/style/colors.dart';
 import 'package:glitcher/utils/functions.dart';
 import 'package:provider/provider.dart';
 
@@ -29,11 +29,11 @@ class _RootPageState extends State<RootPage> {
     Functions.getUserCountryInfo();
   }
 
-  void _signedIn() {
-    setState(() {
-      authStatus = AuthStatus.LOGGED_IN;
-    });
-  }
+  // void _signedIn() {
+  //   setState(() {
+  //     authStatus = AuthStatus.LOGGED_IN;
+  //   });
+  // }
 
   @override
   void initState() {

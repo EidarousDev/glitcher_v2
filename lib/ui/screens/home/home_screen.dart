@@ -1,6 +1,3 @@
-//eidarous
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,17 +8,16 @@ import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/constants/sizes.dart';
 import 'package:glitcher/constants/strings.dart';
-import 'package:glitcher/data/models/post_model.dart';
 import 'package:glitcher/data/models/user_model.dart' as user;
 import 'package:glitcher/data/repositories/games_repo.dart';
 import 'package:glitcher/logic/blocs/posts_bloc.dart';
 import 'package:glitcher/logic/states/posts_state.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/route_generator.dart';
-import 'package:glitcher/style/colors.dart';
-import 'package:glitcher/ui/list_items/post_item.dart';
+import 'package:glitcher/ui/style/colors.dart';
 import 'package:glitcher/ui/widgets/common/caching_image.dart';
 import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
+import 'package:glitcher/ui/widgets/common/posts_list.dart';
 import 'package:glitcher/ui/widgets/common/scroll_to_top.dart';
 import 'package:glitcher/ui/widgets/drawer.dart';
 import 'package:glitcher/ui/widgets/rate_app.dart';
@@ -66,8 +62,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   user.User loggedInUser;
   String username;
   User currentFirebaseUser;
-  Timestamp lastVisiblePostSnapShot;
-  bool _noMorePosts = false;
 
   ScrollController _scrollController = ScrollController();
 
@@ -360,28 +354,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   height: 5,
                 ),
                 BlocBuilder<PostsBloc, PostsState>(
-                  builder: (context, postsState) => ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    itemCount: postsState.posts.length,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      Post post = postsState.posts[index];
-                      return FutureBuilder(
-                          future: DatabaseService.getUserWithId(post.authorId,
-                              checkLocal: BlocProvider.of<PostsBloc>(context)
-                                      .feedFilter ==
-                                  1),
-                          builder:
-                              (BuildContext context, AsyncSnapshot snapshot) {
-                            if (!snapshot.hasData) {
-                              return SizedBox.shrink();
-                            }
-                            user.User author = snapshot.data;
-                            return PostItem(
-                                key: Key(post.id), post: post, author: author);
-                          });
-                    },
+                  builder: (context, postsState) => PostsList(
+                    posts: postsState.posts,
                   ),
                 )
               ],

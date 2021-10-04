@@ -10,7 +10,7 @@ import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/services/permissions_service.dart';
 import 'package:glitcher/services/route_generator.dart';
-import 'package:glitcher/style/colors.dart';
+import 'package:glitcher/ui/style/colors.dart';
 import 'package:glitcher/ui/widgets/bottom_sheets/profile_image_edit_bottom_sheet.dart';
 import 'package:glitcher/ui/widgets/common/caching_image.dart';
 import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
