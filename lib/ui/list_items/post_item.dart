@@ -55,8 +55,7 @@ class PostItem extends StatefulWidget {
   _PostItemState createState() => _PostItemState();
 }
 
-class _PostItemState extends State<PostItem>
-    with AutomaticKeepAliveClientMixin {
+class _PostItemState extends State<PostItem> {
   /// On-the-fly audio data for the second card.
   //YoutubePlayerController _youtubeController;
   VideoPlayerController videoPlayerController;
@@ -513,7 +512,7 @@ class _PostItemState extends State<PostItem>
                                 Strings.like_sound,
                               )
                               .then((value) => audioPlayer.play());
-                          await likeBtnHandler(postState.post);
+                          await likeBtnHandler();
                         }
                       },
                     ),
@@ -556,7 +555,7 @@ class _PostItemState extends State<PostItem>
                                 Strings.dislike_sound,
                               )
                               .then((value) => audioPlayer.play());
-                          await dislikeBtnHandler(postState.post);
+                          await dislikeBtnHandler();
                         }
                       },
                     ),
@@ -702,7 +701,7 @@ class _PostItemState extends State<PostItem>
     }
   }
 
-  Future<void> likeBtnHandler(Post post) async {
+  Future<void> likeBtnHandler() async {
     setState(() {
       isLikeEnabled = false;
     });
@@ -714,7 +713,7 @@ class _PostItemState extends State<PostItem>
     //print('likes = ${postMeta['likes']} and dislikes = ${postMeta['dislikes']}');
   }
 
-  Future<void> dislikeBtnHandler(Post post) async {
+  Future<void> dislikeBtnHandler() async {
     setState(() {
       isDislikedEnabled = false;
     });
@@ -868,7 +867,7 @@ class _PostItemState extends State<PostItem>
   _goToPostPreview(Post post) {
     if (!widget.isClickable) return;
     Navigator.of(context).pushNamed(RouteList.post, arguments: {
-      'postBloc': PostBloc(PostState(post)),
+      'postBloc': BlocProvider.of<PostBloc>(context),
     });
   }
 
@@ -884,7 +883,4 @@ class _PostItemState extends State<PostItem>
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

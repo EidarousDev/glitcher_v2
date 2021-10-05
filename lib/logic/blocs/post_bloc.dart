@@ -56,14 +56,14 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         break;
       case PostEventType.dislike:
         if (postState.isDisliked == true && postState.isLiked == false) {
-          PostsRepo.removeDislike(postState.post);
+          await PostsRepo.removeDislike(postState.post);
           postState.post.disLikesCount--;
           postState =
               PostState(postState.post, isLiked: false, isDisliked: false);
           yield PostState(postState.post, isLiked: false, isDisliked: false);
         } else if (postState.isLiked == true && postState.isDisliked == false) {
-          PostsRepo.removeLike(postState.post);
-          PostsRepo.addDislike(postState.post);
+          await PostsRepo.removeLike(postState.post);
+          await PostsRepo.addDislike(postState.post);
           postState.post.likesCount--;
           postState.post.disLikesCount++;
           postState =
@@ -71,7 +71,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           yield PostState(postState.post, isLiked: false, isDisliked: true);
         } else if (postState.isDisliked == false &&
             postState.isLiked == false) {
-          PostsRepo.addDislike(postState.post);
+          await PostsRepo.addDislike(postState.post);
           postState.post.disLikesCount++;
 
           postState =
@@ -85,6 +85,8 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       case PostEventType.checkStates:
         bool isLiked = await PostsRepo.isPostLiked(postState.post.id);
         bool isDisliked = await PostsRepo.isPostDisliked(postState.post.id);
+        this.postState =
+            PostState(postState.post, isDisliked: isDisliked, isLiked: isLiked);
         yield PostState(postState.post,
             isLiked: isLiked, isDisliked: isDisliked);
         break;
