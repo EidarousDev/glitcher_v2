@@ -6,8 +6,10 @@ class PostState {
   final bool isDisliked;
 
   factory PostState.initialState() {
-    return PostState(Post(), false, false);
+    return PostState(
+      Post(),
+    );
   }
 
-  PostState(this.post, this.isLiked, this.isDisliked);
+  PostState(this.post, {this.isLiked = false, this.isDisliked = false});
 }

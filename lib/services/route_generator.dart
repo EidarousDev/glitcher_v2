@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glitcher/logic/blocs/game_bloc.dart';
+import 'package:glitcher/logic/blocs/post_bloc.dart';
 import 'package:glitcher/logic/blocs/posts_bloc.dart';
 import 'package:glitcher/logic/states/posts_state.dart';
 import 'package:glitcher/root_page.dart';
@@ -79,8 +80,9 @@ class RouteGenerator {
       case RouteList.post:
         // Validation of correct data type
         return MaterialPageRoute(
-          builder: (_) => PostPreview(
-            post: args['post'],
+          builder: (_) => BlocProvider<PostBloc>.value(
+            value: args['postBloc'],
+            child: PostPreview(),
           ),
         );
         return _errorRoute();

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/data/models/post_model.dart';
+import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/utils/app_util.dart';
 
 class PostsRepo {
@@ -313,5 +314,67 @@ class PostsRepo {
     List<Post> posts =
         postSnapshot.docs.map((doc) => Post.fromDoc(doc)).toList();
     return posts;
+  }
+
+  static Future<bool> isPostLiked(String postId) async {
+    DocumentSnapshot likedSnapshot = await postsRef
+        .doc(postId)
+        .collection('likes')
+        ?.doc(Constants.currentUserID)
+        ?.get();
+
+    return likedSnapshot.exists;
+  }
+
+  static Future<bool> isPostDisliked(String postId) async {
+    DocumentSnapshot dislikedSnapshot = await postsRef
+        .doc(postId)
+        .collection('dislikes')
+        ?.doc(Constants.currentUserID)
+        ?.get();
+
+    return dislikedSnapshot.exists;
+  }
+
+  static removeLike(Post post) async {
+    await postsRef
+        .doc(post.id)
+        .collection('likes')
+        .doc(Constants.currentUserID)
+        .delete();
+    await postsRef.doc(post.id).update({'likes': FieldValue.increment(-1)});
+
+    await NotificationHandler.removeNotification(
+        post.authorId, post.id, 'like');
+  }
+
+  static removeDislike(Post post) async {
+    await postsRef
+        .doc(post.id)
+        .collection('dislikes')
+        .doc(Constants.currentUserID)
+        .delete();
+    await postsRef.doc(post.id).update({'dislikes': FieldValue.increment(-1)});
+  }
+
+  static addLike(Post post) async {
+    await postsRef
+        .doc(post.id)
+        .collection('likes')
+        .doc(Constants.currentUserID)
+        .set({'timestamp': FieldValue.serverTimestamp()});
+    await postsRef.doc(post.id).update({'likes': FieldValue.increment(1)});
+
+    await NotificationHandler.sendNotification(post.authorId, 'New Post Like',
+        Constants.currentUser.username + ' likes your post', post.id, 'like');
+  }
+
+  static addDislike(Post post) async {
+    await postsRef
+        .doc(post.id)
+        .collection('dislikes')
+        .doc(Constants.currentUserID)
+        .set({'timestamp': FieldValue.serverTimestamp()});
+    await postsRef.doc(post.id).update({'dislikes': FieldValue.increment(1)});
   }
 }

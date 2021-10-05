@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/data/repositories/posts_repo.dart';
+import 'package:glitcher/logic/blocs/post_bloc.dart';
+import 'package:glitcher/logic/states/post_state.dart';
 import 'package:glitcher/services/route_generator.dart';
 
 import 'database_service.dart';
@@ -135,8 +137,10 @@ class NotificationHandler {
         break;
 
       default:
-        Navigator.of(context).pushNamed(RouteList.post,
-            arguments: {'post': await PostsRepo.getPostWithId(objectId)});
+        Navigator.of(context).pushNamed(RouteList.post, arguments: {
+          'postBloc':
+              PostBloc(PostState(await PostsRepo.getPostWithId(objectId)))
+        });
         break;
     }
   }

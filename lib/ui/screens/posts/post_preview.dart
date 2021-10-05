@@ -4,24 +4,22 @@ import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/data/models/comment_model.dart';
 import 'package:glitcher/data/models/post_model.dart';
 import 'package:glitcher/data/models/user_model.dart';
-import 'package:glitcher/data/repositories/posts_repo.dart';
+import 'package:glitcher/logic/blocs/post_bloc.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/ui/list_items/comment_item.dart';
 import 'package:glitcher/ui/list_items/post_item.dart';
 import 'package:glitcher/ui/widgets/common/gradient_appbar.dart';
 import 'package:just_audio/just_audio.dart';
-//import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PostPreview extends StatefulWidget {
-  final Post post;
-  PostPreview({@required this.post});
   @override
   _PostPreviewState createState() => _PostPreviewState();
 }
@@ -74,7 +72,7 @@ class _PostPreviewState extends State<PostPreview>
   @override
   void initState() {
     super.initState();
-    _currentPost = widget.post;
+    _currentPost = BlocProvider.of<PostBloc>(context).postState.post;
     loadPostData();
 
     ///Set up listener here
@@ -102,7 +100,8 @@ class _PostPreviewState extends State<PostPreview>
   }
 
   Future<void> loadComments() async {
-    List<Comment> comments = await DatabaseService.getComments(widget.post.id);
+    List<Comment> comments =
+        await DatabaseService.getComments(_currentPost?.id);
     setState(() {
       _comments = comments;
     });
@@ -116,7 +115,7 @@ class _PostPreviewState extends State<PostPreview>
 
   nextComments() async {
     var comments = await DatabaseService.getNextComments(
-        widget.post.id, lastVisibleCommentSnapShot);
+        _currentPost.id, lastVisibleCommentSnapShot);
     if (comments.length > 0) {
       setState(() {
         comments.forEach((element) => _comments.add(element));
@@ -170,7 +169,7 @@ class _PostPreviewState extends State<PostPreview>
       fit: FlexFit.loose,
       child: StreamBuilder<QuerySnapshot>(
         stream:
-            postsRef.doc(widget.post.id)?.collection('comments')?.snapshots(),
+            postsRef.doc(_currentPost.id)?.collection('comments')?.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) return new Text('Error: ${snapshot.error}');
           switch (snapshot.connectionState) {
@@ -195,7 +194,7 @@ class _PostPreviewState extends State<PostPreview>
                         ////print('commenter: $commenter and comment: $comment');
                         return CommentItem(
                           key: Key(comment.id),
-                          post: widget.post,
+                          post: _currentPost,
                           comment: comment,
                           commenter: commenter,
                           isReply: false,
@@ -239,7 +238,6 @@ class _PostPreviewState extends State<PostPreview>
               PostItem(
                 loadVideo: true,
                 post: _currentPost,
-                author: _author,
                 youtubePlayer: player,
                 isClickable: false,
               ),
@@ -325,7 +323,7 @@ class _PostPreviewState extends State<PostPreview>
   }
 
   void loadPostData() async {
-    if (widget.post.id == null) {
+    if (_currentPost?.id == null) {
       _currentPost = null;
       return;
     }
@@ -333,7 +331,6 @@ class _PostPreviewState extends State<PostPreview>
     setState(() {
       _loading = true;
     });
-    _currentPost = await PostsRepo.getPostWithId(widget.post.id);
     _author = await DatabaseService.getUserWithId(_currentPost.authorId,
         checkLocal: true);
     //print('currentPost = $_currentPost and author= $_author');

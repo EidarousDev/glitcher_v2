@@ -58,7 +58,8 @@ class HomeScreen extends StatefulWidget {
   }
 }
 
-class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+class _HomeScreenState extends State<HomeScreen>
+    with WidgetsBindingObserver, AutomaticKeepAliveClientMixin {
   user.User loggedInUser;
   String username;
   User currentFirebaseUser;
@@ -429,13 +430,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     ///Set up listener here
     _scrollController
       ..addListener(() {
-        if (_scrollController.offset > 1200) {
+        if (_scrollController.offset == 1200) {
           setState(() {
             _showScrollToTop = true;
-          });
-        } else {
-          setState(() {
-            _showScrollToTop = false;
           });
         }
         if (_scrollController.offset >=
@@ -529,6 +526,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void _onLoading() async {
     _refreshController.loadComplete();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 searchList(String text) {

@@ -9,6 +9,8 @@ import 'package:glitcher/constants/sizes.dart';
 import 'package:glitcher/constants/strings.dart';
 import 'package:glitcher/data/models/post_model.dart';
 import 'package:glitcher/data/models/user_model.dart';
+import 'package:glitcher/logic/blocs/post_bloc.dart';
+import 'package:glitcher/logic/states/post_state.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
 import 'package:glitcher/services/route_generator.dart';
@@ -134,8 +136,9 @@ class _AddCommentPageState extends State<AddComment> {
     Navigator.of(context).pop();
 
     //Navigator.of(context).pop();
-    Navigator.of(context)
-        .pushReplacementNamed(RouteList.post, arguments: {'post': widget.post});
+    Navigator.of(context).pushReplacementNamed(RouteList.post, arguments: {
+      'postBloc': PostBloc(PostState(widget.post)),
+    });
   }
 
   @override

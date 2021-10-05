@@ -1,4 +1,6 @@
 enum PostEventType {
+  get,
+  checkStates,
   like,
   dislike,
 }

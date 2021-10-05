@@ -15,8 +15,10 @@ import 'package:glitcher/data/models/user_model.dart';
 import 'package:glitcher/data/repositories/games_repo.dart';
 import 'package:glitcher/data/repositories/posts_repo.dart';
 import 'package:glitcher/logic/blocs/game_bloc.dart';
+import 'package:glitcher/logic/blocs/post_bloc.dart';
 import 'package:glitcher/logic/blocs/posts_bloc.dart';
 import 'package:glitcher/logic/states/game_state.dart';
+import 'package:glitcher/logic/states/post_state.dart';
 import 'package:glitcher/logic/states/posts_state.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/services/notification_handler.dart';
@@ -187,8 +189,9 @@ class _AppPageState extends State<AppPage> {
         if (deepLink.pathSegments[deepLink.pathSegments.length - 2] ==
             'posts') {
           Post post = await PostsRepo.getPostWithId(deepLink.pathSegments.last);
-          Navigator.of(context)
-              .pushNamed(RouteList.post, arguments: {'post': post});
+          Navigator.of(context).pushNamed(RouteList.post, arguments: {
+            'postBloc': PostBloc(PostState(post)),
+          });
         } else if (deepLink.pathSegments[deepLink.pathSegments.length - 2] ==
             'users') {
           User user = await DatabaseService.getUserWithId(
@@ -217,8 +220,9 @@ class _AppPageState extends State<AppPage> {
 
     if (deepLink != null) {
       Post post = await PostsRepo.getPostWithId(deepLink.pathSegments.last);
-      Navigator.of(context)
-          .pushNamed(RouteList.post, arguments: {'post': post});
+      Navigator.of(context).pushNamed(RouteList.post, arguments: {
+        'postBloc': PostBloc(PostState(post)),
+      });
     }
   }
 

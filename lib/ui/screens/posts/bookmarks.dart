@@ -5,7 +5,9 @@ import 'package:glitcher/constants/constants.dart';
 import 'package:glitcher/constants/my_colors.dart';
 import 'package:glitcher/data/models/post_model.dart';
 import 'package:glitcher/data/models/user_model.dart' as user_model;
+import 'package:glitcher/logic/blocs/post_bloc.dart';
 import 'package:glitcher/logic/blocs/posts_bloc.dart';
+import 'package:glitcher/logic/states/post_state.dart';
 import 'package:glitcher/logic/states/posts_state.dart';
 import 'package:glitcher/services/database_service.dart';
 import 'package:glitcher/ui/list_items/post_item.dart';
@@ -66,10 +68,12 @@ class _BookmarksScreenState extends State<BookmarksScreen>
                                   return SizedBox.shrink();
                                 }
                                 user_model.User author = snapshot.data;
-                                return PostItem(
-                                  key: Key(post.id),
-                                  post: post,
-                                  author: author,
+                                return BlocProvider.value(
+                                  value: PostBloc(PostState(post)),
+                                  child: PostItem(
+                                    key: Key(post.id),
+                                    post: post,
+                                  ),
                                 );
                               })
                           : SizedBox(
